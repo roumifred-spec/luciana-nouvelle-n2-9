@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""COMPRENDRE LA SITUATION AVANT DE CHERCHER -- piece 4 de la bibliotheque rangee (decidee avec Fred le 20/10/2026).
+"""COMPRENDRE LA SITUATION AVANT DE CHERCHER -- piece 4 de la bibliotheque rangee (decidee le 20/10/2026).
 
 Avant chaque recherche, cette etape lit TOUTE la conversation (les 50 000 a 80 000 caracteres, comme elle et comme le
 bibliothecaire : ca ne change pas) + le nouveau message, et dit, comme une personne qui ecoute :
@@ -64,10 +64,14 @@ def comprendre(message, bloc, date_message=None):
         "3e personne) : tu re-deduis, jamais « suite ». « dit » est une parole, pas une preuve.\n"
         "- \"de_qui\" : les PERSONNES dont parle le message (pas les choses), ou [] : [{\"numero\": \"<pN ou vide>\", "
         "\"nouveau\": \"<son nom si elle n'est pas au registre>\", \"appellation\": \"<le mot employe ici pour elle : "
-        "maman, le docteur...>\", \"lien\": \"<son lien avec la personne qui parle, ex. mere ; sinon vide>\"}].\n"
-        "- \"question_qui\" : vide, SAUF si on doit savoir qui parle et qu'on ne peut pas : deux personnes du registre "
-        "collent, OU qui parle est inconnu ET (un geste vital est raconte OU la reponse change selon qui parle). Alors "
-        "UNE question courte, dans la langue du message. Un simple bonjour d'un inconnu : PAS de question.\n"
+        "maman, le docteur...>\", \"lien\": \"<son lien avec la personne qui parle, ex. mere ; sinon vide>\", "
+        "\"distingue\": \"<SEULEMENT si plusieurs personnes du registre portent ce nom : ce qui, dans le message ou la "
+        "conversation, montre que c'est celle-la et pas l'autre ; sinon vide. Le nom seul ne distingue rien.>\"}]. "
+        "Deux personnes qui portent le MEME nom restent DEUX personnes : ne les confonds jamais.\n"
+        "- \"question_qui\" : vide, SAUF si on doit savoir qui parle (ou de qui on parle) et qu'on ne peut pas : deux "
+        "personnes du registre collent, OU qui parle est inconnu ET (un geste vital est raconte OU la reponse change "
+        "selon qui parle). Alors UNE question courte, dans la langue du message. Un simple bonjour d'un inconnu : PAS "
+        "de question.\n"
         "- \"de_quoi\" : UNE phrase de sens qui se comprend TOUTE SEULE, sans la conversation : remplace « elle », "
         "« lui », « ca », « la-bas » par ce dont il s'agit vraiment (ex. « les cheveux de sa fille quand elle avait "
         "8 ans »). Dans la langue du message. Pour un simple bonjour : ce qui est dit, tel quel.\n"

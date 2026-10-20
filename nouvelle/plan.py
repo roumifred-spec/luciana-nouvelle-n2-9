@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""LE PLAN DE LA BIBLIOTHEQUE (le catalogue) -- piece 1 de la bibliotheque rangee (decidee avec Fred le 20/10/2026).
+"""LE PLAN DE LA BIBLIOTHEQUE (le catalogue) -- piece 1 de la bibliotheque rangee (decidee le 20/10/2026).
 
 CE QUE C'EST : la memoire de l'archiviste, ecrite sur le disque. Les catégories et sous-catégories (ici : des
 « tiroirs »), la phrase de sens de chacune, et dans quel tiroir est rangee chaque fiche.
@@ -11,7 +11,7 @@ seul. C'est l'archiviste (piece 2) qui decide, par le sens. Ici, seulement ce qu
   - les tiroirs qui approchent la limite (pour que l'archiviste les divise) ;
   - le plan lisible au Bloc-notes : « MON PLAN (catalogue).txt ».
 
-Les regles de Fred tenues ici : aucune categorie fixee d'avance ; les textes des fiches ne sont JAMAIS reecrits
+Les regles tenues ici : aucune categorie fixee d'avance ; les textes des fiches ne sont JAMAIS reecrits
 (seules les etiquettes bougent : ranger une fiche ne touche pas a bibliotheque.jsonl) ; rien n'est efface.
 """
 import os, json, time, threading, unicodedata, shutil
@@ -331,7 +331,7 @@ NIVEAUX = ("vital", "courant", "loisir")
 
 
 def poser_le_vital(n, niveau):
-    niveau = niveau if niveau in NIVEAUX else "vital"          # dans le doute : vital (decision de Fred)
+    niveau = niveau if niveau in NIVEAUX else "vital"          # dans le doute : vital
     with _verrou:
         p = charger()
         p["vital"][str(int(n))] = niveau
@@ -412,7 +412,7 @@ def catalogue(liste_fiches, avec_ids=True):
 
 
 def ecrire_le_plan_lisible(liste_fiches, seuil=40):
-    """« MON PLAN (catalogue).txt » : le plan, lisible au Bloc-notes par Fred."""
+    """« MON PLAN (catalogue).txt » : le plan, lisible au Bloc-notes."""
     try:
         reste = len(non_rangees(liste_fiches))
         pleins = a_diviser(liste_fiches, seuil)

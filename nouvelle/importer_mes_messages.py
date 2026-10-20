@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-"""LA MEMOIRE DE DEPART DE LA NOUVELLE LUCIANA (decision de Fred, 19/10/2026) :
-SEULEMENT CE QUE FRED A DIT. Tous ses messages, en entier, jusqu'a aujourd'hui. RIEN de ce qu'elle a
+"""LA MEMOIRE DE DEPART DE LA NOUVELLE LUCIANA (decision du 19/10/2026) :
+SEULEMENT CE QUE LE PROPRIETAIRE A DIT. Tous ses messages, en entier, jusqu'a aujourd'hui. RIEN de ce qu'elle a
 ecrit (ses reponses, notes, souvenirs, consignes, recettes : « il y a des choses fausses dedans »).
 
 1) D'abord un ESSAI : le programme lit ~/Luciana/luciana_memoire.json (sans y toucher), compte tes
@@ -23,7 +23,7 @@ F_MARQUE = os.path.join(C.DOSSIER, "import_marque_page.json")
 
 
 def mes_messages():
-    """Les messages de Fred : role 'user', du texte, pas un message du programme (qui commence par '[').
+    """Les messages du proprietaire : role 'user', du texte, pas un message du programme (commence par '[').
     Le meme message repete MOT POUR MOT n'est garde qu'une fois (la premiere)."""
     brut = C.lire_json(SOURCE, [])
     vus, out, ignores = set(), [], {"programme": 0, "vides": 0, "doublons_exacts": 0, "pas_du_texte": 0}
@@ -47,6 +47,26 @@ def mes_messages():
         vus.add(t)
         out.append({"n": len(out) + 1, "role": "user", "date": str(m.get("date") or ""), "texte": t})
     return out, ignores, len(brut) if isinstance(brut, list) else 0
+
+
+def poser_le_proprietaire():
+    """CES MESSAGES SONT CEUX D'UNE SEULE PERSONNE : celle a qui est cette memoire. L'import la fait entrer au
+    registre des personnes (p1 sur une machine neuve), avec le role « proprietaire » et « dit (import) » :
+    ses propres mots la nomment, et on dit d'ou ca vient. Rien n'est suppose : si le nom n'est pas encore
+    ecrit dans le reglage, on le DEMANDE, puis on l'ecrit UNE FOIS (une mise a jour ne l'ecrasera jamais)."""
+    nom = str(C.reglages().get("proprietaire") or "").strip()
+    if not nom:
+        print("\n  Le nom du proprietaire n'est pas encore ecrit dans nouvelle/reglages.json.")
+        nom = input("  A qui est cette memoire ? (le prenom, tel qu'elle doit l'appeler) : ").strip()
+        ecrit, nom = C.poser_le_proprietaire(nom)
+        if ecrit:
+            print("  Ecrit une fois dans nouvelle/reglages.json : « %s ». Une mise a jour ne l'ecrasera pas." % nom)
+    if not nom:
+        print("  Aucun nom donne : personne n'entre au registre. Tu pourras le faire plus tard.")
+        return ""
+    pid, ce_qui = C.personnes.poser_le_proprietaire(nom, "dit (import)", date=C.maintenant())
+    print("  Registre des personnes : %s = « %s », role proprietaire (%s)." % (pid or "rien", nom, ce_qui))
+    return pid
 
 
 def main():
@@ -74,6 +94,7 @@ def main():
     if input("\n  Tape OUI (en majuscules) pour les ranger dans sa bibliotheque : ").strip() != "OUI":
         print("  Rien n'a ete fait.")
         return
+    poser_le_proprietaire()
     deja = int(C.lire_json(F_MARQUE, {}).get("fait_jusqu_a", 0))
     reste = [m for m in msgs if m["n"] > deja]
     paquets = C.decouper(reste, 20000)

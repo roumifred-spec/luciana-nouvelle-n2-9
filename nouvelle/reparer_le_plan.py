@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""REPARER LE PLAN DE LA BIBLIOTHEQUE (sortie de secours, decidee avec Fred le 20/10/2026).
+"""REPARER LE PLAN DE LA BIBLIOTHEQUE (sortie de secours, decidee le 20/10/2026).
 Regarde chaque dossier ~/Luciana_neuve* qui a un plan.json. S'il est abime, propose de remettre la derniere bonne
 copie (plan.json.copie). Rien n'est efface : le fichier abime est garde a cote. Rien n'est fait sans « OUI »."""
 import os, sys, glob

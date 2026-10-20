@@ -2,7 +2,7 @@
 """LE PREMIER RANGEMENT DE SA BIBLIOTHEQUE DANS LE PLAN (piece 2 de la bibliotheque rangee, 20/10/2026).
 
 Apres chaque echange, l'archiviste range tout seul ce qui est NEUF. Mais une grosse reserve ancienne (par exemple
-les fiches de l'import) ne part pas en douce : elle se range ICI, une seule fois, quand Fred le decide.
+les fiches de l'import) ne part pas en douce : elle se range ICI, une seule fois, quand on le decide.
 
 1) D'abord un ESSAI : combien de fiches pas encore rangees, combien de texte, et une estimation du prix.
 2) Seulement si on tape OUI : l'archiviste les range par lots, cree les categories lui-meme, et divise les tiroirs

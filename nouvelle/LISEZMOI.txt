@@ -28,6 +28,20 @@ COMMENT ELLE MARCHE (les coulisses) :
   - Panneau « Etat » : toutes les coulisses, en quantites.
   - Reglages (nombres) : nouvelle\reglages.json. Personnalite : nouvelle\personnalite.txt.
 
+LE NOM DU PROPRIETAIRE (c'est un produit a vendre : le programme part VIERGE) :
+  - Il vit a UN SEUL endroit : nouvelle\reglages.json, ligne "proprietaire". Il est relu a CHAQUE message.
+  - Partout ailleurs (sa personnalite, les consignes de son bibliothecaire, de son archiviste, de son
+    journal, les descriptions de ses outils), le programme ecrit le jeton {proprietaire}. Il est remplace
+    par le nom du reglage au moment ou elle parle. AUCUN prenom n'est ecrit dans le code.
+  - On l'ecrit UNE FOIS, a l'installation : l'import (.bat 3) le demande, ou tu le tapes a la main entre
+    les guillemets. Tant qu'il est vide, elle dit « le proprietaire », jamais un prenom.
+  - UNE MISE A JOUR NE L'ECRASE JAMAIS : le programme refuse d'ecrire par-dessus un nom en place, et une
+    ligne vide ne remplace jamais le nom connu.
+  - ATTENTION, le seul vrai risque : si tu remplaces le dossier du programme par un zip neuf, c'est le
+    FICHIER reglages.json qui est remplace. Garde le tien, ou retape le nom une fois apres la mise a jour.
+  - L'import fait aussi entrer le proprietaire au registre des personnes (p1), role « proprietaire »,
+    entree « dit (import) » : ses propres messages le nomment, et on dit d'ou ca vient.
+
 LE MICRO (dictaphone de Luminita) : Chrome ecrit en direct, Gemini reecoute le son et corrige.
   Curseur « gratuit / payant » au-dessus de la barre. Le cout de Gemini pour la dictee n'est pas
   compte dans la depense affichee.

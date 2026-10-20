@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """LE JOURNAL DU QUOTIDIEN : LE VITAL, NOTE PAR LE PROGRAMME A L'HEURE EXACTE -- piece 3 de la bibliotheque rangee
-(decidee avec Fred le 20/10/2026).
+(decidee le 20/10/2026).
 
-  - Apres chaque echange, l'archiviste repere si le message de Fred raconte un GESTE VITAL DEJA FAIT (« j'ai pris mon
+  - Apres chaque echange, l'archiviste repere si le message recu raconte un GESTE VITAL DEJA FAIT (« j'ai pris mon
     cachet », « je sors de chez le docteur »). C'est lui qui juge ce qui est vital (dans le doute : vital), jamais une
     liste de mots. Un geste OUBLIE, dit clairement (« hier soir j'ai oublie mon cachet »), est note aussi, comme
-    PAS FAIT (decision de Fred, 20/10 : « l'oubli affirme »). Un geste seulement PREVU ou une question : rien.
-  - LE PROGRAMME l'ecrit dans le journal, avec l'heure exacte du message. Si Fred donne une autre heure (« je l'ai pris a
-    8h », dit a 10h), le journal note 8h, ET qu'il l'a dit a 10h. Le mot de Fred est garde tel quel.
+    PAS FAIT (« l'oubli affirme »). Un geste seulement PREVU ou une question : rien.
+  - LE PROGRAMME l'ecrit dans le journal, avec l'heure exacte du message. Si le message donne une autre heure (« je l'ai
+    pris a 8h », dit a 10h), le journal note 8h, ET qu'il l'a dit a 10h. Le mot de la personne est garde tel quel.
   - Elle lit ce journal pour repondre en disant D'OU ELLE LE SAIT (« tu m'as dit a 8h12 que... », « c'est moi qui l'ai fait »). Pas de trace -> « je n'ai pas de trace », jamais « oui ».
   - Lisible au Bloc-notes, jour par jour : « MON JOURNAL DU QUOTIDIEN.txt ».
 Rien n'est jamais efface.
@@ -18,6 +18,14 @@ import os, json, time, datetime, re
 def C():
     import coeur
     return coeur
+
+
+# CE QUI EST ECRIT DANS LE JOURNAL quand l'heure a ete DITE par la personne. Le mot a change (c'est un
+# produit a vendre : plus aucun prenom), mais L'ANCIEN MOT EST TOUJOURS RELU : les journaux deja ecrits
+# gardent « dite par Fred » et se lisent exactement comme avant. Rien n'est reecrit, rien n'est perdu.
+HEURE_DITE = "heure dite par la personne"
+HEURE_DITE_ANCIENNES = ("dite par Fred",)
+HEURE_DITE_TOUTES = (HEURE_DITE,) + HEURE_DITE_ANCIENNES
 
 
 def _f_journal():
@@ -81,24 +89,26 @@ def noter_le_vital(message, date_message=None):
         return []
     date_message = co._date_propre(date_message) or co.maintenant()
     contenu = (
-        "LE MESSAGE DE FRED (ecrit le %s) :\n%s\n\n"
-        "TON TRAVAIL : dis si ce message raconte un ou plusieurs GESTES VITAUX DEJA FAITS par Fred, ou DITS CLAIREMENT "
+        "LE MESSAGE RECU (ecrit le %s) :\n%s\n\n"
+        "TON TRAVAIL : dis si ce message raconte un ou plusieurs GESTES VITAUX DEJA FAITS par la personne qui ecrit, "
+        "ou DITS CLAIREMENT "
         "PAS FAITS (oublies, pas pris) : prendre un "
         "medicament ou un traitement, un soin, un rendez-vous medical fait, une mesure de sante (tension, sucre...), "
         "manger ou boire quand c'est un enjeu de sante, une chose de securite (gaz ferme, porte fermee)... C'est TOI "
         "qui juges ce qui est vital, par le sens ; dans le doute, c'est vital. Un geste dit clairement PAS FAIT (« j'ai "
         "oublie mon cachet », « je ne l'ai pas pris ») se note avec \"fait\": false. Un geste seulement PREVU (« je vais "
         "le prendre ») ou une question (« est-ce que j'ai pris... ? ») ne se note PAS. Ne devine jamais une heure : "
-        "donne-la seulement si Fred la dit.\n"
-        "Si ce n'est pas Fred qui a fait le geste, ou si c'est une AUTRE PERSONNE qui parle (« c'est sa fille, ma mere m'a "
+        "donne-la seulement si le message la dit.\n"
+        "Si ce n'est pas celui qui ecrit qui a fait le geste, ou si c'est une AUTRE PERSONNE qui parle (« c'est sa fille, "
+        "ma mere m'a "
         "dit qu'elle a pris son cachet »), dis-le dans \"qui\" (ex. « Madame Dupont, d'apres sa fille ») ; sinon vide.\n"
         "Quelle que soit la langue du message, \"jour\" s'ecrit TOUJOURS avec ces mots francais (aujourd'hui, hier, "
         "avant-hier) ou une date AAAA-MM-JJ, et \"heure\" TOUJOURS sur 24 heures (HH:MM, ex. 20:00). \"quoi\" reste "
-        "dans la langue de Fred.\n"
-        "Reponds UNIQUEMENT en JSON strict : {\"gestes\": [{\"quoi\": \"<le geste, court, avec les mots de Fred>\", \"fait\": true, \"qui\": \"\", "
-        "\"jour\": \"aujourd'hui|hier|avant-hier|AAAA-MM-JJ\", \"heure\": \"<HH:MM si Fred la dit, sinon vide>\"}]} "
+        "dans la langue du message.\n"
+        "Reponds UNIQUEMENT en JSON strict : {\"gestes\": [{\"quoi\": \"<le geste, court, avec les mots du message>\", \"fait\": true, \"qui\": \"\", "
+        "\"jour\": \"aujourd'hui|hier|avant-hier|AAAA-MM-JJ\", \"heure\": \"<HH:MM si le message la dit, sinon vide>\"}]} "
         "ou {\"gestes\": []}" % (date_message, msg))
-    brut, panne = co.appel_simple(co.reglages()["cerveau_archiviste"], "Tu es l'archiviste de la memoire de Fred. JSON strict.",
+    brut, panne = co.appel_simple(co.reglages()["cerveau_archiviste"], "Tu es l'archiviste de cette memoire. JSON strict.",
                                   contenu, "journal_du_quotidien", reflechir=False, max_tokens=1500)
     d = co.json_dans(brut)
     if not isinstance(d, dict):
@@ -118,7 +128,7 @@ def noter_le_vital(message, date_message=None):
         # L'heure du message ne vaut QUE pour un geste du jour meme : « hier soir j'ai ferme le gaz » (sans heure),
         # dit a 16h10, n'a PAS ete fait a 16h10 (essai reel du 20/10). Jamais d'heure inventee.
         if heure_dite:
-            heure, heure_de = heure_dite, "dite par Fred"
+            heure, heure_de = heure_dite, HEURE_DITE
         elif heure_brute:
             heure = date_message[11:16] if (meme_jour and not pas_fait) else ""
             heure_de = "heure pas comprise : « %s »" % heure_brute[:40]
@@ -158,9 +168,9 @@ def _ligne(e):
     t = "%s  %s%s" % (e["heure"] or "--:--", "PAS FAIT : " if e.get("etat") == "pas fait" else "", e["quoi"])
     if e.get("qui"):
         t += "   (qui : %s)" % e["qui"]
-    if e.get("heure_de") == "dite par Fred" and e.get("dit_le", "")[:16] != "%s %s" % (e["jour"], e["heure"]):
+    if e.get("heure_de") in HEURE_DITE_TOUTES and e.get("dit_le", "")[:16] != "%s %s" % (e["jour"], e["heure"]):
         t += ("   (heure dite par cette personne ; on me l'a dit le %s)" if e.get("qui")
-              else "   (heure dite par Fred ; il l'a dit le %s)") % _fr(e["dit_le"])
+              else "   (heure dite par {proprietaire} ; il l'a dit le %s)") % _fr(e["dit_le"])
     elif e.get("heure_de") == "heure du message":
         t += "   (heure de son message)"
     elif e.get("heure_de") == "heure pas dite":
@@ -193,7 +203,7 @@ def ce_que_j_ai_fait(jour, dit_avant=None):
 
 def lire(jour_demande="aujourd'hui", quoi="", avec_mes_gestes=True, dit_avant=None):
     """Ce que le journal contient pour ce jour (« aujourd'hui », « hier », une date). Jamais de supposition.
-    avec_mes_gestes=False (decision de Fred, 20/10) : quand la question porte sur la PERSONNE (son cachet), elle ne
+    avec_mes_gestes=False : quand la question porte sur la PERSONNE (son cachet), elle ne
     recoit que ce que la personne a dit avoir fait ou pas fait, sans ses mails a elle. L'outil, lui, montre tout.
     dit_avant (pour les essais seulement) : le journal tel qu'il etait a ce moment-la (« AAAA-MM-JJ HH:MM »)."""
     co = C()
@@ -238,13 +248,13 @@ def ecrire_lisible():
                 lignes.append("   " + _ligne(e))
             lignes.append("")
         with open(_f_lisible(), "w", encoding="utf-8") as f:
-            f.write("\n".join(lignes))
+            f.write(C().avec_le_nom("\n".join(lignes)))      # le jeton {proprietaire} remplace pour la lecture
     except Exception:
         pass
 
 
 OUTIL = {"name": "journal_du_quotidien",
-         "description": "Le journal du quotidien, tenu par le PROGRAMME a l'heure exacte : les gestes vitaux que Fred (ou une "
+         "description": "Le journal du quotidien, tenu par le PROGRAMME a l'heure exacte : les gestes vitaux que {proprietaire} (ou une "
                         "autre personne) a DIT avoir faits, ou oublies (medicaments, soins, rendez-vous...), c'est une parole, pas une "
                         "preuve ; ET ce que TU as fait toi-meme avec tes outils ce jour-la (mails envoyes, fichiers...). "
                         "Pour « est-ce que j'ai envoye la facture ? » ou « est-ce que j'ai pris mon cachet ? ». Pour repondre a « est-ce que j'ai pris mon "

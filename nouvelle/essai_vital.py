@@ -2,7 +2,7 @@
 """ESSAI DU JOURNAL DU QUOTIDIEN AVEC UN VRAI CERVEAU, SUR DE FAUX MESSAGES (piece 3, 20/10/2026).
 
 Treize faux messages d'une journee (dont roumain et anglais), dont des pieges : un geste PREVU, une QUESTION, une chose
-pas vitale. Un geste OUBLIE (« j'ai oublie mon cachet ») est note « PAS FAIT », sans heure inventee (decision de Fred, 20/10).
+pas vitale. Un geste OUBLIE (« j'ai oublie mon cachet ») est note « PAS FAIT », sans heure inventee (decision du 20/10).
 L'archiviste juge ; le programme ecrit l'heure exacte. A la fin : SA VRAIE PHRASE (« la recette, pas le plat » : on voit
 ce qu'elle dirait vraiment, avec sa personnalite). Tout se passe dans un
 dossier A PART (~/Luciana_neuve_essai_vital) : SA VRAIE BIBLIOTHEQUE ET SON VRAI JOURNAL NE SONT PAS TOUCHES.
@@ -14,6 +14,13 @@ sys.path.insert(0, ICI)
 import luciana_neuve as N
 C = N.coeur
 Q = C.quotidien
+
+# L'ESSAI A BESOIN D'UN NOM DE PROPRIETAIRE. Le vrai vient du reglage (nouvelle/reglages.json, cle
+# « proprietaire ») : s'il est vide, l'essai se donne un nom de theatre. AUCUN prenom n'est en dur dans
+# le programme, et le fichier de reglages n'est pas touche.
+if not C.reglages()["proprietaire"]:
+    C.DEFAUT["proprietaire"] = "Thomas"
+PROPRIETAIRE = C.proprietaire()
 
 DOSSIER_ESSAI = os.path.join(os.path.expanduser("~"), "Luciana_neuve_essai_vital")
 
@@ -78,28 +85,29 @@ def main():
     sa_vraie_phrase()
 
 
-# « LA RECETTE, PAS LE PLAT » (decision de Fred, 20/10) : ce qu'elle DIT vraiment, avec sa personnalite, son vrai cerveau,
+# « LA RECETTE, PAS LE PLAT » (decision du 20/10) : ce qu'elle DIT vraiment, avec sa personnalite, son vrai cerveau,
 # et exactement ce que le programme lui donne (pour une question sur la personne : seulement ce que la personne a dit
 # avoir fait ou pas fait ; pour une question sur ses gestes a elle : son outil, qui montre tout).
 QUESTIONS = [
-    ("Fred", "2026-10-20 18:05", "Est-ce que j'ai pris mon cachet ce matin ?", "personne"),
+    (PROPRIETAIRE, "2026-10-20 18:05", "Est-ce que j'ai pris mon cachet ce matin ?", "personne"),
     ("la fille de Madame Dupont", "2026-10-20 21:45",
      "Bonsoir, c'est la fille de Madame Dupont. Est-ce que maman a bien pris son cachet aujourd'hui ?", "personne"),
-    ("Fred", "2026-10-20 21:50", "Est-ce que tu as envoye la facture a Monsieur Henri ?", "ses gestes"),
+    (PROPRIETAIRE, "2026-10-20 21:50", "Est-ce que tu as envoye la facture a Monsieur Henri ?", "ses gestes"),
 ]
 
 
 def sa_vraie_phrase():
     print("\n  SA VRAIE PHRASE (vrai cerveau, sa personnalite, ce que le programme lui donne vraiment) :")
     cerveau = C.L.lire_cerveau()
-    systeme = C.personnalite() + "\n\n" + C.MEMOIRE_EN_CLAIR
+    systeme = C.perso(C.personnalite() + "\n\n" + C.MEMOIRE_EN_CLAIR)    # le jeton {proprietaire} remplace
     for qui, quand, question, sorte in QUESTIONS:
         if sorte == "personne":
             donne = Q.lire(quand[:10], avec_mes_gestes=False, dit_avant=quand)
         else:
             donne = "[Resultat de ton outil journal_du_quotidien]\n" + Q.lire(quand[:10], "facture Henri", dit_avant=quand)
         contenu = ("[Repere temporel, ecrit par le programme : nous sommes le %s, il est %s.]\n\n%s\n\n%s [%s] : %s"
-                   % (Q._fr(quand[:10]), quand[11:16], donne, "Fred" if qui == "Fred" else "Message (" + qui + ")",
+                   % (Q._fr(quand[:10]), quand[11:16], donne,
+                      PROPRIETAIRE if qui == PROPRIETAIRE else "Message (" + qui + ")",
                       quand[11:16], question))
         texte, panne = C.appel_simple(cerveau, systeme, contenu, "essai_sa_vraie_phrase", reflechir=True,
                                       max_tokens=4000, timeout=180)

@@ -5,7 +5,7 @@ L'ecran, la voix, le personnage, les boutons et les outils (ses mains, ses yeux)
 V198 : ils viennent de l'ancien programme, sans changement. Ici, il n'y a QUE ce qui etait bancal :
 le trajet d'un message, la memoire, l'apprentissage, le choix des outils.
 
-LES REGLES DE FRED (19/10/2026), et ce fichier n'en trahit aucune :
+LES REGLES DECIDEES LE 19/10/2026, et ce fichier n'en trahit aucune :
  - UNE seule bibliotheque pour tout (souvenirs, regles, faits, personnes, savoir-faire, savoir-vivre).
  - RIEN N'EST JAMAIS COUPE : une fiche est donnee EN ENTIER ou pas du tout. La seule limite est le
    NOMBRE de fiches donnees d'un coup ; les autres sont nommees, et elle peut les ouvrir en entier.
@@ -13,7 +13,7 @@ LES REGLES DE FRED (19/10/2026), et ce fichier n'en trahit aucune :
    sa conversation), comme un psychologue, jamais mot par mot.
  - Le bibliothecaire lit LE MEME BLOC qu'elle (la conversation du jour, 50 000 a 80 000 car.) + le
    nouveau message. Elle repond d'abord de sa tete ; s'il apporte quelque chose, sa reponse de tete
-   est jetee et elle repond avec les fiches EN ENTIER (mecanique V183, decidee avec Fred).
+   est jetee et elle repond avec les fiches EN ENTIER (mecanique V183).
  - Elle apprend TOUTE SEULE apres chaque echange (sans clic).
  - L'archiviste range au-dela de 80 000 caracteres, MOT POUR MOT, par le sens.
  - Le programme tient l'heure, les rappels, les listes.
@@ -36,11 +36,14 @@ CROCHETS = {"perso": None, "personnalite": None, "contexte": None, "outils_permi
 
 
 def perso(texte):
+    """Le crochet de l'assistante (ses prenoms a elle), PUIS le jeton {proprietaire}.
+    Tout ce qui part au cerveau ou a l'ecran passe par ici : aucun prenom n'est ecrit dans le code."""
     f = CROCHETS.get("perso")
     try:
-        return f(texte) if (f and isinstance(texte, str)) else texte
+        t = f(texte) if (f and isinstance(texte, str)) else texte
     except Exception:
-        return texte
+        t = texte
+    return avec_le_nom(t) if isinstance(t, str) else t
 
 
 def brancher(module, dossier=None):
@@ -154,27 +157,78 @@ DEFAUT = {"fenetre_max_caracteres": 80000, "fenetre_apres_rangement": 50000,
           "proprietaire": ""}
 
 
+F_REGLAGES = os.path.join(ICI, "reglages.json")
+
+
 def reglages():
     r = dict(DEFAUT)
-    d = lire_json(os.path.join(ICI, "reglages.json"), {})
+    d = lire_json(F_REGLAGES, {})
     if isinstance(d, dict):
         for k in DEFAUT:
             if k in d:
+                # Une valeur VIDE dans le fichier ne remplace pas celle du programme : « vide » veut dire
+                # « pas renseigne », jamais « efface ». C'est ce qui protege le nom du proprietaire.
+                if k == "proprietaire" and not str(d[k] or "").strip():
+                    continue
                 r[k] = d[k]
     return r
 
 
-def proprietaire(defaut="Fred"):
-    """LE NOM DU PROPRIETAIRE, LU DANS LES REGLAGES (reglages.json, cle « proprietaire »).
-    C'est un produit a vendre : le nom se met dans le reglage, pas dans le code.
-    Reglage absent ou vide -> exactement l'ancien comportement (perso(defaut)) : rien ne casse.
-    Cette fonction LIT seulement : elle n'ecrit JAMAIS dans reglages.json, donc un nom deja
-    en place n'est jamais ecrase ni redemande."""
+# ------------------------------------------------------------------------------ LE NOM DU PROPRIETAIRE
+# C'est un produit a VENDRE : aucun prenom n'est ecrit dans le code. Le nom de celui a qui est cette
+# assistante vit a UN SEUL endroit, reglages.json, cle « proprietaire », ecrit a l'installation et relu a
+# chaque message. Partout ailleurs on ecrit le JETON « {proprietaire} », remplace au moment de parler.
+JETON = "{proprietaire}"
+NOM_PAR_DEFAUT = "le proprietaire"      # tant que personne n'a ete nomme : un mot neutre, jamais un prenom
+
+
+_NOM = {"nom": None, "cle": None}       # relu des que reglages.json change (fichier, date, valeur du programme)
+
+
+def proprietaire():
+    """LE NOM DU PROPRIETAIRE, LU DANS LE REGLAGE (reglages.json, cle « proprietaire »).
+    Reglage absent ou vide -> un mot neutre (« le proprietaire »), JAMAIS un prenom en dur.
+    Cette fonction LIT seulement : elle n'ecrit jamais, donc un nom en place n'est jamais ecrase.
+    Elle est appelee des milliers de fois (une fois par fiche) : le nom est garde en memoire et
+    RELU des que reglages.json change (meme fonctionnement que la relecture des fiches)."""
     try:
-        nom = str(reglages().get("proprietaire") or "").strip()
+        m = os.path.getmtime(F_REGLAGES)
     except Exception:
-        nom = ""
-    return nom or perso(defaut)
+        m = None
+    cle = (F_REGLAGES, m, DEFAUT.get("proprietaire"))
+    if _NOM["nom"] is None or cle != _NOM["cle"]:
+        try:
+            nom = str(reglages().get("proprietaire") or "").strip()
+        except Exception:
+            nom = ""
+        _NOM.update(nom=nom or NOM_PAR_DEFAUT, cle=cle)
+    return _NOM["nom"]
+
+
+def avec_le_nom(texte):
+    """Remplace le jeton {proprietaire} par le nom du reglage. Un texte sans jeton n'est pas touche."""
+    t = str(texte or "")
+    return t.replace(JETON, proprietaire()) if JETON in t else t
+
+
+def poser_le_proprietaire(nom):
+    """A L'INSTALLATION SEULEMENT : ecrit le nom dans reglages.json s'il n'y est pas encore.
+    UNE MISE A JOUR NE L'ECRASE JAMAIS : si un nom est deja ecrit, on le garde et on ne touche a rien.
+    Rend (ecrit_ou_non, le nom en place)."""
+    with _verrou_fichiers:
+        d = lire_json(F_REGLAGES, {})
+        if not isinstance(d, dict):
+            return False, ""
+        deja = str(d.get("proprietaire") or "").strip()
+        if deja:
+            return False, deja                      # deja nomme : on ne touche a rien
+        nom = " ".join(str(nom or "").split())[:120]
+        if not nom:
+            return False, ""
+        d["proprietaire"] = nom
+        ecrire_json(F_REGLAGES, d)
+        _NOM["nom"] = None                          # a relire : le nom vient de changer
+        return True, nom
 
 
 # =====================================================================================
@@ -238,9 +292,9 @@ def json_dans(texte):
 
 # =====================================================================================
 #  LE MOTEUR DE SENS (Google gemini-embedding-001, celui de l'ancienne).
-#  LE SENS PAR PHRASE, PAS PAR MOT (Fred) : chaque fiche est decoupee en passages qui suivent les
+#  LE SENS PAR PHRASE, PAS PAR MOT : chaque fiche est decoupee en passages qui suivent les
 #  phrases (jamais un mot coupe), chaque passage a son empreinte de sens, et la fiche vaut son
-#  meilleur passage. La question, elle, est la phrase ENTIERE de Fred, avec ses deux messages d'avant.
+#  meilleur passage. La question, elle, est la phrase ENTIERE du message, avec les deux messages d'avant.
 #  En panne (pas de cle, pas d'internet) : on retombe sur les mots en commun, et c'est AFFICHE.
 # =====================================================================================
 class Moteur:
@@ -368,7 +422,7 @@ MOTEUR = Moteur()
 def passages(f):
     """Les passages d'une fiche, PAR PHRASES (jamais un mot coupe). Le sujet est un passage a lui seul."""
     taille = int(reglages()["passage_caracteres"])
-    morceaux = [("%s : %s" % (NATURES.get(f.get("nature"), "Fiche"), f.get("sujet", ""))).strip()]
+    morceaux = [("%s : %s" % (nature_en_clair(f.get("nature"), "Fiche"), f.get("sujet", ""))).strip()]
     phrases = re.split(r"(?<=[\.\!\?\n])\s+", str(f.get("texte") or ""))
     courant = ""
     for ph in phrases:
@@ -401,8 +455,13 @@ def classer(question, liste):
 # =====================================================================================
 #  LA BIBLIOTHEQUE : UNE SEULE, POUR TOUT. Rien ne s'efface : une fiche corrigee est « remplacee ».
 # =====================================================================================
-NATURES = {"souvenir": "Souvenir", "regle": "Regle de Fred", "fait": "Fait", "savoir_faire": "Savoir-faire",
+NATURES = {"souvenir": "Souvenir", "regle": "Regle de {proprietaire}", "fait": "Fait", "savoir_faire": "Savoir-faire",
            "personne": "Personne", "capacite": "Capacite", "savoir_vivre": "Savoir-vivre"}
+
+
+def nature_en_clair(nature, defaut="?"):
+    """Le nom affiche d'une nature de fiche, le jeton {proprietaire} deja remplace."""
+    return avec_le_nom(NATURES.get(nature, defaut))
 
 
 def _date_propre(d):
@@ -469,11 +528,11 @@ def ecrire_lisible():
         lignes = ["MA BIBLIOTHEQUE (ecrite par le programme ; rien n'est jamais efface).", ""]
         for f in fiches(toutes=True):
             etat = "" if f.get("etat", "active") == "active" else "   <-- REMPLACEE par n%s" % f.get("remplacee_par")
-            lignes.append("n%d [%s] (%s) %s%s" % (f["n"], NATURES.get(f["nature"], "?"), f["date"], f["sujet"], etat))
+            lignes.append("n%d [%s] (%s) %s%s" % (f["n"], nature_en_clair(f["nature"]), f["date"], f["sujet"], etat))
             lignes.append("    " + f["texte"].replace("\n", "\n    "))
             lignes.append("")
         with open(F_LISIBLE, "w", encoding="utf-8") as h:
-            h.write("\n".join(lignes))
+            h.write(avec_le_nom("\n".join(lignes)))     # le jeton {proprietaire} remplace pour la lecture
     except Exception:
         pass
     plan.ecrire_le_plan_lisible(fiches(toutes=True), int(reglages()["diviser_a_partir_de"]))
@@ -486,7 +545,7 @@ def _rangee_ou(f):
 
 def fiche_en_entier(f):
     vital = " VITAL" if plan.vital_de(f["n"]) == "vital" else ""
-    t = "--- n%d [%s%s] du %s%s : %s ---\n%s" % (f["n"], NATURES.get(f["nature"], "?"), vital, f["date"], _rangee_ou(f),
+    t = "--- n%d [%s%s] du %s%s : %s ---\n%s" % (f["n"], nature_en_clair(f["nature"]), vital, f["date"], _rangee_ou(f),
                                                 f["sujet"], f["texte"])
     liens = plan.liens_de(f["n"])
     if f.get("remplace") or liens.get("remplace"):
@@ -500,7 +559,7 @@ def fiche_en_entier(f):
 
 
 def titre(f):
-    return "n%d [%s, %s]%s %s" % (f["n"], NATURES.get(f["nature"], "?"), f["date"][:16], _rangee_ou(f), f["sujet"])
+    return "n%d [%s, %s]%s %s" % (f["n"], nature_en_clair(f["nature"]), f["date"][:16], _rangee_ou(f), f["sujet"])
 
 
 # =====================================================================================
@@ -532,16 +591,17 @@ def bibliothecaire(message, bloc, precedents, quand_elle_cherche="", compris=Non
     else:
         consigne_besoin = ""
     contenu = (
-        ("VOICI LA CONVERSATION EN COURS ENTRE FRED ET LUCIANA, mot pour mot (le meme bloc qu'elle a sous "
+        ("VOICI LA CONVERSATION EN COURS ENTRE {proprietaire} ET L'ASSISTANTE, mot pour mot (le meme bloc qu'elle a sous "
          "les yeux) :\n----- DEBUT -----\n" + bloc + "\n----- FIN -----\n\n") if bloc.strip() else "") + \
-        "LE NOUVEAU MESSAGE DE FRED : " + str(message or "") + "\n\n" + consigne_besoin + \
-        (("CE QUE FRED VEUT DIRE (compris par le programme, en lisant toute la conversation) : %s\n\n"
+        "LE NOUVEAU MESSAGE DE {proprietaire} : " + str(message or "") + "\n\n" + consigne_besoin + \
+        (("CE QUE LA PERSONNE VEUT DIRE (compris par le programme, en lisant toute la conversation) : %s\n\n"
           % comprendre.en_clair(compris)) if compris else "") + \
         ("VOICI %d FICHES DE SA BIBLIOTHEQUE, sorties par le moteur de sens. Lis-les EN ENTIER.\n\n%s\n\n"
          "TON TRAVAIL : tu es son bibliothecaire et tu juges comme un psychologue. Un mot n'a pas le meme sens "
-         "dans toutes les phrases : c'est la phrase entiere de Fred, la situation et ce qu'il veut dire MAINTENANT "
+         "dans toutes les phrases : c'est la phrase entiere qui vient d'etre ecrite, la situation et ce que la personne "
+         "veut dire MAINTENANT "
          "qui comptent. Garde SEULEMENT les fiches qui aident vraiment Luciana a repondre OU A AGIR maintenant "
-         "(ce que Fred veut dire, une regle qu'il lui a donnee, comment on fait une chose sur ce PC, ce qui y est "
+         "(ce que la personne veut dire, une regle qu'on lui a donnee, comment on fait une chose sur ce PC, ce qui y est "
          "installe, qui est une personne, ce qui a ete dit un autre jour). Si ce qu'il faut est DEJA dans la "
          "conversation, ou si les fiches parlent d'autre chose, ne garde rien. Pour un simple bonjour, rien. "
          "Si deux fiches se contredisent, garde la plus recente.\n"
@@ -581,7 +641,7 @@ def texte_de_la_tete(brouillon):
 
 
 def relecture(message, brouillon, deja=()):
-    """V200, DECIDE PAR FRED : quand elle a prepare sa reponse de tete, le bibliothecaire la RELIT avec TOUTES les
+    """V200 : quand elle a prepare sa reponse de tete, le bibliothecaire la RELIT avec TOUTES les
     regles de comportement de la bibliotheque (natures regle et savoir_vivre), EN ENTIER. Les regles qu'elle ne
     respecte pas sont rendues : la reponse de tete est alors jetee et elle repond avec elles sous les yeux
     (mecanique V183). Ce n'est pas un garde-fou : si tout est respecte, rien n'est ajoute.
@@ -597,10 +657,10 @@ def relecture(message, brouillon, deja=()):
             return [], stats
         blocs = "\n\n".join("=== REGLE %d ===\n%s" % (k, fiche_en_entier(f)) for k, f in enumerate(regles, 1))
         stats["regles_lues"] = len(regles)
-        contenu = ("LE NOUVEAU MESSAGE DE FRED : %s\n\n"
-                   "LA REPONSE QUE LUCIANA S'APPRETE A LUI DONNER (et les gestes qu'elle s'apprete a faire) :\n"
+        contenu = ("LE NOUVEAU MESSAGE DE {proprietaire} : %s\n\n"
+                   "LA REPONSE QUE L'ASSISTANTE S'APPRETE A LUI DONNER (et les gestes qu'elle s'apprete a faire) :\n"
                    "----- DEBUT -----\n%s\n----- FIN -----\n\n"
-                   "VOICI TOUTES LES REGLES QUE FRED LUI A DONNEES, en entier :\n\n%s\n\n"
+                   "VOICI TOUTES LES REGLES QU'ON LUI A DONNEES, en entier :\n\n%s\n\n"
                    "TON TRAVAIL : dis quelles regles cette reponse ou ces gestes NE RESPECTENT PAS (longueur, nombre "
                    "de questions, ton, ce qu'elle doit deleguer ou chercher, ce qu'elle ne doit pas dire ou pas faire...). "
                    "Juge le SENS de la regle et la situation, comme un psychologue, pas les mots. Une regle qui ne "
@@ -634,7 +694,7 @@ def relecture(message, brouillon, deja=()):
         stats["secondes"] = round(time.time() - t0, 1)
 
 
-def bloc_des_fiches(gardees, pour_qui="pour la phrase de Fred ci-dessous"):
+def bloc_des_fiches(gardees, pour_qui="pour la phrase ci-dessous"):
     """Les fiches EN ENTIER (jamais coupees). La seule limite : le nombre. Les suivantes sont nommees."""
     maxi = int(reglages()["fiches_donnees_max"])
     donnees, nommees = gardees[:maxi], gardees[maxi:]
@@ -697,7 +757,7 @@ def ajouter_message(role, texte, actions=None):
 
 def note_du_programme(texte):
     """Ce que les taches de fond de la V198 ecrivaient dans l'ancienne memoire (rapport de chantier,
-    resultat Grok, clic de Fred...) arrive ICI, dans la conversation du jour, pour qu'elle le voie."""
+    resultat Grok, clic d'un bouton...) arrive ICI, dans la conversation du jour, pour qu'elle le voie."""
     try:
         ajouter_message("programme", str(texte or ""))
     except Exception:
@@ -705,7 +765,7 @@ def note_du_programme(texte):
 
 
 def qui(m):
-    return perso({"user": "Fred", "assistant": "Luciana"}.get(m["role"], "Le programme"))
+    return perso({"user": "{proprietaire}", "assistant": "Luciana"}.get(m["role"], "Le programme"))
 
 
 def texte_de(m):
@@ -772,20 +832,21 @@ def ranger_un_paquet(paquet, avant, avec_lecons=False):
     r = reglages()
     contexte = "\n\n".join(texte_de(m) for m in avant)
     numerotes = "\n\n".join("#%d %s" % (m["n"], texte_de(m)) for m in paquet)
-    lecons = ("\nAUSSI : ces messages sont de FRED LUI-MEME. Releve ce qu'ils APPRENNENT a Luciana pour la suite "
+    lecons = ("\nAUSSI : ces messages sont de {proprietaire} LUI-MEME. Releve ce qu'ils APPRENNENT a l'assistante "
+              "pour la suite "
               "(regle, fait, personne, savoir_faire, capacite, savoir_vivre), en une ou deux phrases chacune, avec "
-              "le numero du message d'ou ca vient. Rien d'invente, seulement ce que Fred dit vraiment.\n"
+              "le numero du message d'ou ca vient. Rien d'invente, seulement ce qui est vraiment dit.\n"
               "Ajoute dans le JSON : \"lecons\": [{\"nature\": \"...\", \"sujet\": \"...\", \"texte\": \"...\", "
               "\"message\": <numero>}]") if avec_lecons else ""
     contenu = (("POUR COMPRENDRE (deja range, ne pas reranger) :\n" + contexte + "\n\n") if contexte else "") + \
         "LES MESSAGES A RANGER (numerotes) :\n" + numerotes + "\n\n" + \
-        ("TON TRAVAIL : tu es l'archiviste de Fred. Tu decoupes ces messages en SOUVENIRS, PAR LE SENS, comme un "
+        ("TON TRAVAIL : tu es l'archiviste de cette memoire. Tu decoupes ces messages en SOUVENIRS, PAR LE SENS, comme un "
          "psychologue : un souvenir = un moment, un sujet, une histoire qui se tient (jamais un decoupage par "
          "mots). Chaque message doit aller dans au moins un souvenir. Pour chacun, un sujet clair en une phrase "
          "(qui, quoi, quand) qui permettra de le retrouver dans 60 ans." + lecons + "\n"
          "Reponds UNIQUEMENT en JSON strict : {\"souvenirs\": [{\"sujet\": \"...\", \"messages\": [<numeros>]}]"
          + (", \"lecons\": [...]" if avec_lecons else "") + "}")
-    brut, _p = appel_simple(r["cerveau_archiviste"], "Tu es l'archiviste de la memoire de Fred. JSON strict.",
+    brut, _p = appel_simple(r["cerveau_archiviste"], "Tu es l'archiviste de cette memoire. JSON strict.",
                             contenu, "archiviste", reflechir=False, max_tokens=8000)
     d = json_dans(brut)
     if not isinstance(d, dict) or not isinstance(d.get("souvenirs"), list):
@@ -819,16 +880,16 @@ def ranger_un_paquet(paquet, avant, avec_lecons=False):
         if isinstance(x, dict) and str(x.get("texte") or "").strip():
             m = par_n.get(int(x.get("message") or 0)) if str(x.get("message") or "").isdigit() else None
             f = ecrire_fiche(x.get("nature") or "fait", x.get("sujet") or "", x["texte"],
-                             source="tire des mots de Fred%s" % ((" (message du %s)" % m["date"]) if m else ""),
+                             source="tire des mots de {proprietaire}%s" % ((" (message du %s)" % m["date"]) if m else ""),
                              date=(m or {}).get("date"))
             compter("lecons_" + f["nature"])
     return True, nb
 
 
-def apprendre(message_de_fred, reponse, actions):
-    """APRES CHAQUE ECHANGE, en fond, sans clic (decision de Fred) : ce que ce moment APPREND."""
+def apprendre(message_recu, reponse, actions):
+    """APRES CHAQUE ECHANGE, en fond, sans clic : ce que ce moment APPREND."""
     r = reglages()
-    msg = str(message_de_fred or "").strip()
+    msg = str(message_recu or "").strip()
     if not r.get("apprentissage") or not msg or msg.startswith("["):
         return
     try:
@@ -839,19 +900,19 @@ def apprendre(message_de_fred, reponse, actions):
             proches = "\n".join("%s : %s" % (titre(f), f["texte"]) for f in ordre[:15])
         gestes = "\n".join("- %s" % str(a) for a in actions or []) or "(aucun outil)"
         contenu = (
-            "CE QUE FRED A ECRIT :\n" + msg + "\n\nLES GESTES VRAIMENT FAITS (ecrits par le programme) :\n" + gestes +
-            "\n\nCE QUE LUCIANA A REPONDU :\n" + str(reponse) + "\n\nCE QU'ELLE SAIT DEJA ET QUI EST PROCHE :\n" +
+            "CE QUE LA PERSONNE A ECRIT :\n" + msg + "\n\nLES GESTES VRAIMENT FAITS (ecrits par le programme) :\n" + gestes +
+            "\n\nCE QUE L'ASSISTANTE A REPONDU :\n" + str(reponse) + "\n\nCE QU'ELLE SAIT DEJA ET QUI EST PROCHE :\n" +
             (proches or "(rien)") + "\n\n"
-            "TON TRAVAIL : tu gardes SEULEMENT ce que ce moment APPREND a Luciana pour la suite, comme une personne "
-            "qui s'eduque -- surtout quand Fred la CORRIGE (« non », « je t'ai deja dit », « arrete de... », « tu as "
+            "TON TRAVAIL : tu gardes SEULEMENT ce que ce moment APPREND a l'assistante pour la suite, comme une personne "
+            "qui s'eduque -- surtout quand on la CORRIGE (« non », « je t'ai deja dit », « arrete de... », « tu as "
             "des mains, fais-le toi-meme »). Natures : regle, fait (vrai et durable, ex. « WhatsApp est installe sur "
             "le PC »), savoir_faire (comment on fait ici, seulement si les gestes montrent que ca a marche ou si "
-            "Fred l'explique), capacite, personne (ce que FRED dit d'une personne), savoir_vivre. Jamais ce que "
-            "Luciana affirme seule sans preuve. Une simple conversation ou une plaisanterie : rien. Deja su : rien. "
+            "on l'explique), capacite, personne (ce que la personne dit d'une AUTRE personne), savoir_vivre. Jamais ce que "
+            "l'assistante affirme seule sans preuve. Une simple conversation ou une plaisanterie : rien. Deja su : rien. "
             "Si ca CORRIGE une fiche de la liste, donne son numero (sans le n) dans \"remplace\".\n"
             "Reponds UNIQUEMENT en JSON strict : {\"lecons\": [{\"nature\": \"...\", \"sujet\": \"...\", \"texte\": "
             "\"...\", \"remplace\": 0}]} ou {\"lecons\": []}")
-        brut, _p = appel_simple(r["cerveau_archiviste"], "Tu es l'archiviste de Luciana. JSON strict.", contenu,
+        brut, _p = appel_simple(r["cerveau_archiviste"], "Tu es l'archiviste de cette memoire. JSON strict.", contenu,
                                 "apprentissage", reflechir=False, max_tokens=3000)
         d = json_dans(brut) or {}
         appris = []
@@ -887,7 +948,7 @@ def outil_rappels(e):
         n = 1 + max([x["n"] for x in rs] or [0])
         rs.append({"n": n, "quand": quand, "texte": str(e.get("texte") or ""), "fait": False})
         ecrire_json(F_RAPPELS, {"rappels": rs})
-        return "Rappel n%d enregistre pour le %s : c'est le PROGRAMME qui le dira a Fred a l'heure." % (n, quand)
+        return "Rappel n%d enregistre pour le %s : c'est le PROGRAMME qui le dira a {proprietaire} a l'heure." % (n, quand)
     if a.startswith("retir"):
         for x in rs:
             if str(x["n"]) == str(e.get("numero")):
@@ -929,16 +990,16 @@ def boucle_horloge():
 # =====================================================================================
 OUTILS_NEUFS = [
     {"name": "chercher_dans_ma_bibliotheque",
-     "description": "Cherche dans TA bibliotheque (souvenirs, regles de Fred, faits, personnes, savoir-faire). Le "
+     "description": "Cherche dans TA bibliotheque (souvenirs, regles de {proprietaire}, faits, personnes, savoir-faire). Le "
                     "bibliothecaire lit ta conversation et les fiches EN ENTIER et te rend celles qui servent, "
-                    "datees, mot pour mot. Sers-t'en des qu'il te manque une chose de la vie de Fred, de vos projets, "
+                    "datees, mot pour mot. Sers-t'en des qu'il te manque une chose de la vie de {proprietaire}, de vos projets, "
                     "de son PC ou du passe. N'invente jamais : cherche.",
      "input_schema": {"type": "object", "properties": {"question": {"type": "string", "description": "Ce qui te manque, en une phrase claire."}}, "required": ["question"]}},
     {"name": "ouvrir_fiches",
      "description": "Ouvre EN ENTIER des fiches de ta bibliotheque par leur numero (ex. [12, 40]).",
      "input_schema": {"type": "object", "properties": {"numeros": {"type": "array", "items": {"type": "integer"}}}, "required": ["numeros"]}},
     {"name": "retenir",
-     "description": "Range TOUT DE SUITE dans ta bibliotheque une chose que Fred te demande de retenir, ou une "
+     "description": "Range TOUT DE SUITE dans ta bibliotheque une chose qu'on te demande de retenir, ou une "
                     "correction qu'il te donne. nature : regle, fait, savoir_faire, personne, capacite, savoir_vivre. "
                     "Si ca corrige une fiche, son numero dans 'remplace' (l'ancienne est marquee, jamais effacee).",
      "input_schema": {"type": "object", "properties": {"nature": {"type": "string"}, "sujet": {"type": "string"},
@@ -951,13 +1012,13 @@ OUTILS_NEUFS = [
                     "faire une chose avant d'avoir cherche ici.",
      "input_schema": {"type": "object", "properties": {"besoin": {"type": "string"}}, "required": ["besoin"]}},
     {"name": "rappels",
-     "description": "Les rappels a heure fixe, tenus par le PROGRAMME (il les dit a Fred a l'heure, et sur son "
+     "description": "Les rappels a heure fixe, tenus par le PROGRAMME (il les dit a {proprietaire} a l'heure, et sur son "
                     "telephone). Actions : ajouter (quand = AAAA-MM-JJ HH:MM, texte), lister, retirer (numero).",
      "input_schema": {"type": "object", "properties": {"action": {"type": "string"}, "quand": {"type": "string"},
                                                        "texte": {"type": "string"}, "numero": {"type": "integer"}},
                       "required": ["action"]}},
 ]
-# Les outils de la V198 qui restent TOUJOURS en main : ses listes (choses en cours, mission), voulues par Fred.
+# Les outils de la V198 qui restent TOUJOURS en main : ses listes (choses en cours, mission).
 BASE_ANCIENS = ["choses_en_cours", "carnet_de_mission"]
 # Les outils de la V198 qui NE SONT PAS repris : son ancienne memoire, remplacee par LA bibliotheque.
 EXCLUS = {"fouiller_ma_bibliotheque", "chercher_dans_memoire", "retenir", "mettre_a_jour_souvenir",
@@ -1032,6 +1093,12 @@ def outils_du_tour(cerveau):
 
 
 def executer(nom, entree, cerveau):
+    """Ce que rend un outil part sous les yeux de l'assistante : le jeton {proprietaire} y est remplace."""
+    sortie = _executer(nom, entree, cerveau)
+    return avec_le_nom(sortie) if isinstance(sortie, str) else sortie
+
+
+def _executer(nom, entree, cerveau):
     entree = entree or {}
     if nom == "chercher_dans_ma_bibliotheque":
         compter("recherches")
@@ -1039,7 +1106,7 @@ def executer(nom, entree, cerveau):
         rendu = bibliothecaire(entree.get("question") or "", TOUR.get("bloc", ""), TOUR.get("precedents", []),
                                quand_elle_cherche=str(entree.get("question") or ""))
         if not rendu["fiches"]:
-            return ("Le bibliothecaire a lu %d fiches : aucune ne repond a « %s ». N'invente pas : dis-le a Fred."
+            return ("Le bibliothecaire a lu %d fiches : aucune ne repond a « %s ». N'invente pas : dis-le."
                     % (rendu["stats"]["candidats"], entree.get("question")))
         texte, n, _c = bloc_des_fiches(rendu["fiches"], "pour ce que tu cherches")
         compter("fiches_donnees", n)
@@ -1055,7 +1122,7 @@ def executer(nom, entree, cerveau):
                          source="retenir, demande pendant la conversation du %s" % maintenant())
         compter("lecons_" + f["nature"])
         ecrire_lisible()
-        return "Range dans ta bibliotheque : fiche n%d [%s] %s." % (f["n"], NATURES.get(f["nature"]), f["sujet"])
+        return "Range dans ta bibliotheque : fiche n%d [%s] %s." % (f["n"], nature_en_clair(f["nature"]), f["sujet"])
     if nom == "trouver_un_outil":
         trouves = proposer_outils(str(entree.get("besoin") or ""), cerveau, 5)
         prendre_en_main(trouves)
@@ -1078,14 +1145,14 @@ def executer(nom, entree, cerveau):
 TOUR = {"bloc": "", "precedents": []}
 MEMOIRE_EN_CLAIR = (
     "TA MEMOIRE, COMMENT ELLE MARCHE (c'est la verite, ecrite par le programme) : tu as UNE bibliotheque qui "
-    "garde tout, mot pour mot et datee : vos conversations rangees (souvenirs), les regles de Fred, les faits, les "
+    "garde tout, mot pour mot et datee : vos conversations rangees (souvenirs), les regles de {proprietaire}, les faits, les "
     "personnes, les savoir-faire. A chaque message, ton bibliothecaire lit ta conversation et ta bibliotheque ; "
-    "quand quelque chose sert, il te l'apporte EN ENTIER juste avant la phrase de Fred. Sers-toi d'abord de ta "
-    "tete ; s'il te manque quoi que ce soit (la vie de Fred, vos projets, son PC, le passe), CHERCHE "
-    "(chercher_dans_ma_bibliotheque) au lieu d'inventer ou de demander. Quand Fred te demande de retenir quelque "
+    "quand quelque chose sert, il te l'apporte EN ENTIER juste avant le message. Sers-toi d'abord de ta "
+    "tete ; s'il te manque quoi que ce soit (la vie de {proprietaire}, vos projets, son PC, le passe), CHERCHE "
+    "(chercher_dans_ma_bibliotheque) au lieu d'inventer ou de demander. Quand on te demande de retenir quelque "
     "chose ou te corrige, range-le tout de suite (retenir). Apres chaque echange, ton archiviste range aussi tout "
     "seul ce que tu as appris. Tes outils : les plus utiles pour ce message sont deja dans ta main ; les autres, "
-    "trouve-les (trouver_un_outil) : tu as des mains et des yeux sur le PC de Fred.")
+    "trouve-les (trouver_un_outil) : tu as des mains et des yeux sur le PC de {proprietaire}.")
 
 
 def personnalite():
@@ -1094,7 +1161,7 @@ def personnalite():
     try:
         return open(os.path.join(ICI, "personnalite.txt"), encoding="utf-8-sig").read().strip()
     except Exception:
-        return "Tu es Luciana, l'assistante et l'amie de Fred. Tu le tutoies, en francais."
+        return "Tu es Luciana, l'assistante et l'amie de {proprietaire}. Tu tutoies cette personne, en francais."
 
 
 def texte_du_bloc(fen):
@@ -1198,10 +1265,10 @@ def _tour(message, image):
             return refus
     L._v180_ecrit("", etape="je lis ton message", nouveau_tour=True)
     vrai = not str(message or "").lstrip().startswith("[")
-    texte_fred = message or ("[photo envoyee par Fred]" if image else "")
+    texte_recu = message or ("[photo envoyee par {proprietaire}]" if image else "")
     precedents = [m["texte"] for m in fenetre() if m["role"] == "user"][-2:]
-    m_fred = ajouter_message("user", texte_fred)
-    compter("messages_de_fred" if vrai else "messages_du_programme")
+    m_recu = ajouter_message("user", texte_recu)
+    compter("messages_recus" if vrai else "messages_du_programme")
     fen = fenetre()
     bloc = texte_du_bloc(fen)
     TOUR.update(bloc=bloc, precedents=precedents)
@@ -1214,16 +1281,16 @@ def _tour(message, image):
     def _fil():
         compris = None
         if r.get("bibliotheque_rangee"):             # piece 4 (eteinte dans la vraie Luciana tant que 3 a 6 ne sont pas finies)
-            compris = comprendre.comprendre(message, bloc, m_fred.get("date"))
+            compris = comprendre.comprendre(message, bloc, m_recu.get("date"))
             # LE REGISTRE DES PERSONNES (etape b) : le programme tranche qui parle et de qui on parle, et
             # ecrit l'etiquette de ce message. Ce qu'il rend (la question a poser) n'est PAS encore utilise :
-            # c'est pour un tour suivant (decide avec Fred le 20/10).
-            personnes.attribuer(m_fred["n"], m_fred.get("date"), compris)
+            # c'est pour un tour suivant (decide le 20/10).
+            personnes.attribuer(m_recu["n"], m_recu.get("date"), compris)
             rendu_biblio["compris"] = compris
             if compris.get("vital"):                 # le vital : le journal du quotidien, lu par le PROGRAMME
-                # seulement ce que la PERSONNE a dit avoir fait ou pas fait, sans ses mails a elle (decision de Fred, 20/10)
+                # seulement ce que la PERSONNE a dit avoir fait ou pas fait, sans ses mails a elle (decision du 20/10)
                 rendu_biblio["journal"] = "\n\n".join(quotidien.lire(j, avec_mes_gestes=False) for j in
-                                                       comprendre.jours_du_journal(compris, m_fred.get("date")))
+                                                       comprendre.jours_du_journal(compris, m_recu.get("date")))
         rendu_biblio.update(bibliothecaire(message, bloc, precedents, compris=compris))  # on cherche TOUJOURS
     fil = threading.Thread(target=_fil, daemon=True) if (vrai and str(message or "").strip()) else None
     if fil:
@@ -1370,13 +1437,13 @@ def _tour(message, image):
     compter("usd_conversation", cout)
     L._DERNIER_TOUR.update(usd=round(cout, 6), secondes=round(time.time() - t0, 1), cerveau=cerveau,
                            libelle=L._info_cerveau(cerveau).get("libelle", cerveau))
-    ajouter_ligne(F_TRACE, dict(D, date=maintenant(), fred=str(message)[:200]))
+    ajouter_ligne(F_TRACE, dict(D, date=maintenant(), message=str(message)[:200]))
     L._v180_ecrit(texte, etape="")
     try:
-        L.enregistrer_le_pas_de_la_mission(texte_fred, actions)
+        L.enregistrer_le_pas_de_la_mission(texte_recu, actions)
     except Exception:
         pass
-    threading.Thread(target=_apres_le_tour, args=(message, texte, actions, m_fred.get("date")), daemon=True).start()
+    threading.Thread(target=_apres_le_tour, args=(message, texte, actions, m_recu.get("date")), daemon=True).start()
     return texte
 
 
@@ -1443,7 +1510,7 @@ def coulisses():
                      (", %d panne(s)" % c["rangements_en_panne"]) if c.get("rangements_en_panne") else ""))
     appris = {k[7:]: v for k, v in c.items() if k.startswith("lecons_")}
     lignes.append("APPRENTISSAGE aujourd'hui : %d lecon(s)%s ; %d echange(s) relus"
-                  % (sum(appris.values()), (" (" + ", ".join("%s %d" % (NATURES.get(k, k), v)
+                  % (sum(appris.values()), (" (" + ", ".join("%s %d" % (nature_en_clair(k, k), v)
                                                             for k, v in appris.items()) + ")") if appris else "",
                      c.get("apprentissages_faits", 0)))
     if COULISSES.get("derniere_lecon"):
@@ -1454,11 +1521,11 @@ def coulisses():
         if f.get("etat", "active") == "active":
             par[f["nature"]] = par.get(f["nature"], 0) + 1
     lignes.append("BIBLIOTHEQUE : %d fiche(s) actives (%s), %d remplacee(s)"
-                  % (sum(par.values()), ", ".join("%s %d" % (NATURES.get(k, k), v) for k, v in sorted(par.items())) or "vide",
+                  % (sum(par.values()), ", ".join("%s %d" % (nature_en_clair(k, k), v) for k, v in sorted(par.items())) or "vide",
                      len([f for f in toutes if f.get("etat", "active") != "active"])))
-    lignes.append("AUJOURD'HUI : %d message(s) de Fred, %d tete(s) gardee(s), %d jetee(s), %d recherche(s), "
+    lignes.append("AUJOURD'HUI : %d message(s) recu(s), %d tete(s) gardee(s), %d jetee(s), %d recherche(s), "
                   "%d fiche(s) donnees, %d outil(s) utilises, %d trouve(s)"
-                  % (c.get("messages_de_fred", 0), c.get("tetes_gardees", 0), c.get("tetes_jetees", 0),
+                  % (c.get("messages_recus", 0), c.get("tetes_gardees", 0), c.get("tetes_jetees", 0),
                      c.get("recherches", 0), c.get("fiches_donnees", 0), c.get("outils_utilises", 0),
                      c.get("outils_trouves", 0)))
     lignes.append("COUT aujourd'hui : conversation %.3f $, bibliothecaire %.3f $, archiviste %.3f $, apprentissage %.3f $"

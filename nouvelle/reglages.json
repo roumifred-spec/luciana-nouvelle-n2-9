@@ -2,7 +2,7 @@
   "_a_quoi_ca_sert": "LES REGLAGES DES COULISSES DE LA NOUVELLE LUCIANA, ET NULLE PART AILLEURS. Relus a chaque message. RIEN N'EST JAMAIS COUPE : ces nombres limitent COMBIEN de choses on lui donne d'un coup, jamais leur longueur.",
 
   "proprietaire": "",
-  "_proprietaire": "LE NOM DE CELUI A QUI EST CETTE LUCIANA, ecrit ICI et nulle part dans le code (c'est un produit a vendre). Vide = l'ancien comportement, rien ne change. Une mise a jour du programme ne doit JAMAIS ecraser ce nom : si cette ligne porte deja un nom, on la laisse telle quelle.",
+  "_proprietaire": "LE NOM DE CELUI A QUI EST CETTE ASSISTANTE. Il vit ICI, a CE SEUL endroit, et NULLE PART dans le code (c'est un produit a vendre : il part vierge). Partout ailleurs le programme ecrit le jeton {proprietaire}, remplace par ce nom au moment de parler, a chaque message. Vide = elle dit « le proprietaire », jamais un prenom. On l'ecrit UNE FOIS, a l'installation (l'import le demande, ou on le tape ici a la main). UNE MISE A JOUR NE L'ECRASE JAMAIS : le programme refuse d'ecrire par-dessus un nom deja en place, et une ligne vide ne remplace jamais le nom connu. ATTENTION : si tu remplaces le dossier du programme par un zip neuf, garde CE fichier (ou retape le nom une fois).",
 
   "fenetre_max_caracteres": 80000,
   "fenetre_apres_rangement": 50000,

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """ESSAI DE « COMPRENDRE LA SITUATION » AVEC UN VRAI CERVEAU (piece 4, 20/10/2026).
 
-Onze situations (une petite conversation + la phrase de Fred), avec ce qu'on attend : de quoi il parle (la phrase de sens
+Onze situations (une petite conversation + la phrase recue), avec ce qu'on attend : de quoi elle parle (la phrase de sens
 doit contenir certains mots), quand, les dates (calculees par le programme), le vital, et si c'est trop flou.
 Rien n'est ecrit nulle part : sa vraie bibliotheque n'est ni lue ni touchee. Quelques appels courts : presque rien.
 """
@@ -13,20 +13,27 @@ import luciana_neuve as N
 C = N.coeur
 K = C.comprendre
 
+# L'ESSAI A BESOIN D'UN NOM DE PROPRIETAIRE. Le vrai vient du reglage (nouvelle/reglages.json, cle
+# « proprietaire ») : s'il est vide, l'essai se donne un nom de theatre. AUCUN prenom n'est en dur dans
+# le programme, et le fichier de reglages n'est pas touche.
+if not C.reglages()["proprietaire"]:
+    C.DEFAUT["proprietaire"] = "Thomas"
+PROPRIETAIRE = C.proprietaire()
+
 QUAND = "2026-10-20 18:00"
-# (conversation, phrase de Fred, attendu)
+# (conversation, phrase recue, attendu)
 #   attendu : mots = tous dans « de quoi » (sans accents), quand = un des choix, du/au, vital, flou (True = une question attendue)
 CAS = [
-    ("Fred : quand ma fille avait 8 ans, elle avait les cheveux tres longs.\nLuciana : Oui, tu me l'avais raconte.",
+    ("%s : quand ma fille avait 8 ans, elle avait les cheveux tres longs.\nLuciana : Oui, tu me l'avais raconte." % PROPRIETAIRE,
      "Et maintenant, elle les a comment ?", {"mots": ["fille", "cheveux"], "quand": ["maintenant", "recent"], "vital": False, "flou": False}),
     ("", "Est-ce que j'ai pris mon cachet ce matin ?",
      {"mots": ["cachet"], "quand": ["moment", "maintenant"], "du": "2026-10-20", "vital": True, "flou": False}),
     ("", "Qu'est-ce qu'on a fait hier sur le trading ?",
      {"mots": ["trading"], "quand": ["moment"], "du": "2026-10-19", "vital": False, "flou": False}),
-    ("Fred : hier tu as pris huit positions sur TradingView.\nLuciana : Oui, sur le compte demo.",
+    ("%s : hier tu as pris huit positions sur TradingView.\nLuciana : Oui, sur le compte demo." % PROPRIETAIRE,
      "Elles en sont ou, les positions ?", {"mots": ["position"], "quand": ["maintenant", "recent"], "vital": False, "flou": False}),
     ("", "Raconte-moi toute la vie de ma fille", {"mots": ["fille"], "quand": ["histoire"], "vital": False}),
-    ("Fred : je sors de chez le docteur Martin, il m'a change mon traitement.\nLuciana : D'accord, je le note.",
+    ("%s : je sors de chez le docteur Martin, il m'a change mon traitement.\nLuciana : D'accord, je le note." % PROPRIETAIRE,
      "Et lui, il pense que c'est grave ?", {"mots_un_de": ["martin", "docteur", "medecin"], "vital": True, "flou": False}),
     ("", "Le 2 octobre, on avait parle de quoi ?", {"quand": ["moment"], "du": "2026-10-02", "flou": False}),
     ("", "Et ca ?", {"flou": True}),

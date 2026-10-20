@@ -6,7 +6,7 @@ memoire, l'apprentissage, le choix des outils.
 Ce fichier ne fait que BRANCHER :
   - il charge l'ancien programme (luciana.py) comme il est, sans en changer une ligne ;
   - il remplace le trajet d'un message (/chat) par celui du coeur ;
-  - ce que l'ancien programme ecrivait dans son ancienne memoire (rapports de chantier, clics de Fred,
+  - ce que l'ancien programme ecrivait dans son ancienne memoire (rapports de chantier, clics sur les boutons,
     choses finies) part dans la NOUVELLE memoire ;
   - il ajoute a l'ecran : le dictaphone de Luminita (Chrome ecrit, Gemini corrige) et, dans le panneau
     « Etat », toutes les coulisses en quantites.
@@ -35,7 +35,7 @@ import coeur
 coeur.brancher(L)
 
 # --- Ce que la V198 ecrivait dans son ancienne memoire part dans la nouvelle ---------------------
-# --- LA NOUNOU EST RETIREE (demande de Fred, 19/10/2026) : elle retenait ses ecritures dans ses vieux
+# --- LA NOUNOU EST RETIREE (demande du 19/10/2026) : elle retenait ses ecritures dans ses vieux
 #     fichiers en attendant un clic. On prend l'interrupteur que la V198 a deja (celui de Luminita) :
 #     la nounou « n'existe pas » ici -> plus aucun blocage, plus de bouton ni de ligne « A valider ».
 L.nounou_existe = lambda: False
@@ -51,7 +51,7 @@ L.ajouter_a_la_memoire = lambda moi, elle, actions=None, note_lignes=None: (
 # =====================================================================================
 F_DICTAPHONE = os.path.join(coeur.DOSSIER, "dictaphone.json")
 DICTEE_MODELE = "gemini-3.7-flash"
-DICTEE_NOMS_PROPRES = ("Luminita", "Luciana", "Fred", "Daniela", "Madigane", "Aaron", "Altin", "Angelova",
+DICTEE_NOMS_PROPRES = ("Luminita", "Luciana", "{proprietaire}", "Daniela", "Madigane", "Aaron", "Altin", "Angelova",
                        "WhatsApp", "Satisfaire International", "Paysera", "eMAG", "Annecy", "Braila", "Brăila")
 DICTEE_MIMES = {"audio/wav", "audio/x-wav", "audio/webm", "audio/ogg", "audio/mp4", "audio/mpeg", "audio/aac",
                 "audio/flac", "video/webm"}
@@ -99,7 +99,7 @@ def dictaphone(son_b64, mime):
     parts = [{"text": DICTEE_CONSIGNE},
              {"text": "NOMS PROPRES A ECRIRE EXACTEMENT COMME CECI quand tu les entends dans ce son "
                       "(respecte les majuscules, n'en invente aucun autre, et n'ecris pas cette liste "
-                      "dans ta reponse) : %s" % ", ".join(DICTEE_NOMS_PROPRES)},
+                      "dans ta reponse) : %s" % coeur.avec_le_nom(", ".join(DICTEE_NOMS_PROPRES))},
              {"inline_data": {"mime_type": mime, "data": base64.b64encode(son).decode("ascii")}}]
     corps = {"contents": [{"role": "user", "parts": parts}],
              "generationConfig": {"temperature": 0, "maxOutputTokens": 4000}}
@@ -522,23 +522,23 @@ def verites_du_programme():
     return {
         "micro": ("Mon micro (le dictaphone) : comment il marche VRAIMENT aujourd'hui",
                   "Verite ecrite par le programme (nouvelle Luciana %s). Le bouton micro de ma page : Chrome ecrit les "
-                  "mots EN DIRECT pendant que Fred parle. Ensuite, si le reglage « Correction Gemini » est sur OUI, Gemini "
+                  "mots EN DIRECT pendant que {proprietaire} parle. Ensuite, si le reglage « Correction Gemini » est sur OUI, Gemini "
                   "(%s) reecoute le SON par morceaux de 2 a 6 secondes, coupes aux silences, et remplace le texte de Chrome "
                   "par ce qu'il a vraiment entendu ; un morceau sans vraie voix n'est jamais envoye ; si Gemini rate, le texte "
                   "de Chrome reste. REGLAGE ACTUEL : Correction Gemini = %s. Il faut la cle « gemini ». "
-                  "CE QUI N'EST PAS EN PLACE : la dictee Windows (Win+H) a ete essayee en V203 et ABANDONNEE par Fred le "
+                  "CE QUI N'EST PAS EN PLACE : la dictee Windows (Win+H) a ete essayee en V203 et ABANDONNEE le "
                   "19/10/2026 (« c'est une catastrophe ») ; il n'y a aucun selecteur de langue qui commande le micro. "
-                  "Si Fred dit que la dictee ecrit mal : je ne devine pas la cause, je lui demande UN exemple exact (ce qu'il "
-                  "a dit / ce qui s'est ecrit) et je lui dis si la Correction Gemini est sur oui ou non."
+                  "Si on me dit que la dictee ecrit mal : je ne devine pas la cause, je demande UN exemple exact (ce qui "
+                  "a ete dit / ce qui s'est ecrit) et je dis si la Correction Gemini est sur oui ou non."
                   % (VERSION, DICTEE_MODELE, "OUI" if payant else "NON (seulement Chrome)")),
         "moi": ("Qui je suis aujourd'hui : la nouvelle Luciana, et ce qui n'existe pas",
-                "Verite ecrite par le programme. Je suis la nouvelle Luciana (%s), sur le PC de Fred : l'ecran et les "
+                "Verite ecrite par le programme. Je suis la nouvelle Luciana (%s), sur le PC de {proprietaire} : l'ecran et les "
                 "outils de la V198, avec un coeur neuf (une seule bibliotheque dans ~/Luciana_neuve ; a chaque message mon "
-                "bibliothecaire lit les fiches proches et relit ma reponse avec toutes les regles de Fred ; j'apprends apres "
-                "chaque echange). LUMINITA est un AUTRE programme : le produit que Fred vend a ses clientes, sur leurs PC ; "
-                "je ne suis pas Luminita. LUMINITO N'EXISTE PAS : c'est seulement une idee de Fred (un personnage de petit "
-                "mecano), rien n'est fabrique. Quand Fred me parle de « mon » dictaphone, de « ma » page, de « mes » "
-                "reglages, il parle de MOI, Luciana, sauf s'il nomme Luminita." % VERSION),
+                "bibliothecaire lit les fiches proches et relit ma reponse avec toutes les regles donnees ; j'apprends apres "
+                "chaque echange). LUMINITA est un AUTRE programme : le produit vendu aux clientes, sur leurs PC ; "
+                "je ne suis pas Luminita. LUMINITO N'EXISTE PAS : c'est seulement une idee (un personnage de petit "
+                "mecano), rien n'est fabrique. Quand on me parle de « mon » dictaphone, de « ma » page, de « mes » "
+                "reglages, on parle de MOI, Luciana, sauf si on nomme Luminita." % VERSION),
     }
 
 

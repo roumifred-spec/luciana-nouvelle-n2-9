@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
-"""L'ARCHIVISTE QUI RANGE ET DIVISE -- piece 2 de la bibliotheque rangee (decidee avec Fred le 20/10/2026).
+"""L'ARCHIVISTE QUI RANGE ET DIVISE -- piece 2 de la bibliotheque rangee (decidee le 20/10/2026).
 
-ON FABRIQUE UN FABRICANT, PAS DES CATEGORIES (Fred). Ce fichier ne contient AUCUNE categorie : il donne a
+ON FABRIQUE UN FABRICANT, PAS DES CATEGORIES. Ce fichier ne contient AUCUNE categorie : il donne a
 l'archiviste des REGLES DE FONCTIONNEMENT (celles d'un cerveau humain qui range sa memoire), et c'est lui qui
 cree les categories et sous-categories, par le sens, comme un psychologue.
 
 CE QU'IL FAIT :
   1. RANGER : chaque fiche pas encore rangee recoit son tiroir (categorie > sous-categorie > ...), qu'il choisit
      ou qu'il cree. Le moteur Google lui montre d'abord les tiroirs et les fiches les plus proches par le sens
-     (idee de Fred) : il ne relit jamais toute la bibliotheque, seulement le plan + les fiches neuves.
+     : il ne relit jamais toute la bibliotheque, seulement le plan + les fiches neuves.
   2. CE QUI CHANGE : si une fiche neuve rend fausse aujourd'hui une fiche deja rangee (nouveau traitement, nouvelle
      methode, nouvelle adresse...), l'ancienne est marquee « remplacee », jamais effacee. S'il revient a l'ancienne
      facon, la nouvelle passe aux archives et l'ancienne est reliee (elle peut la rouvrir en entier).
   3. LE VITAL : il dit pour chaque fiche si c'est vital, de la vie courante ou de l'amusement (dans le doute : vital).
   4. DIVISER : quand un tiroir atteint le seuil (40 par defaut, avant 50), il le divise lui-meme en sous-tiroirs,
-     avec le critere de sens qui convient a CE sujet, en pensant aux questions que Fred posera.
+     avec le critere de sens qui convient a CE sujet, en pensant aux questions qu'on posera.
 
 Le PROGRAMME, lui : ne range jamais rien seul, ne coupe jamais une fiche, n'efface rien, tient les comptes et les
 dates, et garde le travail sur le disque (plan.json). Un seul rangement a la fois, meme entre deux programmes.
@@ -82,15 +82,15 @@ REGLES = (
     "TES REGLES DE FONCTIONNEMENT (celles d'une personne qui range sa propre memoire) :\n"
     "1. Tu ranges chaque fiche par son SUJET DE SENS : de quoi parle vraiment ce moment, comme un psychologue, "
     "jamais d'apres les mots qu'elle contient.\n"
-    "2. LES GRANDES CATEGORIES : chaque grand domaine de la vie de Fred a la sienne (par exemple sa vie privee, son "
+    "2. LES GRANDES CATEGORIES : chaque grand domaine de la vie de {proprietaire} a la sienne (par exemple sa vie privee, son "
     "travail, sa sante, ses projets... c'est toi qui les nommes). Si une fiche releve d'un AUTRE DOMAINE de la vie "
     "qu'aucune grande categorie existante, tu CREES cette grande categorie tout de suite, avec une phrase de sens "
     "(jamais le travail range dans la vie privee, ni l'inverse). Jamais de fourre-tout (« Divers », « Autres »).\n"
-    "   LES SOUS-TIROIRS : tu ranges dans le tiroir QUI EXISTE DEJA le plus precis, avec son chemin EXACT, la ou Fred "
+    "   LES SOUS-TIROIRS : tu ranges dans le tiroir QUI EXISTE DEJA le plus precis, avec son chemin EXACT, la ou on "
     "la chercherait dans 10 ans. Tu ne crees PAS de sous-tiroir pour mieux ranger : si tu ecris un sous-tiroir qui "
     "n'existe pas, le programme range la fiche dans le tiroir juste au-dessus ; les sous-tiroirs naissent a la "
     "division, quand un tiroir approche du plafond.\n"
-    "3. LE TRI DEVIENT FIN AVEC LE TEMPS, PAS AVANT (regle de Fred) : un tiroir de quelques fiches n'a pas besoin "
+    "3. LE TRI DEVIENT FIN AVEC LE TEMPS, PAS AVANT : un tiroir de quelques fiches n'a pas besoin "
     "d'etre decoupe ; on decoupe seulement quand le plafond approche, et alors en pensant aux sujets qui vont "
     "ENSEMBLE (sa fille + l'ecole + ses cheveux).\n"
     "4. CE QUI CHANGE : si une fiche neuve rend FAUSSE AUJOURD'HUI une fiche deja rangee (nouveau traitement, "
@@ -103,7 +103,7 @@ REGLES = (
     "\"loisir\" (l'amusement). Dans le doute : vital.\n"
     "6. Une fiche qui parle VRAIMENT de deux sujets peut avoir d'autres tiroirs EXISTANTS dans \"aussi\".\n"
     "7. Tu ne coupes, ne resumes et ne reecris jamais une fiche : tu ranges seulement.\n"
-    "8. Tu nommes les categories et ecris leurs phrases de sens dans la langue de Fred (celle de ses fiches), quelle "
+    "8. Tu nommes les categories et ecris leurs phrases de sens dans la langue des fiches, quelle "
     "qu'elle soit ; les mots \"vital\", \"courant\", \"loisir\" du JSON restent ces mots-la.\n")
 
 
@@ -127,7 +127,7 @@ def _trouver(noms):
 
 
 def _tiroir_pour_ranger(noms, sens=""):
-    """LA REGLE DE FRED, TENUE PAR LE PROGRAMME : « le tri devient fin avec le temps, pas avant ».
+    """LA REGLE TENUE PAR LE PROGRAMME : « le tri devient fin avec le temps, pas avant ».
     L'archiviste choisit librement le chemin. On descend dans les tiroirs QUI EXISTENT ; si le niveau suivant n'existe
     pas, la fiche reste dans le tiroir existant juste au-dessus (il sera divise quand il approchera du plafond, en
     voyant TOUTES ses fiches ensemble). Un sujet vraiment nouveau cree sa grande categorie, et rien d'autre."""
@@ -230,7 +230,7 @@ def _consigne_ranger(lot, toutes):
                 for v in voisines)
         blocs.append(b)
     return (
-        "TU ES L'ARCHIVISTE DE LA BIBLIOTHEQUE DE FRED. Tu ranges des fiches neuves dans son plan.\n\n" + REGLES +
+        "TU ES L'ARCHIVISTE DE CETTE BIBLIOTHEQUE. Tu ranges des fiches neuves dans son plan.\n\n" + REGLES +
         "\nLE PLAN ACTUEL (chaque tiroir : son chemin, son nombre de fiches, ses dates, sa phrase de sens) :\n" +
         (cat or "(vide : c'est toi qui crees les premieres categories. Exemples de grandes categories possibles, "
                 "pas obligatoires : Professionnel, Projets, Vie privee, Regles pour l'assistante, Ordinateur et outils.)") +
@@ -302,15 +302,15 @@ def _consigne_diviser(tid, toutes):
                  "les titres ont ete ecrits pour dire de quoi parle la fiche.)\n" + "\n".join(co.titre(f) for f in dedans))
     t = p["tiroirs"][tid]
     return dedans, (
-        "TU ES L'ARCHIVISTE DE LA BIBLIOTHEQUE DE FRED. Un tiroir est devenu trop gros : tu le DIVISES.\n\n" + REGLES +
+        "TU ES L'ARCHIVISTE DE CETTE BIBLIOTHEQUE. Un tiroir est devenu trop gros : tu le DIVISES.\n\n" + REGLES +
         "\nLE TIROIR A DIVISER : %s -- %d fiches rangees directement dedans -- sens : %s\n"
         "SES SOUS-TIROIRS DEJA EXISTANTS : %s\n\n"
         "SES FICHES :\n%s\n\n"
         "TON TRAVAIL : repartis ces fiches dans QUELQUES GRANDS SOUS-TIROIRS de ce tiroir (en general 2 a 5), par "
         "le sens : juste ce qu'il faut pour que chacun reste nettement sous %d fiches, et pas plus. Chaque sous-tiroir "
         "regroupe PLUSIEURS fiches (jamais une seule) ; le tri plus fin viendra plus tard, quand un de ces "
-        "sous-tiroirs se remplira a son tour (regle de Fred : le tri devient fin avec le temps). Choisis le critere qui convient a CE sujet (une periode, un lieu, une personne, un "
-        "theme, les bons et les mauvais moments...) : pense aux questions que Fred posera un jour, et a ce qu'il "
+        "sous-tiroirs se remplira a son tour (le tri devient fin avec le temps). Choisis le critere qui convient a CE sujet (une periode, un lieu, une personne, un "
+        "theme, les bons et les mauvais moments...) : pense aux questions qu'on posera un jour, et a ce qu'on "
         "demandera ENSEMBLE. Tu peux reprendre un sous-tiroir existant (meme nom). Chaque fiche va dans un "
         "sous-tiroir ; une fiche vraiment generale peut rester ou elle est (ne la cite pas).\n"
         "Reponds UNIQUEMENT en JSON strict : {\"sous_tiroirs\": [{\"nom\": \"...\", \"sens\": \"...\", "
@@ -325,7 +325,7 @@ def diviser(tid):
     toutes = co.fiches(toutes=True)
     dedans, consigne = _consigne_diviser(tid, toutes)
     nums = {int(f["n"]) for f in dedans}
-    brut, panne = co.appel_simple(co.reglages()["cerveau_archiviste"], "Tu es l'archiviste de la memoire de Fred. JSON strict.",
+    brut, panne = co.appel_simple(co.reglages()["cerveau_archiviste"], "Tu es l'archiviste de cette memoire. JSON strict.",
                                   consigne, "archiviste_division", reflechir=True, max_tokens=8000)
     d = co.json_dans(brut)
     sous = (d or {}).get("sous_tiroirs") if isinstance(d, dict) else None
@@ -389,7 +389,7 @@ def ranger_le_neuf(tout=False, lots_max=LOTS_PAR_TOUR, dire=None):
                 if lots_max and i >= lots_max:
                     break
                 brut, panne = co.appel_simple(co.reglages()["cerveau_archiviste"],
-                                              "Tu es l'archiviste de la memoire de Fred. JSON strict.",
+                                              "Tu es l'archiviste de cette memoire. JSON strict.",
                                               _consigne_ranger(lot, co.fiches(toutes=True)), "archiviste_plan",
                                               reflechir=False, max_tokens=8000)
                 d = co.json_dans(brut)

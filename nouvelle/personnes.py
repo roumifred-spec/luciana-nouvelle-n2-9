@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""LE REGISTRE DES PERSONNES -- etape b, decidee avec Fred le 20/10/2026.
+"""LE REGISTRE DES PERSONNES -- etape b, decidee le 20/10/2026.
 
 LA REGLE : la memoire ne suppose PERSONNE. Ni un proprietaire, ni l'assistante, ni « deux personnes ». Le registre est
 OUVERT : un nombre quelconque de personnes, il grandit a l'usage, et une machine neuve part VIDE.
@@ -177,6 +177,46 @@ def poser_role(pid, role):
             _sauver(r)
 
 
+ROLE_PROPRIETAIRE = "proprietaire"
+
+
+def qui_est_le_proprietaire():
+    """Le pN qui porte le role « proprietaire », ou « » s'il n'y en a pas.
+    « proprietaire » est une DONNEE d'une personne du registre, pas une place fixe du programme."""
+    for pid in sorted(personnes(), key=lambda k: int(k[1:]) if k[1:].isdigit() else 0):
+        if any(x.get("role") == ROLE_PROPRIETAIRE and not x.get("fin")
+               for x in personnes()[pid].get("roles", [])):
+            return pid
+    return ""
+
+
+def poser_le_proprietaire(nom, comment="dit (import)", date="", message_n=0):
+    """A L'IMPORT : la personne a qui est cette memoire entre au registre (p1 sur une machine neuve).
+    Ses propres messages la nomment : « dit », et on dit d'ou ca vient : « (import) ».
+    JAMAIS DEUX FOIS : si quelqu'un porte deja le role, on le garde. Si une seule personne porte deja ce
+    nom, on lui pose le role (pas de double). Si plusieurs le portent, on ne choisit pas a sa place.
+    Rend (pid ou « », ce qui a ete fait)."""
+    with _verrou:
+        deja = qui_est_le_proprietaire()
+        nom = " ".join(str(nom or "").split())[:120]
+        if deja:
+            if nom and not any(_net(a["nom"]) == _net(nom) for a in personnes()[deja]["appellations"]):
+                ajouter_appellation(deja, nom)
+                return deja, "role deja en place ; « %s » ajoute a ses appellations" % nom
+            return deja, "role deja en place"
+        if not nom:
+            return "", "aucun nom donne : rien n'est ecrit"
+        memes = trouver(nom)
+        if len(memes) == 1:
+            poser_role(memes[0], ROLE_PROPRIETAIRE)
+            return memes[0], "role pose sur %s, deja au registre" % memes[0]
+        if len(memes) > 1:
+            return "", "%d personnes portent « %s » : je ne choisis pas a ta place" % (len(memes), nom)
+        pid = ajouter_personne(nom, comment, message_n=message_n, date=date)
+        poser_role(pid, ROLE_PROPRIETAIRE)
+        return pid, "personne creee"
+
+
 def trouver(nom):
     """Les personnes qui ont deja cette appellation (sans accents ni majuscules)."""
     n = _net(nom)
@@ -195,6 +235,13 @@ def homonymes(pid):
     noms = {_net(a["nom"]) for a in p["appellations"] if not a.get("par")}
     return sorted(q for q, x in personnes().items() if q != pid
                   and any(_net(a["nom"]) in noms for a in x["appellations"] if not a.get("par")))
+
+
+def combien_de_ce_nom(nom):
+    """COMBIEN de personnes du registre portent ce nom (leur nom a elles, pas « maman » dit par quelqu'un).
+    0 = personne ne le porte ; 1 = une seule ; 2 ou plus = on ne choisit pas a sa place, on demande.
+    ON NE FUSIONNE JAMAIS : deux personnes du meme prenom restent deux fiches distinctes."""
+    return trouver(nom)
 
 
 def nom_de(pid):
@@ -246,7 +293,7 @@ def _dt(d):
 
 
 def nouvelle_session(date_message):
-    """(oui/non, raison). Les trois cas de Fred : redemarrage, changement de date, 3 heures de silence."""
+    """(oui/non, raison). Les trois cas : redemarrage, changement de date, 3 heures de silence."""
     avant = derniere_attribution()
     if not avant:
         return True, "premier message"
@@ -279,6 +326,13 @@ def pour_comprendre(date_message):
 
 
 QUESTION_SECOURS = "Pour être sûre de bien noter : qui m'écrit ?"
+
+
+def question_de_qui(nom):
+    """Quand plusieurs personnes du registre portent le meme nom et que rien ne les distingue : on demande.
+    On ne choisit pas a sa place, et on ne fabrique pas une personne de plus."""
+    return ("Il y a plusieurs « %s » dans ce que je connais : de laquelle parles-tu ?" % nom) if nom \
+        else "De quelle personne parles-tu, exactement ?"
 
 
 def attribuer(n, date_message, compris, vital=False):
@@ -328,7 +382,12 @@ def attribuer(n, date_message, compris, vital=False):
                 nouvelles.append(parle)
     if parle == "inconnu" and vital and not question:
         question = QUESTION_SECOURS          # un geste vital ne se range pas sur une personne inconnue sans demander
-    de_qui = []
+    # ------------------------------------------------------------------ DE QUI ON PARLE
+    # Meme comptage des homonymes que pour « qui parle » : le PROGRAMME compte, il ne choisit pas a la place
+    # du sens. Une seule personne de ce nom -> c'est elle. DEUX OU PLUS et rien ne les distingue -> on NE
+    # FUSIONNE PAS, on ne fabrique pas un double, et on POSE UNE QUESTION. Personne de ce nom -> une personne
+    # de plus au registre (deux personnes du meme prenom = deux fiches distinctes, pour toujours).
+    de_qui, ambigus = [], []
     for x in compris.get("de_qui") or []:
         if not isinstance(x, dict):
             continue
@@ -336,16 +395,30 @@ def attribuer(n, date_message, compris, vital=False):
         nom = " ".join(str(x.get("nouveau") or "").split())
         appel = " ".join(str(x.get("appellation") or "").split())
         lien = " ".join(str(x.get("lien") or "").split())
+        distingue_ici = " ".join(str(x.get("distingue") or "").split())[:300]
         if num in personnes():
+            autres = homonymes(num)
+            if autres and not distingue_ici:
+                ambigus.append("« %s » : %d personnes portent ce nom (%s) et rien ne les distingue : je demande"
+                               % (nom_de(num) or num, len(autres) + 1, ", ".join(sorted([num] + autres))))
+                question = question or question_de_qui(nom_de(num) or nom)
+                continue
             pid = num
-        elif nom and len(trouver(nom)) == 1:
-            pid = trouver(nom)[0]
-        elif nom and trouver(nom):
-            de_qui.append("ambigu : " + " | ".join(trouver(nom)))
-            continue
+            if autres:
+                ambigus.append("« %s » distinguee de %s : %s" % (nom_de(num), ", ".join(autres), distingue_ici))
         elif nom:
-            pid = ajouter_personne(nom, "deduit", par=parle if parle != "inconnu" else "", message_n=n, date=date_message)
-            nouvelles.append(pid)
+            deja = combien_de_ce_nom(nom)
+            if len(deja) == 1:
+                pid = deja[0]                       # une seule personne de ce nom : c'est elle (une parole, pas une preuve)
+            elif deja:
+                ambigus.append("« %s » colle a %d personnes (%s) : je ne choisis pas, je demande"
+                               % (nom, len(deja), ", ".join(deja)))
+                question = question or question_de_qui(nom)
+                continue
+            else:
+                pid = ajouter_personne(nom, "deduit", par=parle if parle != "inconnu" else "", message_n=n,
+                                       date=date_message)
+                nouvelles.append(pid)
         else:
             continue
         if pid == parle:
@@ -358,7 +431,7 @@ def attribuer(n, date_message, compris, vital=False):
         if pid not in de_qui:
             de_qui.append(pid)
     e = {"n": int(n or 0), "date": str(date_message)[:16], "parle": parle, "comment": comme, "raison": raison,
-         "de_qui": de_qui, "question_qui": question, "note_le": _maintenant()}
+         "de_qui": de_qui, "de_qui_ambigus": ambigus, "question_qui": question, "note_le": _maintenant()}
     with _verrou:
         with open(F_QUI, "a", encoding="utf-8") as f:
             f.write(json.dumps(e, ensure_ascii=False) + "\n")
