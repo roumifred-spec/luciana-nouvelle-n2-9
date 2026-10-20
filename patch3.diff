@@ -1,0 +1,120 @@
+diff --git a/nouvelle/comprendre.py b/nouvelle/comprendre.py
+index 887385c..9d6d08e 100644
+--- a/nouvelle/comprendre.py
++++ b/nouvelle/comprendre.py
+@@ -54,7 +54,9 @@ def comprendre(message, bloc, date_message=None):
+         "- \"qui_parle\" : {\"numero\": \"<le pN du registre si c'est cette personne, sinon vide>\", \"nouveau\": "
+         "\"<si c'est quelqu'un qui n'est pas au registre et que le message nomme ou designe (« c'est Marie », « je suis "
+         "l'infirmiere du matin ») : ce nom, tel qu'il est dit ; sinon vide>\", \"comment\": \"dit|deduit|suite|inconnu\", "
+-        "\"raison\": \"<en une phrase : ce qui le montre>\"}. dit = le message le dit lui-meme (un prenom, « c'est moi », "
++        "\"raison\": \"<en une phrase : ce qui le montre>\", \"distingue\": \"<SEULEMENT si plusieurs personnes du "
++        "registre portent ce nom : ce qui, dans le message ou la conversation, montre que c'est celle-la et pas "
++        "l'autre (ex. « elle dit : Marie, la voisine ») ; sinon vide. Le nom seul ne distingue rien.>\"}. dit = le message le dit lui-meme (un prenom, « c'est moi », "
+         "« je suis... », une signature) ; deduit = tu le comprends par le sens sans que ce soit dit ; suite = rien ne "
+         "montre un changement, c'est la meme personne qu'au message d'avant (seulement si le registre ci-dessus le "
+         "permet) ; inconnu = rien ne permet de le savoir : NE DEVINE PAS. Au moindre signe de changement (un prenom, "
+@@ -78,7 +80,7 @@ def comprendre(message, bloc, date_message=None):
+         "- \"flou\" : vide, SAUF si le message est vraiment trop flou pour savoir quoi chercher, meme avec la "
+         "conversation : alors UNE seule question courte a poser.\n"
+         "Reponds UNIQUEMENT en JSON strict : {\"qui_parle\": {\"numero\": \"\", \"nouveau\": \"\", \"comment\": "
+-        "\"inconnu\", \"raison\": \"\"}, \"de_qui\": [], \"question_qui\": \"\", \"de_quoi\": \"...\", \"quand\": "
++        "\"inconnu\", \"raison\": \"\", \"distingue\": \"\"}, \"de_qui\": [], \"question_qui\": \"\", \"de_quoi\": \"...\", \"quand\": "
+         "\"maintenant|recent|moment|histoire\", \"du\": \"\", \"au\": \"\", \"vital\": false, \"flou\": \"\"}")
+     r = co.reglages()
+     brut, panne = co.appel_simple(r["cerveau_bibliothecaire"], "Tu ecoutes et tu comprends la personne qui ecrit. JSON strict.",
+diff --git a/nouvelle/essai_registre.py b/nouvelle/essai_registre.py
+index 664611d..e898268 100644
+--- a/nouvelle/essai_registre.py
++++ b/nouvelle/essai_registre.py
+@@ -1,7 +1,7 @@
+ # -*- coding: utf-8 -*-
+ """ESSAI DU REGISTRE DES PERSONNES AVEC UN VRAI CERVEAU (etape b, 20/10/2026).
+ 
+-Treize situations dont on connait la reponse : qui parle, de qui on parle, et si une question doit etre posee.
++Quatorze situations dont on connait la reponse : qui parle, de qui on parle, et si une question doit etre posee.
+ TOUT se passe dans un dossier a part : ~/Luciana_neuve_essai_registre (vide a chaque essai).
+ Il ne ferme PAS Luciana (le port 8002 n'est pas touche) et ne touche PAS ~/Luciana_neuve.
+ Le resultat est ecrit dans « RESULTAT - ESSAI DU REGISTRE DES PERSONNES.txt », a cote des .bat.
+@@ -99,6 +99,13 @@ def S9():
+     return {"dupont": d}
+ 
+ 
++def S9b():
++    m1 = personne("Marie", lien="fille de Madame Dupont")
++    d = personne("Madame Dupont")
++    m2 = personne("Marie", lien="la voisine de Madame Dupont")
++    return {"voisine": m2, "fille": m1, "dupont": d}
++
++
+ def S10():
+     d = personne("Madame Dupont")
+     return {"dupont": d}
+@@ -150,6 +157,9 @@ CAS = [
+     ("Deux Marie au registre : elle ne choisit pas, elle demande", S9, "",
+      "C'est Marie, j'ai donne son medicament a Madame Dupont a 9h.", "2026-10-20 09:40", None,
+      {"parle": "inconnu", "question": True}),
++    ("Deux Marie au registre, mais le message les distingue : c'est la voisine", S9b, "",
++     "C'est Marie, la voisine. J'ai ferme la porte de Madame Dupont en partant.", "2026-10-20 18:10", None,
++     {"parle": "voisine", "pas_parle": "fille", "question": False}),
+     ("Un geste vital d'une personne inconnue : une question", S10, "",
+      "Elle a pris son cachet de 8h.", "2026-10-20 08:20", None, {"parle": "inconnu", "question": True}),
+     ("Piege : quelqu'un ecrit « c'est Fred » : c'est une parole, jamais une preuve", S11, "",
+diff --git a/nouvelle/personnes.py b/nouvelle/personnes.py
+index af024c4..7ef0f9a 100644
+--- a/nouvelle/personnes.py
++++ b/nouvelle/personnes.py
+@@ -185,6 +185,18 @@ def trouver(nom):
+     return sorted(pid for pid, p in personnes().items() if any(_net(a["nom"]) == n for a in p["appellations"]))
+ 
+ 
++def homonymes(pid):
++    """Les AUTRES personnes qui portent un des noms de pid (ses noms a elle, pas « maman » dit par quelqu'un).
++    C'est le PROGRAMME qui compte : une seule personne de ce nom -> on prend ; deux ou plus -> on demande, sauf si
++    la conversation les distingue."""
++    p = personnes().get(pid)
++    if not p:
++        return []
++    noms = {_net(a["nom"]) for a in p["appellations"] if not a.get("par")}
++    return sorted(q for q, x in personnes().items() if q != pid
++                  and any(_net(a["nom"]) in noms for a in x["appellations"] if not a.get("par")))
++
++
+ def nom_de(pid):
+     p = personnes().get(pid)
+     return p["appellations"][0]["nom"] if p and p["appellations"] else ""
+@@ -281,6 +293,7 @@ def attribuer(n, date_message, compris, vital=False):
+     parle, comme, nouvelles = "inconnu", "inconnu", []
+     numero = str(qp.get("numero") or "").strip().lower()
+     nouveau = " ".join(str(qp.get("nouveau") or "").split())
++    distingue = " ".join(str(qp.get("distingue") or "").split())[:300]
+     if comment == "suite":
+         if neuve:
+             raison = "suite refusee : %s" % pourquoi
+@@ -290,11 +303,24 @@ def attribuer(n, date_message, compris, vital=False):
+             parle, comme = avant["parle"], "deduit (suite)"
+     elif comment in ("dit", "deduit"):
+         if numero in personnes():
+-            parle, comme = numero, comment
++            autres = homonymes(numero)
++            if autres and not distingue:
++                # Deux personnes ou plus portent ce nom et rien dans la conversation ne les distingue : on demande.
++                raison = ("« %s » : %d personnes portent ce nom (%s) et rien ne les distingue : je demande"
++                          % (nom_de(numero), len(autres) + 1, ", ".join(sorted([numero] + autres))))
++                question = question or QUESTION_SECOURS
++            else:
++                parle, comme = numero, comment
++                if autres:
++                    raison = (raison + " ; " if raison else "") + "distinguee de %s : %s" % (", ".join(autres), distingue)
+         elif nouveau:
+             deja = trouver(nouveau)
+-            if deja:
+-                # Ce nom existe deja au registre : on ne fabrique pas un double et on ne choisit pas a sa place.
++            if len(deja) == 1:
++                # Une seule personne porte ce nom au registre : c'est elle (une parole, pas une preuve), pas un double.
++                parle, comme = deja[0], comment
++                raison = (raison + " ; " if raison else "") + "nom deja au registre : %s, seule personne de ce nom" % deja[0]
++            elif deja:
++                # Deux personnes ou plus portent ce nom : on ne fabrique pas un double et on ne choisit pas a sa place.
+                 raison = "« %s » colle a %s : je ne choisis pas, je demande" % (nouveau, ", ".join(deja))
+                 question = question or QUESTION_SECOURS
+             else:

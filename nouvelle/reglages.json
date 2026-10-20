@@ -1,0 +1,29 @@
+{
+  "_a_quoi_ca_sert": "LES REGLAGES DES COULISSES DE LA NOUVELLE LUCIANA, ET NULLE PART AILLEURS. Relus a chaque message. RIEN N'EST JAMAIS COUPE : ces nombres limitent COMBIEN de choses on lui donne d'un coup, jamais leur longueur.",
+
+  "fenetre_max_caracteres": 80000,
+  "fenetre_apres_rangement": 50000,
+  "_fenetre": "La conversation du jour qu'elle a sous les yeux (le meme bloc pour elle et le bibliothecaire). Au-dela de 80 000, l'archiviste range les plus vieux messages MOT POUR MOT jusqu'a 50 000.",
+
+  "bibliothecaire_lit_combien": 30,
+  "_bibliothecaire_lit_combien": "A chaque message, le moteur de sens sort ce nombre de fiches ; le bibliothecaire les lit EN ENTIER avec ta conversation et ton message, et garde celles qui servent.",
+  "fiches_donnees_max": 10,
+  "_fiches_donnees_max": "Combien de fiches gardees elle recoit EN ENTIER d'un coup. Les suivantes sont nommees (titre), elle peut les ouvrir en entier.",
+  "cerveau_bibliothecaire": "deepseek-flash",
+  "reflexion_bibliothecaire": true,
+  "bibliothecaire_plafond_secondes": 180,
+
+  "cerveau_archiviste": "deepseek-flash",
+  "apprentissage": true,
+  "_apprentissage": "true = apres chaque echange, l'archiviste range tout seul (sans clic) ce que ce moment lui apprend.",
+
+  "outils_proposes": 5,
+  "_outils_proposes": "Combien d'outils de la V198 sont mis dans sa main a chaque message, choisis par le sens de ta phrase. Les autres, elle les trouve (trouver_un_outil).",
+  "outils_actifs_max": 10,
+  "diviser_a_partir_de": 40,
+  "_diviser_a_partir_de": "LA BIBLIOTHEQUE RANGEE (20/10/2026) : quand un tiroir a ce nombre de fiches rangees directement dedans, l'archiviste le divise lui-meme en sous-tiroirs, par le sens (avant 50).",
+  "bibliotheque_rangee": false,
+  "_bibliotheque_rangee": "false tant que la bibliotheque rangee n'est pas finie (pieces 3 a 6) : l'archiviste ne range PAS le plan apres chaque message. L'essai (5 - ESSAI DE L'ARCHIVISTE) marche quand meme.",
+  "passage_caracteres": 1200,
+  "_passage_caracteres": "Pour le SENS seulement : chaque fiche est lue par passages de phrases entieres de cette taille environ. La fiche, elle, est toujours donnee en entier."
+}

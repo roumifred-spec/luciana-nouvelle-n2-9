@@ -1,0 +1,153 @@
+=====================================================================
+ CE QUE LUCIANA DOIT LANCER, DANS L'ORDRE — CHANTIER v153
+ (quand Fred clique, ca lance le travail ; et le menage de son panneau)
+=====================================================================
+
+Le code est DEJA ecrit dans luciana.py, dans le dossier du chantier.
+Rien n'a ete execute, rien n'a ete pose chez Fred, rien n'a ete teste,
+rien n'a ete compile, rien n'a ete sauvegarde. C'est TOI qui executes.
+Dans cet ordre, et pas dans un autre.
+
+ORDRE DE FRED (09/10/2026, 19h01), ses mots exacts :
+  "alors occupe-toi de tout le menage la regle et surtout que quand je
+   clique valider que ca lance le systeme que ca te le dise et que tu
+   lances le ce qu'on a valide"
+
+---------------------------------------------------------------------
+ETAPE 0 — RELEVER LES DEUX POINTS DU FICHIER D'AVANT (avant tout)
+---------------------------------------------------------------------
+Sur le PC de Fred, sur le luciana.py QUI TOURNE AUJOURD'HUI (la v150),
+releve ses DEUX points et garde-les :
+
+   powershell -c "(Get-Item luciana.py).Length"
+   powershell -c "(Get-FileHash luciana.py -Algorithm SHA256).Hash"
+
+Ces deux chiffres, c'est TOI qui les as. Je ne les ai pas inventes et
+je ne les ai pas devines.
+
+---------------------------------------------------------------------
+ETAPE 1 — LA SAUVEGARDE DATEE (jamais sauter cette etape)
+---------------------------------------------------------------------
+   python _faire_la_sauvegarde_v153_le_clic_qui_lance.py <taille> <empreinte>
+
+(les deux arguments sont ceux de l'etape 0 ; sans eux le script fait
+quand meme la sauvegarde mais il DIT qu'il n'a pas pu comparer)
+
+Ce script sort le programme d'AVANT de l'historique git (commit 9275a04)
+et l'ecrit sous :
+   SAUVEGARDE_luciana_v150_avant_v153_le_clic_qui_lance_2026-10-09.py
+Il NE copie PAS luciana.py : a ce stade luciana.py est deja la v153, le
+copier donnerait une sauvegarde qui mentirait sur son nom.
+Il refuse d'ecraser une sauvegarde qui existe deja.
+
+   -> Si ce script dit RATE : ON S'ARRETE LA. Pas de sauvegarde, pas de pose.
+
+---------------------------------------------------------------------
+ETAPE 2 — LE CONTROLE (zero centime, aucun appel paye)
+---------------------------------------------------------------------
+   python _verif_v153_le_clic_qui_lance.py
+
+Il fait tourner LE VRAI CODE de luciana.py dans un dossier temporaire
+jetable (il ne lance ni Chrome ni git), et il verifie, dans l'ordre du
+chantier :
+
+   A) le dossier de travail est retenu ET donne (c'est la panne mesuree :
+      "Je ne sais pas OU aller chercher le code") ;
+   B) la demande de clic s'efface quand le travail est fait ;
+   C) le menage ne fabrique plus de nouveau clic (les 5 gestes) ;
+   D) le verrou reste ENTIER pour tout ce qui est nouveau (consigne,
+      souvenir, carnet, creation d'une chose en cours) ;
+   E) le panneau ne montre que ce qui attend sa decision ;
+   F) quand Fred clique, le programme me le DIT ;
+   G) chez Luminita : rien du tout ;
+   H) rien n'est casse (compilation, badge v153, tous les reperes).
+
+   -> Sortie 0 = tout est vert. Sortie 1 = il y a du rouge : NE PAS POSER,
+      DIRE LES LIGNES ROUGES A FRED AVANT, et reprendre le fichier d'avant :
+         git show 9275a04:luciana.py > luciana.py
+
+---------------------------------------------------------------------
+ETAPE 3 — LA POSE, SEULEMENT SI L'ETAPE 2 EST VERTE
+---------------------------------------------------------------------
+Copier luciana.py du dossier du chantier vers le dossier du programme
+chez Fred, puis relancer Luciana (Demarrer Luciana.bat).
+
+---------------------------------------------------------------------
+ETAPE 4 — LE TEST SUR DU REEL (c'est la seule vraie preuve)
+---------------------------------------------------------------------
+a) Le badge en haut de la page doit dire : ton amie - v153.
+
+b) LE POINT QUI COMPTE LE PLUS POUR FRED — "quand je clique, ca lance
+   le travail". Lancer un petit chantier en mode correction, puis
+   cliquer sur VALIDER. Ensuite, appeler l'outil recuperer_code.
+   Il ne doit PLUS JAMAIS repondre :
+      "Je ne sais pas OU aller chercher le code"
+   Il doit repondre, en premiere ligne :
+      "Dossier de travail : <le dossier du programme chez Fred>"
+   Et verifier dans ~/Luciana/chantiers_suivis.json que la fiche du
+   chantier porte bien un "dossier" NON VIDE.
+
+   SI ELLE EST ENCORE VIDE : ce n'est pas un bug a deviner, c'est une
+   information a RELEVER puis a dire a Fred. Lance a la main, dans le
+   dossier d'ou Luciana est lancee :
+      git config --get remote.origin.url
+   - si ca ne repond rien : le dossier du programme chez Fred n'est PAS
+     un depot git. Le dire a Fred, et lui demander dans quel dossier il
+     garde sa copie de travail du projet. On ne devine pas.
+   - si ca repond une autre adresse que roumifred-spec/luciana : le dire
+     aussi, tel quel. Ne rien corriger tout seul.
+
+c) LE MENAGE. Dire a Luciana de noter ou en est une chose en cours
+   ('etat'), puis de fermer une autre ('fait'). Dans les deux cas :
+   - le compteur du bouton "A valider" ne doit PAS monter ;
+   - l'ecriture doit etre faite POUR DE VRAI (relire choses_en_cours.md).
+
+d) LE PANNEAU. Ouvrir le panneau "A valider". Les lignes qui n'etaient
+   que des notes d'avancement ne doivent plus y etre. Rien n'a ete
+   efface : elles sont toujours en entier dans ~/Luciana/a_valider.jsonl
+   (le verifier, et le dire a Fred).
+
+e) LE SIGNAL. Cliquer sur une ligne du panneau "A valider" qui concerne
+   une chose en cours. Luciana doit en parler TOUTE SEULE, sans que Fred
+   ait a le lui dire, et sans lui couper la parole (le plafond des 90
+   secondes est intact).
+
+---------------------------------------------------------------------
+CE QUE CE CHANTIER NE PEUT PAS PROUVER A DISTANCE, ET C'EST DIT
+---------------------------------------------------------------------
+1) OU SE TROUVE LE DOSSIER DE TRAVAIL DE FRED. Le programme ne le
+   DEVINE pas : il lit le 'origin' du .git du dossier d'ou il est
+   lance, puis de ses dossiers parents, puis il refouille le Bureau,
+   les Documents, les Telechargements et la racine du compte Windows
+   (c'est la recherche de la v78, inchangee). Si aucun de ces dossiers
+   n'est un depot git qui corresponde, il le DIT. Il n'invente pas un
+   chemin. C'est le point (b) de l'etape 4.
+
+2) LES LIGNES QUI DORMENT DEJA DANS LE PANNEAU DE FRED. Les notes
+   d'avancement deja deposees ne sont plus MONTREES : c'est une regle
+   de LECTURE, donc elles s'en vont d'un coup, sans un seul clic. Mais
+   les VRAIES questions deja deposees ('est-ce que c'est fait ?')
+   restent affichees, expres : escamoter une question serait pire.
+   Les 6 lignes de Fred du 09/10 a 18h57 qui ont vraiment ferme
+   quelque chose restent donc cliquables.
+
+3) CE QUI N'A PAS ETE ECRIT, HIER, QUAND UNE DEMANDE ATTENDAIT. Une
+   demande en attente veut dire que RIEN n'a ete ecrit. A partir de la
+   v153, refaire le geste l'ecrit directement. Mais le geste, il faut
+   le REFAIRE : ce chantier ne rattrape pas tout seul les ecritures qui
+   n'ont pas eu lieu, et il ne pretend pas le contraire.
+
+---------------------------------------------------------------------
+CE QUI N'A PAS BOUGE (et le controle le verifie, ligne par ligne)
+---------------------------------------------------------------------
+   - le verrou de Fred et ses trois positions (SURVEILLE / VEILLE /
+     ETEINT) : une ecriture NOUVELLE passe TOUJOURS par son clic ;
+   - le garde-fou des deux points de comparaison ;
+   - le carnet de consignes (noyau + index), aucune consigne sacrifiee ;
+   - le carnet de chantier, la bibliotheque, les sauvegardes datees ;
+   - le plafond des 90 secondes (rien ne coupe Fred quand il parle) ;
+   - le lecteur de sens reflechi en service ;
+   - l'ordre "recopier d'abord, retirer ensuite, jamais l'inverse" ;
+   - RIEN n'est jamais detruit : les deux files ne font que s'AJOUTER ;
+   - et RIEN DU TOUT chez Luminita (roumifred-spec/lumi n'est pas
+     touche : c'est git qui le dit, dans le controle).

@@ -1,0 +1,19 @@
+LE DOSSIER DES LANGUES
+======================
+
+Un fichier par langue. Chaque fichier est un simple annuaire
+   "etiquette"  ->  "la phrase que le client lit"
+lisible et modifiable au Bloc-notes.
+
+AJOUTER UNE LANGUE = AJOUTER UN FICHIER. On ne touche pas au programme :
+  1. copier fr.json
+  2. traduire les phrases A DROITE (jamais les etiquettes a gauche)
+  3. enregistrer sous <code>.json  (exemple : no.json pour le norvegien)
+  4. ajouter une ligne dans le tableau LANGUES de luciana.py
+     (son nom ecrit dans sa propre langue, son code bcp47, ses voix)
+
+SI UNE PHRASE MANQUE dans un fichier, le programme retombe sur le francais.
+Le client ne voit JAMAIS une etiquette technique a l'ecran.
+
+Les 16 fichiers livres en v111 viennent de Luminita v74 (30/09/2026) :
+bg cs da de el en es fi fr hu it nl pl pt ro sv

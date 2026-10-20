@@ -1,0 +1,14 @@
+{
+  "actif": true,
+  "seuil": 0.4,
+  "budget_bibliotheque": 40000,
+  "ecart_relatif": 0.25,
+  "budget_carnets_nommes": 30000,
+  "dossier_sujet_messages": 12,
+  "bibliothecaire_par_etiquettes": true,
+  "bibliothecaire_decrochage": 0.05,
+  "bibliothecaire_ecart": 0.12,
+  "bibliothecaire_plancher": 3,
+  "_a_quoi_ca_sert": "actif : true = tout ce qui est ramene devant la phrase de Fred est choisi PAR LE SENS ; false = on retrouve exactement la v124 (choix par les mots). seuil : de 0 a 1, la ressemblance minimale pour qu'un passage soit ramene (plus haut = plus strict). Le fichier controle_memoire_sens.jsonl note les scores de chaque message : c'est la qu'on regle ce chiffre sur du reel. budget_bibliotheque : les caracteres ramenes du grand tiroir. Il faut relancer Luciana apres avoir change ce fichier. ecart_relatif (v129) : on ne garde que ce qui est a moins de cet ecart du MEILLEUR resultat de la meme recherche ; 1 = le couper. v131 : ecart_relatif passe de 0.08 a 0.25 (a 0.08 il jetait 821 passages sur 845 le 07/10) et budget_bibliotheque de 15 000 a 25 000. budget_carnets_nommes : quand Fred NOMME un sujet, tous les carnets de ce sujet sortent en entier, sans plafond de NOMBRE, dans cette limite de caracteres (30 000). dossier_sujet_messages : combien de messages de suite le dossier d'un sujet deja sorti est rappele PAR SON NOM, sans etre repioche par ressemblance (12). v134, LE BIBLIOTHECAIRE : bibliothecaire_par_etiquettes (true/false) = l'INTERRUPTEUR. A false, on retrouve EXACTEMENT la v133, sans rien recoder. A true : (a) un carnet est compare a son ETIQUETTE (son titre + la phrase 'contient' de plan_bibliotheque.json) et non plus a son texte entier -- c'est ce qui empeche un gros carnet bavard de gagner contre un petit tiroir precis ; (b) la bibliotheque sert tant que le score TIENT et s'arrete quand ca DECROCHE, au lieu de descendre chercher des passages a 0,41 juste pour finir de remplir le budget. bibliothecaire_decrochage (0.05) : la chute de score, d'un passage au suivant, qui fait dire 'ca decroche, on arrete'. bibliothecaire_ecart (0.12) : on ne sert jamais plus bas que le meilleur score moins ce chiffre (plus serre que ecart_relatif, qui reste a 0,25 et n'est PAS touche). bibliothecaire_plancher (3) : on sert TOUJOURS au moins ce nombre de passages si la bibliotheque les a -- le decrochage ne peut jamais tout couper.",
+  "rappel_ancien": true
+}

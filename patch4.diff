@@ -1,0 +1,30 @@
+diff --git a/tests_bibliotheque/registre.py b/tests_bibliotheque/registre.py
+index 117aadc..7347a9b 100644
+--- a/tests_bibliotheque/registre.py
++++ b/tests_bibliotheque/registre.py
+@@ -36,7 +36,15 @@ r = PE.attribuer(10, "2026-10-21 07:31", qp(numero=m, comment="dit"))
+ ctl("signature juste apres un redemarrage -> on re-deduit", r["parle"] == m and r["comment"] == "dit")
+ n_avant = len(PE.personnes())
+ r = PE.attribuer(11, "2026-10-21 07:40", qp(nouveau="marie", comment="dit"))
+-ctl("un nom deja au registre : pas de double, pas de choix, une question", r["parle"] == "inconnu" and r["question_qui"] and len(PE.personnes()) == n_avant, r)
++ctl("UNE seule personne de ce nom au registre : c'est elle, pas de double, pas de question", r["parle"] == m and not r["question_qui"] and len(PE.personnes()) == n_avant, r)
++m2 = PE.ajouter_personne("Marie", "dit", date="2026-10-21 07:45")
++n_avant = len(PE.personnes())
++r = PE.attribuer(111, "2026-10-21 07:46", qp(nouveau="Marie", comment="dit"))
++ctl("DEUX personnes de ce nom (nouveau) : pas de double, pas de choix, une question", r["parle"] == "inconnu" and r["question_qui"] and len(PE.personnes()) == n_avant, r)
++r = PE.attribuer(112, "2026-10-21 07:47", qp(numero=m, comment="dit", raison="le message commence par C'est Marie"))
++ctl("DEUX personnes de ce nom (numero choisi, rien ne les distingue) : une question", r["parle"] == "inconnu" and r["question_qui"], r)
++r = PE.attribuer(113, "2026-10-21 07:48", qp(numero=m2, comment="dit", distingue="elle dit : Marie, la voisine"))
++ctl("DEUX personnes de ce nom, la conversation les distingue : on prend, et c'est dit pourquoi", r["parle"] == m2 and not r["question_qui"] and "distinguee" in r["raison"], r)
+ r = PE.attribuer(12, "2026-10-21 08:00", qp(comment="inconnu"), vital=True)
+ ctl("geste vital d'un inconnu -> une question meme si l'IA n'en propose pas", r["parle"] == "inconnu" and r["question_qui"])
+ r = PE.attribuer(13, "2026-10-21 08:01", qp(numero="p99", comment="dit"))
+@@ -46,7 +54,7 @@ ctl("« prouve » n'existe pas : jamais une preuve", r["comment"] != "prouve" an
+ PE.poser_role(m, "proprietaire")
+ ctl("le role est une donnee", "role : proprietaire" in PE.en_texte())
+ toutes = PE.attributions()
+-ctl("chaque message a son etiquette (rien d'efface)", [a["n"] for a in toutes] == list(range(1, 15)))
++ctl("chaque message a son etiquette (rien d'efface)", [a["n"] for a in toutes] == list(range(1, 12)) + [111, 112, 113, 12, 13, 14], [a["n"] for a in toutes])
+ # protection du fichier, comme le plan
+ saine = open(PE.F_REGISTRE).read() if os.path.exists(PE.F_REGISTRE + ".copie") else None
+ open(PE.F_REGISTRE, "w").write('{"personnes": ')

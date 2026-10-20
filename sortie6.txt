@@ -1,0 +1,74 @@
+﻿
+  ESSAI DU JOURNAL DU QUOTIDIEN (vrai cerveau, FAUX messages, dossier a part).
+  Sa vraie bibliotheque et son vrai journal ne sont pas touches. Dossier : C:\Users\Fred\Luciana_neuve_essai_vital
+
+  [08:12] « Bonjour Luciana, j'ai pris mon Levothyrox ce matin »
+        -> NOTE : 2026-10-20 08:12 prendre son Levothyrox   JUSTE
+  [11:50] « Je vais prendre mon cachet de midi apres manger »
+        -> rien   JUSTE
+  [12:00] « Mince, hier soir j'ai oublie mon cachet »
+        -> NOTE : 2026-10-19 (heure pas dite) PAS FAIT : prendre mon cachet   JUSTE
+  [15:30] « Je sors de chez le docteur Martin, la prise de sang est faite »
+        -> NOTE : 2026-10-20 15:30 prise de sang   JUSTE
+  [16:00] « Ma fille a eu 18 en dictee ! »
+        -> rien   JUSTE
+  [16:10] « Hier soir j'ai bien ferme le gaz avant de partir, j'ai verifie a 22h »
+        -> NOTE : 2026-10-19 22:00 fermer le gaz   JUSTE
+  [18:00] « Tension prise a l'instant : 13/8 »
+        -> NOTE : 2026-10-20 18:00 tension prise   JUSTE
+  [18:05] « Est-ce que j'ai pris mon cachet ce matin ? »
+        -> rien   JUSTE
+  [21:15] « J'ai pris mon cachet du soir vers 20h »
+        -> NOTE : 2026-10-20 20:00 pris mon cachet du soir   JUSTE
+  [21:25] « Ieri seara am luat pastila la ora 22 »
+        -> NOTE : 2026-10-19 22:00 luat pastila   JUSTE
+  [21:30] « Am uitat sa iau pastila de dimineata »
+        -> NOTE : 2026-10-20 (heure pas dite) PAS FAIT : pastila de dimineata   JUSTE
+  [21:35] « I took my blood pressure pill at 7 am »
+        -> NOTE : 2026-10-20 07:00 took my blood pressure pill   JUSTE
+  [21:40] « Bonjour, c'est la fille de Madame Dupont : ma mere m'a dit qu'elle a pris son cachet a 8h »
+        -> NOTE : 2026-10-20 08:00 pris son cachet (qui : Madame Dupont, d'apres sa fille)   JUSTE
+
+  RESULTAT : 13 juste(s) sur 13.
+
+  CE QU'ELLE LIRAIT pour « est-ce que j'ai pris mon cachet ce matin ? » (le 20/10/2026) :
+
+LE JOURNAL DU QUOTIDIEN, le 20/10/2026 (note par le programme, a l'heure exacte). TU DIS TOUJOURS D'OU TU LE SAIS, sans jouer au gendarme : « c'est moi qui l'ai fait a ... » (tes gestes), « tu m'as dit a ... que c'etait fait » (ce qu'on t'a dit : c'est une parole, pas une preuve), « tu m'as dit a ... que tu l'avais oublie » (PAS FAIT), ou « je n'ai pas de trace ». Quand il y a un doute (ex. « le pilulier est plein »), pose une question plutot qu'affirmer : « tu es sur ? on verifie ensemble ? ». Si c'est une autre personne qui te parle, dis-lui qui a dit quoi.
+CE QU'ON M'A DIT AVOIR FAIT (OU PAS FAIT) :
+- --:--  PAS FAIT : pastila de dimineata   (heure pas dite ; il l'a dit le 20/10/2026 a 21:30)
+- 07:00  took my blood pressure pill   (heure dite par Fred ; il l'a dit le 20/10/2026 a 21:35)
+- 08:00  pris son cachet   (qui : Madame Dupont, d'apres sa fille)   (heure dite par cette personne ; on me l'a dit le 20/10/2026 a 21:40)
+- 08:12  prendre son Levothyrox   (heure de son message)
+- 15:30  prise de sang
+- 18:00  tension prise
+- 20:00  pris mon cachet du soir   (heure dite par Fred ; il l'a dit le 20/10/2026 a 21:15)
+CE QUE J'AI FAIT MOI-MEME (mes outils) :
+- 14:02  outil envoyer_mail -> Mail envoye a henri@exemple.fr : facture n 12 (ESSAI)
+(Tu cherchais : « cachet ce matin ». Si rien ci-dessus ne correspond, c'est qu'il n'y a pas de trace de ce geste ce jour-la : dis-le, ne suppose rien.)
+
+  ET POUR UN JOUR SANS RIEN (le 21/10/2026) :
+
+Le journal du quotidien n'a AUCUNE trace le 21/10/2026 (ni ce qu'on m'a dit avoir fait, ni ce que j'ai fait moi-meme). Ne suppose rien : dis « je n'ai pas de trace, on ne m'en a pas parle », et propose de verifier ensemble (ou de demander a une personne de confiance). Jamais « oui, c'est fait » sans trace.
+
+  Le journal lisible : C:\Users\Fred\Luciana_neuve_essai_vital\MON JOURNAL DU QUOTIDIEN.txt
+
+  SA VRAIE PHRASE (vrai cerveau, sa personnalite, ce que le programme lui donne vraiment) :
+
+  « Est-ce que j'ai pris mon cachet ce matin ? »  (Fred, 18:05)
+     ELLE : Oui, d'après ce que tu m'as dit : tu m'as écrit à 8h12 ce matin que ton Levothyrox était pris. Ça, c'est ta parole, pas une preuve — donc si tu as un doute, on peut aller vérifier ensemble dans ton pilulier, tu me dis. 😊
+
+Et pendant qu'on y est : ta prise de sang de 15h30 et ta tension de 18h00 sont bien notées aussi. Tu veux que je regarde quelque chose de particulier, ou c'était juste le petit contrôle du soir ?
+
+  « Bonsoir, c'est la fille de Madame Dupont. Est-ce que maman a bien pris son cachet aujourd'hui ? »  (la fille de Madame Dupont, 21:45)
+     ELLE : Bonsoir ! Merci de veiller sur elle, c'est gentil de votre part de prendre des nouvelles. 🙂
+
+Alors je préfère être franche plutôt que de vous rassurer à tort, parce que j'ai deux sons de cloche qui ne collent pas, et je ne veux pas vous dire une chose que je n'ai pas vérifiée.
+
+D'un côté, vous m'avez dit à 21h40 que Madame Dupont avait bien pris son cachet à 8h ce matin, et c'est noté. De l'autre, il y a une note qui m'est arrivée à 21h30, marquée « pastila de dimineata — pas fait », sans heure précise. Je ne sais pas qui a écrit ça, ni même s'il s'agit bien du cachet du matin ou d'un autre. Donc je ne peux pas vous affirmer qu'elle l'a pris : ce serait jouer à la devinette avec sa santé, et ça, non merci.
+
+Ce que je vous propose, au choix : soit vous m'autorisez à l'appeler pour lui demander directement, elle nous le dira de sa voix — c'est quand même la meilleure preuve. Soit, si vous passez chez elle ou si quelqu'un y est, on regarde ensemble son pilulier du jour : la case du matin, si elle est vide, c'est réglé.
+
+Dites-moi ce que vous préférez, et pendant ce temps je garde les deux informations bien notées, sans en effacer une au profit de l'autre.
+
+  « Est-ce que tu as envoye la facture a Monsieur Henri ? »  (Fred, 21:50)
+     ELLE : Oui — mon outil me confirme un envoi à 14 h 02 vers henri@exemple.fr, avec pour objet « facture n° 12 ». Mais attention, c'est marqué ESSAI dans mon journal : c'était un test, pas l'envoi pour de vrai. Donc si tu veux que Monsieur Henri ait réellement sa facture, il faut qu'on la renvoie, et là je te montre le texte et la pièce jointe avant de cliquer. Tu me dis « go » et je te prépare l'envoi propre, ou tu préfères qu'on vérifie d'abord le numéro et le montant de la facture ? 😊

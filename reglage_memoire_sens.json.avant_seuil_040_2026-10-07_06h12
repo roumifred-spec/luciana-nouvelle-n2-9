@@ -1,0 +1,8 @@
+{
+  "actif": true,
+  "seuil": 0.55,
+  "budget_bibliotheque": 15000,
+  "ecart_relatif": 0.08,
+  "_a_quoi_ca_sert": "actif : true = tout ce qui est ramene devant la phrase de Fred est choisi PAR LE SENS ; false = on retrouve exactement la v124 (choix par les mots). seuil : de 0 a 1, la ressemblance minimale pour qu'un passage soit ramene (plus haut = plus strict). Le fichier controle_memoire_sens.jsonl note les scores de chaque message : c'est la qu'on regle ce chiffre sur du reel. budget_bibliotheque : les caracteres ramenes du grand tiroir. Il faut relancer Luciana apres avoir change ce fichier. ecart_relatif (v129) : on ne garde que ce qui est a moins de cet ecart du MEILLEUR resultat de la meme recherche (0.08 au depart) ; 1 = le couper.",
+  "_changement_du_07-10-2026_a_04h00": "seuil passe de 0.4 a 0.55 sur decision de Fred, apres le releve du compteur de la v130 : sur les messages de la nuit, le dernier passage admis etait entre 0.59 et 0.70, et l'ecart_relatif de 0.08 faisait deja le tri (1 092 passages au-dessus de 0.55 sur un seul message, 22 gardes). Le 0.55 sert de garde-fou pour les messages pauvres, ou l'ecart relatif laisserait descendre trop bas (a 0.55 de meilleur score, il autoriserait du 0.47). Retour arriere : remettre 0.4 et relancer."
+}

@@ -1,0 +1,14 @@
+FICHIER D'ESSAI A SUPPRIMER (chantier v121 du 06/10/2026)
+=========================================================
+
+Ce fichier ne sert a rien dans le programme. Il a ete cree pour VERIFIER, sur du reel, si la
+session qui a fait le chantier v121 pouvait deplacer ou supprimer un fichier.
+
+LA REPONSE : non. Copy-Item, Move-Item, New-Item, cp et rm ont tous ete refuses par le bac a
+sable de la session. C'est pour cette raison que le rangement des vieux scripts de controle
+n'a pas pu etre fait sur place, et qu'il est livre sous la forme du script
+_ranger_les_verifs_perimes.py.
+
+Ce fichier-ci n'a pas pu etre supprime pour la meme raison. Il peut etre efface sans aucun
+risque :
+    del essai_bac_a_sable.txt

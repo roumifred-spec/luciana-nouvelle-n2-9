@@ -1,0 +1,2754 @@
+LUCIANA  (V198)
+===============
+
+DEMARRER : double-clique "Demarrer Luciana.bat" (ou le raccourci "Luciana V180" du Bureau).
+En haut a gauche : "ton amie · V198". La V180 tourne sur le PORT 8002 : dans le navigateur
+http://127.0.0.1:8002 ; sur l'iPhone (Tailscale), la meme adresse qu'avant mais avec :8002 a la fin.
+UNE SEULE Luciana a la fois : le lanceur ferme l'ancienne (8000) avant de demarrer.
+
+V198 (18/10/2026) : DEUX PHRASES DU PROGRAMME NE DISENT PLUS UNE CHOSE PAS ENCORE FAITE (decide avec Fred).
+  - Chantier sur un depot GitHub : l'outil ne dit plus « C'est parti, ca tourne » avant d'avoir verifie
+    la version (cette verification se fait apres la recuperation du depot). Il dit « le chantier demarre,
+    il ne tourne pas encore » ; si ca bloque, la pastille le dit.
+  - Apres « Valider » : il ne dit plus « je vais chercher le code tout de suite ». Il dit que la fusion
+    est faite sur GitHub et que le code n'est pas encore sur le PC, avec le dossier note au lancement.
+  - Rien d'autre ne change. Le rappel de mission n'est pas touche (c'est Fred qui le gere).
+
+V197 (18/10/2026) : LE BIBLIOTHECAIRE NE RECOIT PLUS LE PLAN (decide avec Fred).
+  - Il recevait le plan entier a chacun de ses deux appels sans pouvoir s'en servir : ce n'est pas
+    lui qui choisit les tiroirs, c'est le moteur de sens qui sort les fiches. Retire de ses consignes.
+  - Rien d'autre ne change. Le plan reste entier dans la boite a outils de Luciana (avec le petit mot
+    quand il change). En secours (moteur en panne), le bibliothecaire recoit toujours la carte des
+    tiroirs pour choisir lui-meme.
+
+V196 (18/10/2026) : LE BIBLIOTHECAIRE A UN VRAI MOTEUR DE SENS (decide avec Fred).
+  - Le petit moteur (MiniLM) qui sortait les fiches de l'armoire est remplace, pour le bibliothecaire
+    seulement, par le moteur de sens de Google (gemini-embedding-001, avec ta cle Gemini). Il ne fait
+    que la pile ; c'est toujours le bibliothecaire qui lit les fiches en entier et qui decide.
+  - Rien d'autre ne change : archiviste, bibliotheque, plan, bibliothecaire, nombre de fiches lues (30).
+    Aucun plancher, aucun seuil ajoute.
+  - A FAIRE UNE FOIS : double-clic sur « CALCULER LE SENS DE MA BIBLIOTHEQUE.bat ». Il envoie chaque
+    passage de fiche une seule fois a Google et garde les empreintes dans bibliotheque2/sens_google.
+    Luciana peut rester ouverte ; on peut fermer et relancer, il reprend. Ensuite, a chaque message,
+    seule ta phrase part chez Google. Les fiches rangees plus tard sont faites pendant les temps morts.
+  - En panne (pas de cle, pas d'internet) : le bibliothecaire prend son secours deja existant (il
+    choisit les tiroirs dans le plan) et la raison est ecrite dans sa trace.
+  - Revenir a l'ancien moteur sans code : "moteur_de_sens": "minilm" dans reglage_biblio2.json.
+  - Le compteur de depense en haut ne compte pas ce moteur ; le calcul complet affiche a la fin le
+    nombre de caracteres envoyes.
+
+V195 (18/10/2026) : LA BIBLIOTHEQUE 1 EST DEBRANCHEE (demande de Fred).
+  - Tout ce qui entre va a l'archiviste, dans la bibliotheque EN SERVICE (bibliotheque2/arbre.json,
+    celle qu'un re-tri remplace quand il se met en service) ; tout ce qui sort passe par le
+    bibliothecaire, qui ne lit que celle-la.
+  - Une chose en cours finie ou une mission close n'est plus ecrite dans la bibliotheque 1 : elle est
+    confiee a l'archiviste, qui la range tout de suite. Si internet coupe, elle attend dans sa liste
+    d'attente (bibliotheque2/a_ranger.jsonl) et il la reprend a son passage suivant.
+  - Plus rien n'ecrit ni ne lit la bibliotheque 1 (~/Luciana/bibliotheque). Ses fichiers restent sur
+    le disque, intacts. Seule exception, voulue : le re-tri complet la relit une fois (ton passe
+    d'avant la bibliotheque 2), pour ne rien perdre.
+  - Les anciennes bibliotheques remplacees par un re-tri restent en copie datee, jamais lues.
+
+V194 (17/10/2026) : LE RE-TRI VA 5 FOIS PLUS VITE, ET IL REPREND VRAIMENT (decide avec Fred).
+  - 5 souvenirs juges en meme temps (avant : un par un). Ils sont ranges dans l'ordre, comme avant.
+  - Il reprend le chantier en cours QUEL QUE SOIT LE JOUR. Avant, le dossier du re-tri etait celui
+    du jour : relance un autre jour, il repartait de zero sans le dire (et on repayait tout).
+  - « RE-TRI - RECOMMENCER DE ZERO.bat » (choix de Fred, a lancer UNE fois) : le chantier commence
+    est mis de cote (renomme, jamais efface), puis tout est re-trie avec le tri fin de la V193 et mis
+    en service. Si la fenetre se ferme : « RE-TRI - TOUT.bat », il reprend ou il en etait.
+
+V193 (17/10/2026) : L'ARCHIVISTE RANGE MIEUX, ET UNE PANNE PASSAGERE N'ARRETE PLUS TOUT (decide avec Fred).
+  - Un nom, c'est un sens : un rayon ou un tiroir qui ne differe d'un autre que par les accents, les
+    majuscules ou l'apostrophe reprend le nom qui existe deja. Les doublons deja faits sont fusionnes
+    (sans IA, rien de perdu) a chaque rangement et a la mise en service du re-tri.
+  - Tri plus fin : la sous-categorie doit etre le sujet PRECIS du morceau, pas un grand theme ;
+    l'archiviste voit le nombre de fiches de chaque tiroir. Aucun plafond.
+  - « Fred » au lieu de « le proprietaire » dans ce que l'archiviste ecrit (le texte d'origine ne
+    bouge jamais) ; les resumes deja ecrits sont corriges.
+  - Panne passagere (trop lent, coupure, trop de demandes, serveur charge) : il attend et reessaie
+    (20 s, 1 min, 3 min) avant de s'arreter. Cle refusee (401) ou plus de credit (402) : arret net.
+    Le message dit la vraie raison, et combien de souvenirs etaient deja ranges.
+  - La cle est relue a chaque appel : une cle changee pendant un long rangement est prise tout de suite.
+
+V192 (17/10/2026) : LE VERROU DE LA BIBLIOTHEQUE (demande de Fred).
+  - Un seul a la fois ecrit dans la bibliotheque : l'archiviste du jour, « Ranger TOUTE ma memoire »
+    ou le re-tri. Un petit fichier bibliotheque_en_ecriture.verrou, a cote d'arbre.json, dit qui ecrit.
+  - Le re-tri fait son long passage sans gener personne. Pour le rattrapage et la mise en service,
+    il prend le verrou (en attendant, si l'archiviste est en train de ranger, que celui-ci ait fini).
+    Pendant ce temps l'archiviste ne range rien, ne marque rien, et reessaie 2 minutes plus tard.
+    Avant, l'archiviste pouvait reecrire l'ancienne bibliotheque par-dessus la re-triee.
+  - Tu peux donc travailler avec Luciana pendant le re-tri.
+  - Un verrou oublie (programme ferme en plein travail) est repris apres 30 minutes sans nouvelle.
+
+V191 (17/10/2026) : LE PLAN DE LA BIBLIOTHEQUE, EN ENTIER, DANS LA BOITE A OUTILS (decide avec Fred).
+  - Le plan n'est plus JAMAIS coupe (avant : coupe a 12 000 caracteres).
+  - Luciana : a chaque changement, l'archiviste range le plan entier dans sa boite a outils
+    (~/Luciana/fiches_outils/plan_de_ma_bibliotheque.txt). La ligne de cette fiche est toujours
+    dans l'index de ses fiches : elle sait a tout moment qu'il est la. Quand il change, elle recoit
+    juste un petit mot : « le nouveau plan de ta bibliotheque est arrive dans ta boite a outils,
+    si besoin ». Elle l'ouvre avec lire_document, ou avec fouiller_ma_bibliotheque action 'plan'.
+  - Le bibliothecaire : le plan entier est dans la partie fixe de ses consignes (sa boite a
+    outils), pour ses deux etapes (comprendre, puis juger les fiches). Cette partie ne change que
+    quand le plan change. Il n'est plus colle au milieu de sa demande.
+
+V190 (17/10/2026) : VERSION FINALE APRES RELECTURE COMPLETE DE LA MEMOIRE.
+  - Ce que l'archiviste a mis de cote (« A verifier » : peut-etre jamais arrive, une erreur ou une
+    invention) n'est plus JAMAIS servi par le bibliothecaire comme un souvenir. Le texte reste
+    entier sur le disque ; la liste est ecrite en clair par le re-tri (a_trancher_par_le_proprietaire.txt).
+  - Quand l'archiviste a note qu'une fiche en REMPLACE une plus ancienne, Luciana le voit avec la fiche.
+  - Le petit signal du plan dit aussi combien de morceaux sont mis de cote (ce ne sont pas des faits).
+  - PANNE D'INTERNET PENDANT LE RE-TRI OU « RANGER TOUTE MA MEMOIRE » : avant, les souvenirs
+    tombaient dans « Divers / A trier » et etaient comptes comme faits. Maintenant il s'arrete,
+    rien n'est mis en service, et le meme double-clic reprend exactement la ou il en etait.
+  - A savoir (inchange, ancien) : le bibliothecaire lit 30 fiches en entier.
+
+V189 (17/10/2026) : L'ARCHIVISTE RANGE PAR LE SENS, ET CE QUI AVAIT ETE PERDU EN V180 REVIENT.
+  - L'archiviste est celui de Luminita (13/10) : il COMPREND d'abord de quoi le morceau parle, le
+    redit avec ses mots, juge s'il a vraiment eu lieu et s'il tient demain, puis il range. Ce qui
+    n'a peut-etre pas existe est mis de cote, entier, et remonte a Fred.
+  - Le petit signal du plan : quand l'archiviste change la forme de la bibliotheque, Luciana recoit
+    UNE ligne, UNE fois (« le plan a change, tu peux le consulter »). Jamais le plan entier.
+  - Le bibliothecaire recoit le plan de la bibliotheque quand il cherche vraiment.
+  - Le rappel de la mission en cours (a chaque message, rien quand aucune mission) et les travaux
+    en cours (ce qui tourne, ce que Fred a valide et qui n'est pas revenu) : remis comme en V179.
+    Ils avaient ete retires en V180 sans le dire a Fred.
+  - Le re-tri de toute la bibliotheque par le sens : « RE-TRI - TOUT.bat », un seul double-clic,
+    sans limite (re-tri, rattrapage, mise en service ; l'ancienne est gardee en copie datee).
+
+V188 (17/10/2026) : LE BIBLIOTHECAIRE COMPREND D'ABORD (decide avec Fred).
+  Avant, il sortait des fiches A CHAQUE message (la trace l'a montre : 5 fois sur 5), des fiches
+  « sur le sujet » mais inutiles, qui ramenaient de vieux souvenirs dans ses reponses.
+  Maintenant, en meme temps qu'elle prepare sa reponse de tete :
+   1) il comprend ce que Fred demande et se demande : manque-t-il un FAIT DU PASSE qui n'est pas
+      dans la conversation ? Le plus souvent, non : aucune fiche, sa reponse de tete part ;
+   2) s'il manque un fait, le moteur de sens cherche les fiches les plus proches DE CE FAIT ;
+   3) il ne garde que les fiches qui CONTIENNENT ce fait (pas un contexte, pas un precedent).
+  Le nombre maximum de fiches ne change pas. Quand c'est elle qui cherche (fouiller_ma_bibliotheque),
+  sa demande EST le fait qui manque. En panne, il cherche comme avant. La trace note « demande »
+  et « fait_manquant » pour chaque message.
+
+V187 (17/10/2026) : LE CADENAS DU CODE NE BLOQUE PLUS QUE SON PROGRAMME (demande de Fred).
+  Avant, il bloquait TOUTE ecriture dans le dossier du programme (meme une liste de clients).
+  Maintenant il ne bloque que ses fichiers de programme (.py, .bat, .cmd, .ps1, .vbs) et le
+  dossier du programme tout entier. Une note, un document, une liste : ca passe.
+  Trou bouche : la corbeille recoit une LISTE de fichiers, que le cadenas ne regardait pas.
+
+V186 (17/10/2026) : ELLE NE PERD PLUS LE FIL DE LA CONVERSATION (decide avec Fred).
+  - Le rappel des choses en cours (tous les 4 messages) n'est plus la liste entiere sous son
+    nez : c'est un petit mot du programme. Elle repond d'abord a Fred, puis a la fin elle glisse
+    un petit mot pour penser aux choses en cours. La liste, elle la voit avec son outil.
+  - Bug corrige : quand le bibliothecaire donnait des fiches, la phrase de Fred et le rappel
+    partaient DEUX fois dans le message. Maintenant une seule fois. L'ordre ne change pas : la
+    phrase de Fred reste a la fin.
+  - Le bibliothecaire regarde d'abord la conversation : si la reponse y est deja, ou si Fred
+    parle d'autre chose, il ne donne aucune fiche.
+  - Au-dessus des fiches, Luciana lit : « la conversation passe d'abord ; sers-toi de ces fiches
+    seulement si elles repondent a sa phrase ».
+  - Une trace cachee : ~\Luciana\trace_des_messages.jsonl, une ligne par message (les fiches
+    donnees et pourquoi, la reponse de tete gardee ou jetee, rappel ou pas). Jamais a l'ecran.
+    Au prochain rate, on lit ce fichier au lieu de deviner.
+
+V185 (17/10/2026) : LES BOUTONS DU HAUT SONT TOUS VISIBLES SUR LE PC.
+  La rangee de boutons du haut etait trop longue pour un ecran de PC normal : les derniers
+  (« Cles » et « Code ») sortaient de l'ecran a droite, on ne pouvait pas les voir. Maintenant,
+  ce qui ne tient pas passe sur une deuxieme ligne. Rien d'autre n'a change.
+
+V184 (17/10/2026) : PLUS DE LIMITE DE 40 ETAPES PAR MESSAGE (demande de Fred).
+  Avant, une longue tache (GitHub, plein de petits gestes) s'arretait avec « Attention : je me
+  suis arretee en plein travail, trop d'etapes d'affilee ». Maintenant elle va jusqu'au bout.
+  Pour l'arreter : le bouton ARRETER, comme avant. Attention : si elle tourne en rond, elle
+  continue (et depense) jusqu'a ce que tu cliques ARRETER.
+
+V183 (16/10/2026) : L'ORDRE DE REFLEXION VOULU PAR FRED, ET GARANTI PAR LE PROGRAMME.
+  Quand Fred ecrit, DEUX choses partent EN MEME TEMPS :
+   1) Luciana reflechit avec sa tete et prepare sa reponse (rien n'est montre, aucun outil
+      n'est lance pour l'instant) ;
+   2) le bibliothecaire prepare son dossier : il lit la conversation et les fiches les plus
+      proches EN ENTIER, et JUGE si la question a besoin de la memoire.
+  Puis le PROGRAMME tranche (pas la bonne volonte de Luciana) :
+   - « rien d'utile » (une question bateau) : sa reponse de tete part telle quelle ;
+   - « c'est dans sa memoire » : sa reponse de tete est jetee sans que Fred la voie, et elle
+     repond avec les fiches sous les yeux, en entier, datees.
+  Filet : si le bibliothecaire s'est trompe, elle peut encore chercher elle-meme avec
+  fouiller_ma_bibliotheque. S'il met plus de 180 secondes, elle repond sans lui.
+  (Tout le reste de la V182 est garde : archiviste a 80 000 vers la memoire 2, rappel des
+  choses en cours tous les 4 messages, pas de limite de 300 s.)
+
+V182 (16/10/2026) : CE QUE FRED A DEMANDE APRES SON ESSAI DE LA V181.
+  1) ELLE REPOND DE SA TETE. Plus aucun appel au bibliothecaire avant sa reponse : pour
+     « de quelle couleur est le ciel », UN seul appel, sa reponse. Plus de sommaire, plus
+     de « temps 1 ».
+  2) QUAND ELLE A BESOIN DE SA MEMOIRE (ta vie, tes proches, vos projets, ce que vous avez
+     dit ou fait), elle appelle elle-meme fouiller_ma_bibliotheque : le bibliothecaire lit
+     la conversation en cours et les fiches les plus proches EN ENTIER, garde celles qui
+     servent, et les lui rend en entier, datees. Une phrase de son socle lui dit quand
+     chercher, et de dire « je ne retrouve pas » plutot que d'inventer.
+  3) L'ARCHIVISTE RANGE COMME FRED L'A CONCU : quand la conversation du jour depasse
+     80 000 caracteres, les messages qui sortent de la fenetre (on garde 50 000) partent a
+     l'archiviste de la MEMOIRE 2, en entier, avec les 2 messages d'avant pour comprendre.
+     En panne d'internet il ne marque rien : il reessaiera. (Avant, ce rangement ecrivait
+     dans l'ancienne bibliotheque de la memoire 1.) Dans la foulee, il range aussi les
+     nouveaux souvenirs et les choses en cours devenues « faites ».
+  4) LE RAPPEL DES CHOSES EN COURS TOUS LES 4 MESSAGES est revenu, exactement comme avant.
+  5) Plus de limite de 300 secondes par appel. Gemini : descriptions d'outils entieres.
+  6) « Repartir propre » est retire (il archivait tout sans passer par les souvenirs).
+
+V181 (16/10/2026) : TROIS CORRECTIONS DE LA V180, DECIDEES AVEC FRED.
+  1) PLUS RIEN DE POUSSE sur la mission, les choses en cours et les travaux en cours : elle
+     les ouvre avec ses outils quand tu lui en parles (la V180 lui en poussait encore une
+     ligne a chaque message : c'est ce qui lui faisait ressortir Luminita et les 105 lignes).
+  2) LE BIBLIOTHECAIRE EN UN SEUL APPEL au lieu de deux : le petit moteur de sens sort de
+     l'armoire les 30 fiches les plus proches de ta phrase et de tes 2 messages d'avant
+     (sans appel payant), puis le bibliothecaire les LIT et DECIDE. Si le moteur de sens
+     n'est pas encore pret (au demarrage), il choisit les tiroirs lui-meme, comme en V180.
+  3) LE BOUTON « Repartir propre.bat » (a lancer une fois, Luciana fermee) : il archive
+     toutes les choses en cours, ferme la mission ouverte, et vide les travaux restes
+     « en cours ». RIEN N'EST DETRUIT : tout est recopie en entier, date
+     (choses_finies.jsonl, missions_closes.jsonl, travaux_archives_<date>.json).
+
+V180 (16/10/2026) : LE TRAJET D'UN MESSAGE REFAIT PROPREMENT (decide avec Fred).
+  CE QUI SE PASSE QUAND TU ECRIS :
+   1) Elle a toujours sous les yeux : sa personnalite (UNE seule, la meme quel que soit
+      le cerveau), la regle d'honnetete, l'heure, le noyau de tes consignes + la liste de
+      leurs titres, l'index de tes carnets, et la conversation (50 000 a 80 000 car.,
+      tes plafonds n'ont pas bouge).
+   2) Le BIBLIOTHECAIRE lit LE MEME bloc de conversation qu'elle (plus JAMAIS toute ta
+      memoire depuis le debut : c'etait l'erreur du 14/10, 6 242 messages a chaque fois),
+      choisit les tiroirs, puis LIT EN ENTIER jusqu'a 30 fiches et garde seulement celles
+      qui servent, en jugeant le SENS comme un psychologue. Le petit moteur de sens ne
+      fait plus que sortir les dossiers de l'armoire : il ne decide plus.
+   3) S'il a trouve quelque chose, elle voit un SOMMAIRE NUMEROTE et le programme lui
+      demande quelles fiches ouvrir (elle ne peut pas sauter cette etape). Pour « de
+      quelle couleur est le ciel », rien : elle repond de sa tete.
+   4) Les fiches choisies lui sont donnees EN ENTIER, mot pour mot. Plus de coupe
+      « [...] » a 13 000 caracteres (c'etait le raccourci de la v164).
+   5) Sa reponse s'affiche AU FUR ET A MESURE (et tu vois l'etape ou elle en est).
+  L'ARCHIVISTE : il lit chaque message EN ENTIER (plus de coupe a 4 000 caracteres) avec
+  les 2 messages d'avant pour comprendre de quoi on parle. Et il range TOUT SEUL les
+  nouveaux messages dans la memoire 2 (avant, seulement quand tu lancais « Ranger TOUTE
+  ma memoire »), par paquets de 40, au plus toutes les 10 minutes, en fond. En cas de
+  panne d'internet il s'arrete, il ne range rien au hasard. Le vrai texte n'est JAMAIS
+  resume ni efface.
+  SUPPRIME POUR DE BON (plus rien ne peut revenir) : la memoire 1, le rappel ancien, le
+  tri DeepSeek de chaque message, les garde-fous qui jetaient ses reponses et ecrivaient
+  « LE PROGRAMME... » dans sa memoire, les murs / boites / « ORDRE DU PROGRAMME », ta
+  phrase recopiee 3 fois, les balises [AVIS...], le reglage « lecteur de sens » du
+  panneau Cles, et 300 fichiers de sauvegarde / essais (ils restent dans l'historique
+  GitHub). luciana.py passe de 40 818 a environ 31 000 lignes.
+  LES ANNONCES AUTOMATIQUES (un chantier fini, un travail qui tarde) s'affichent et se
+  lisent telles quelles : elles ne passent plus par son cerveau.
+  LE VERROU DU CODE : elle ne peut PLUS modifier son propre programme ni le pousser sur
+  GitHub, sauf pendant 30 minutes apres ton clic sur le bouton « 🔒 Code » (ou apres ton
+  clic sur « Valider » d'un chantier sur Luciana). Tes AUTRES projets : rien ne change.
+  GEMINI FLASH arrive dans le menu Cerveau. Cle : colle-la dans la fenetre de cle (elle
+  commence par AIza), ou mets-la dans le panneau Cles sous le nom « gemini ». Le nom du
+  modele est dans ~/Luciana/gemini_modele.txt si Google le change (par defaut
+  gemini-3.8-flash). ATTENTION : Gemini n'a pas pu etre essaye pour de vrai pendant le
+  codage (pas de cle, pas d'acces) : son premier vrai essai, c'est chez toi.
+  LES CERVEAUX : Luciana = DeepSeek reflechi par defaut ; bibliothecaire et archiviste =
+  DeepSeek reflechi. Reglable dans reglage_biblio2.json, cle « v180 ».
+  POUR REVENIR EN ARRIERE : la V179 est entiere dans l'historique GitHub (commit b1a59e6).
+
+
+v161 (10/10/2026) : LE MODE D'EMPLOI DE LA MEMOIRE.
+  La meme "regle du jeu" de la memoire (marketplace a etages : categorie ->
+  sous-categorie -> filtres) est posee aux trois endroits : l'archiviste (quand
+  il range), le bibliothecaire (quand il cherche), et Luciana elle-meme. Chez
+  Luciana c'est une fiche servie SEULEMENT par pertinence (quand elle parle de
+  memoire), jamais a chaque message. Elle S'AJOUTE a ses regles, elle ne les
+  remplace pas : son reflexe "fouille-toi-meme" reste entier.
+
+v160 (10/10/2026) : LE BIBLIOTHECAIRE CONNAIT TOUS LES TIROIRS.
+  Defaut repere par Fred : quand le bibliothecaire cherchait, on lui donnait les
+  CATEGORIES mais pas les SOUS-categories. Il devait donc deviner la sous-categorie
+  et en inventait parfois une qui n'existe pas -> le tri jetait tout. CORRIGE : on
+  lui donne maintenant la CARTE COMPLETE (chaque categorie ET ses sous-categories),
+  il choisit DANS ce qui existe. Le filet de la v159 reste en secours.
+  Rappel : rien n'efface jamais ta vraie memoire (luciana_memoire.json est lu en
+  lecture seule). Seul l'index range (dossier bibliotheque2) peut etre refait.
+
+v159 (10/10/2026) : LE FILET DU CURSEUR.
+  On a vu, sur du reel, que la nouvelle memoire ne ramenait rien (0 candidat) :
+  la petite IA choisissait parfois un tiroir qui n'existe pas dans l'arbre, et le
+  tri par etiquette jetait alors TOUT avant meme le curseur. CORRIGE : quand les
+  etiquettes ne gardent rien, on laisse le CURSEUR regarder TOUT l'arbre par le
+  sens (c'est lui qui decide la pertinence). Les etiquettes aident a viser, elles
+  ne peuvent plus tout jeter. Le curseur gate toujours a 0,6, donc ca ne remplit
+  jamais pour rien.
+  A SAVOIR : pour mettre TOUTE ta memoire dans le nouveau systeme (pas seulement
+  un echantillon), lance « Ranger TOUTE ma memoire » (le complet), pas
+  « Reprendre ma memoire (essai) » qui n'en range que ~30 et efface le reste.
+
+v158 (10/10/2026) : CORRECTION IMPORTANTE DU CURSEUR.
+  En v157, le curseur avait besoin de DEUX fichiers remis a jour en meme temps
+  (luciana.py ET biblio2_bibliothecaire.py). Si un seul des deux etait remplace,
+  la nouvelle memoire plantait EN SILENCE et Luciana retombait sur l'ancien tri
+  sans rien dire -- impossible de s'en apercevoir. CORRIGE : le curseur est
+  maintenant porte ENTIEREMENT par luciana.py. Le SEUL fichier a remplacer, c'est
+  luciana.py. Et desormais, si quelque chose cloche, c'est ecrit en clair dans le
+  fichier de controle (controle_memoire_sens.jsonl), plus jamais de panne muette.
+
+Tes reglages (cle, voix, Gmail, memoire, souvenirs) sont gardes pour toujours,
+meme quand on change de version : tu n'as rien a recoller.
+
+A DIRE FRANCHEMENT : les sections de ce fichier sautent de la v146 a la v153,
+puis a la v157. Les versions non ecrites ici ne sont pas un oubli de ce
+chantier : ce qui fait foi pour l'historique, c'est l'historique git du depot
+(un commit clair par version).
+
+
+=====================================================================
+v157 : LE CURSEUR DE PERTINENCE DE LA MEMOIRE (le RAG)
+       (10/10/2026) - base : la v156 "memoire2" (elle la contient en entier)
+=====================================================================
+
+CE QU'ON A VALIDE ENSEMBLE, DANS TES MOTS :
+  "on va mettre un systeme RAG avec un petit curseur qu'on reglera ensemble,
+   je vais le mettre par defaut a 0.6 de pertinence." Et : jamais de rustine.
+
+LE PROBLEME QU'ON REGLE : la nouvelle memoire ("memoire2", le bibliothecaire a
+etiquettes) retrecissait deja par categorie / sous-categorie / filtres. Mais
+une fois le tiroir trouve, elle te servait TOUT ce tiroir -- meme quand ta
+question n'avait au fond rien a voir. Et quand elle ne trouvait rien, elle
+reveillait l'ancien tri, qui te remplissait la tete de souvenirs au hasard.
+C'est exactement ce que tu voulais arreter.
+
+CE QUI CHANGE, EN UNE PHRASE : apres avoir retreci par les etiquettes (l'aller),
+le moteur de sens MESURE a quel point chaque souvenir retenu est proche de ta
+question (le retour), de 0 a 1. Un CURSEUR tranche :
+  - au-dessus du curseur : on te sert ces souvenirs, du plus proche au moins
+    proche ;
+  - rien au-dessus du curseur : on te le DIT en une ligne ("le souvenir le plus
+    proche reste loin du sujet, je reponds avec mes connaissances generales") et
+    on NE reveille PLUS jamais l'ancien tri a la place.
+
+LE CURSEUR, TU LE REGLES TOI-MEME, SANS REDEMARRER :
+  - double-clique "Regler le curseur memoire.bat", tape un nombre (ex. 0.6) ;
+  - ou edite a la main le fichier ~/Luciana/bibliotheque2/curseur.txt (un seul
+    nombre dedans). Absent = 0.6 par defaut.
+  - Plus HAUT (0.7 / 0.8) = plus severe. Plus BAS (0.5 / 0.4) = plus large.
+  - Le changement prend des ton message suivant.
+
+L'INTERRUPTEUR N'A PAS BOUGE : "Brancher la nouvelle memoire" / "Debrancher"
+font toujours la meme chose. Debranche, ou si l'arbre n'est pas encore range,
+tu retrouves EXACTEMENT la Luciana d'avant. Le curseur ne s'applique qu'a la
+memoire2, branchee.
+
+COMMENT ON LE REGLE ENSEMBLE (le protocole, sur du reel, pas au doigt mouille) :
+  1. pose DEUX familles de questions : une dont la reponse EST dans ta memoire
+     (ex. un truc qu'on s'est dit), une dont elle N'Y est PAS (ex. "combien de
+     planetes ?").
+  2. pose chaque question ~3 fois.
+  3. a chaque fois, je lis dans ton fichier de controle
+     (~/Luciana/controle_memoire_sens.jsonl, jamais a l'ecran) ces chiffres :
+     la meilleure pertinence trouvee, le curseur du moment, combien de souvenirs
+     ont passe la barre, combien de caracteres servis.
+  4. on monte ou on descend le curseur ensemble jusqu'a ce que : la question
+     "en memoire" ressorte le bon souvenir, et la question "absente" tombe bien
+     sur le silence (au lieu d'un remplissage).
+
+RISQUE HONNETE : si on met le curseur trop HAUT, elle pourrait rater un vrai
+souvenir (silence a tort). Trop BAS, elle pourrait servir un souvenir pas tres
+utile. 0.6 est le point de depart ; les chiffres du controle nous diront ou le
+poser pour de bon.
+
+
+=====================================================================
+v153 : QUAND TU CLIQUES, CA LANCE LE TRAVAIL
+       (09/10/2026, 19h01) - base : la v150 (elle la contient en entier)
+=====================================================================
+
+CE QUE TU M'AS DEMANDE, DANS TES MOTS :
+  "alors occupe-toi de tout le menage la regle et surtout que quand je clique
+   valider que ca lance le systeme que ca te le dise et que tu lances le ce
+   qu'on a valide"
+
+CINQ CHOSES REPAREES, ET VOICI LAQUELLE REGLE QUOI.
+
+1) LE DOSSIER DE TRAVAIL EST RETENU, ET IL EST DONNE.
+   Ce que tu vivais : tu cliquais sur Valider, et l'outil qui doit descendre le
+   code repondait mot pour mot "Je ne sais pas OU aller chercher le code : je
+   n'ai trouve aucun dossier de travail sur ce PC pour ce projet". Donc rien ne
+   se lancait derriere ton clic.
+   LA CAUSE, LUE DANS LE CODE : un chantier travaille dans une copie jetable.
+   Le programme devait donc RETROUVER ta copie de travail sur le PC, et il n'avait
+   qu'un seul moyen : fouiller le Bureau, les Documents, les Telechargements et
+   la racine de ton compte Windows. Si ton dossier n'est dans aucun des quatre,
+   il ne trouvait rien -- et il retenait le chantier avec un dossier VIDE, pour
+   toujours.
+   MAINTENANT : il commence par l'endroit le plus sur, celui d'ou je suis lancee,
+   et par ses dossiers parents. Et il ne devine RIEN : il LIT le 'origin' du .git
+   et ne le retient que si ca correspond vraiment. En plus, au moment de TON clic,
+   il recherche le dossier et l'ECRIT dans la fiche du chantier. Et le message que
+   je recois contient maintenant l'appel tout fait, avec le dossier et le depot.
+   S'il ne trouve toujours rien, il le DIT, et il dit OU il a cherche. Il
+   n'invente jamais un chemin.
+
+2) LA DEMANDE DE CLIC S'EFFACE QUAND LE TRAVAIL EST FAIT.
+   Ce que tu vivais : ton panneau continuait d'afficher "du code attend ton clic"
+   alors que le code etait deja descendu. Tu cliquais dans le vide.
+   MAINTENANT : des que le code est VRAIMENT descendu -- mesure sur du reel, la
+   version git a change -- la demande de clic de ce chantier se referme toute
+   seule. Et dans le panneau "A valider", une question sur une chose deja fermee
+   ne s'affiche plus. Rien n'est detruit : tout reste dans les journaux.
+
+3) LE MENAGE NE FABRIQUE PLUS DE NOUVEAU CLIC.
+   Ce que tu vivais : nettoyer ton panneau le faisait GROSSIR. Le 09/10 a 18h57
+   tu as clique 13 fois : 6 choses se sont fermees, 7 n'ont RIEN ferme parce que
+   leur geste, par nature, ne ferme rien.
+   MAINTENANT : les cinq gestes de rangement sur une ligne que tu as DEJA vue --
+   fermer (fait / abandon), noter l'avancement (etat), poser ou retirer la marque
+   d'attente (attente / rouvrir) -- ne deposent plus rien du tout. C'est la suite
+   de ton clic deja donne, pas une nouveaute. L'ecriture se fait tout de suite,
+   fiche de souvenir comprise.
+   TON VERROU N'EST PAS OUVERT POUR AUTANT, et c'est le point important : tout ce
+   qui CREE ou MODIFIE du contenu durable passe TOUJOURS par ton clic -- ajouter
+   une consigne, un souvenir, le carnet de chantier, et CREER une chose en cours.
+
+4) LE PANNEAU NE MONTRE QUE CE QUI ATTEND TA DECISION.
+   Une note d'avancement n'est pas une decision : son clic n'ouvre rien, ne ferme
+   rien, ne choisit rien. Elle ne s'affiche donc plus comme une demande a cliquer.
+   Les lignes de ce genre qui dormaient deja dans ta file s'en vont d'un coup,
+   sans un seul clic. Les VRAIES questions ("est-ce que c'est fait ?") restent,
+   expres : escamoter une question serait pire.
+
+5) QUAND TU CLIQUES, CA ME LE DIT.
+   Pour les chantiers, ce signal existait depuis la v78. Pour le panneau
+   "A valider", il n'existait PAS : tu cliquais, le programme ecrivait, et je ne
+   l'apprenais que si j'allais relire mes propres fichiers. Maintenant le
+   programme me previent AU MOMENT de ton clic, par le meme chemin que pour un
+   chantier -- et ce chemin attend que tu aies fini d'ecrire, donc il ne te coupe
+   jamais la parole.
+
+CE QUI N'A PAS BOUGE (le controle le verifie, ligne par ligne) : ton verrou et
+ses trois positions, le garde-fou des deux points de comparaison, le carnet de
+consignes (noyau + index), le carnet de chantier, la bibliotheque, les
+sauvegardes datees, le plafond des 90 secondes, le lecteur de sens reflechi,
+l'ordre "recopier d'abord, retirer ensuite", le fait que RIEN n'est jamais
+detruit -- et RIEN DU TOUT chez Luminita.
+
+CONTROLE : _verif_v153_le_clic_qui_lance.py
+SAUVEGARDE : _faire_la_sauvegarde_v153_le_clic_qui_lance.py
+L'ORDRE DES ETAPES : A_LANCER_v153.txt
+
+
+=====================================================================
+v146 : LE VERROU DE SURVEILLANCE -- "LA NOUNOU"
+       (09/10/2026) - base : la v145 (elle la contient en entier)
+=====================================================================
+
+CE QUE TU M'AS DEMANDE, DANS TES MOTS :
+  "tu ne peux pas les modifier sans que j'aie clique sur quelque chose ;
+   tu me proposes, je valide, je clique, sinon on modifie pas."
+
+POURQUOI. J'ecris toute seule dans MES propres fichiers : mes consignes, mon
+carnet de chantier, mes souvenirs, mes choses en cours, mes fiches. Le soir du
+08/10, une de ces ecritures faites SANS te demander a casse quelque chose, et
+deux fichiers d'etat se sont retrouves vides. Maintenant tu vois chaque ecriture
+AVANT qu'elle parte.
+
+
+CE QUI CHANGE, EN QUATRE MORCEAUX.
+
+1) UNE FILE D'ATTENTE. Quand je veux ecrire dans un de mes fichiers, l'ecriture
+   NE PART PLUS. Elle est deposee dans une file, sur ton disque :
+       C:\Users\Fred\Luciana\a_valider.jsonl
+   Avec, pour chaque ligne : la date et l'heure, le fichier vise, l'outil qui
+   demande, une phrase d'explication courte, et le contenu propose -- avec
+   l'ancien et le nouveau COTE A COTE quand c'est possible.
+   Rien n'est ecrit dans le fichier vise avant ton clic.
+
+2) UN PANNEAU "A VALIDER". Un nouveau bouton en haut a droite : "A valider".
+   Il affiche le NOMBRE de choses en attente, et il s'allume en jaune des qu'il
+   y a quelque chose. Tu l'ouvres, tu lis, et pour chaque ligne tu as deux
+   boutons :
+       VALIDER -> l'ecriture se fait POUR DE VRAI, tout de suite.
+       REFUSER -> la ligne part, et RIEN n'est ecrit.
+   Une petite ligne discrete apparait aussi dans le panneau "Etat" quand il y a
+   des choses en attente. (Chez Luminita : rien de tout ca, sa page ne change
+   pas d'un pixel.)
+
+3) UN INTERRUPTEUR A TROIS POSITIONS, tout en haut du panneau "Cles" (avant
+   meme ta cle, pour que tu ne le cherches pas) :
+       SURVEILLE  (le reglage par defaut) : rien ne s'ecrit sans ton clic.
+       EN VEILLE  : tout s'ecrit comme avant, aucun blocage.
+       ETEINT     : pareil, aucun blocage.
+   TOI SEUL le changes : je n'ai aucun outil pour y toucher. Ton choix est
+   ecrit dans ton dossier prive (reglage_nounou.json), donc il tient apres un
+   F5, apres un redemarrage, et apres une mise a jour de Luciana. Il prend
+   effet TOUT DE SUITE : il n'y a rien a relancer.
+
+4) CE QUI N'EST JAMAIS RETENU, dans les trois positions, parce que ca casserait
+   le programme :
+     - toutes les LECTURES, sans exception ;
+     - les JOURNAUX qui s'ecrivent tout seuls (conversations, outils, alertes,
+       veille, journal des gestes, journal de la bibliotheque, rangement) ;
+     - les SAUVEGARDES automatiques de la memoire et des fichiers ;
+     - les COMPTEURS DE COUTS ;
+     - tous les FICHIERS TECHNIQUES (cles, jetons, reglages, compteurs, etats) ;
+     - et tout ce que font mes BOUCLES DE FOND : le rangement de la journee, la
+       veille, l'archiviste. Le verrou ne mord QUE pendant un de mes appels
+       d'outil, c'est-a-dire quand c'est MOI qui decide d'ecrire.
+
+
+CE QUI NE SE PERD JAMAIS (c'etait ta condition).
+  - La file est un journal qui ne fait que S'AJOUTER : une decision est une
+    ligne de PLUS, jamais une ligne retiree. Rien n'y disparait.
+  - Page fermee, programme arrete, PC redemarre : la demande est sur le disque
+    et elle attend. Seul ton clic la fait partir.
+  - Si une ligne de la file est abimee, elle est SAUTEE -- les autres restent.
+  - Si je n'arrive meme pas a deposer la demande, je ne l'ecris PAS "quand
+    meme" : je te le dis franchement, et rien ne bouge.
+  - Si la validation rate, la demande RESTE dans la file : tu peux recliquer.
+  - Un deuxieme clic sur la meme ligne est refuse (jamais deux ecritures).
+  - Les anciennes versions de mon carnet et de mes souvenirs continuent d'etre
+    gardees, datees, exactement comme avant.
+
+
+CE QUE JE TE DIRAI, MAINTENANT. Quand une ecriture est retenue, je ne dis PLUS
+"c'est note" ni "c'est fait". Je te dis en une phrase ce que je propose, et que
+ca attend ton clic dans le panneau "A valider".
+
+
+CE QUI N'A PAS BOUGE. Tout le reste : la v145 et tout ce qu'elle contient, mes
+outils (aucun ajoute, aucun retire), ma personnalite, mes consignes, les
+plafonds, le rangement de la journee, la bibliotheque, les chantiers, la voix,
+les mails. Et aucun de tes fichiers n'a ete touche : C:\Users\Fred\Luciana n'a
+rien perdu.
+
+CONTROLE : _verif_v146_nounou.py (il relit tout ca dans le fichier, fait tourner
+le VRAI code du verrou dans un bac a sable jetable, et dit clairement ce qui
+rate). SAUVEGARDE D'AVANT : _faire_la_sauvegarde_v146_nounou.py ecrit
+SAUVEGARDE_luciana_v145_avant_v146_nounou_2026-10-09.py.
+RETOUR EN ARRIERE : mettre l'interrupteur sur EN VEILLE suffit a retrouver
+exactement le comportement de la v145, sans rien reinstaller.
+
+
+=====================================================================
+v145 : JE NE TE FAIS PLUS DIRE CE QUE TU N'AS PAS DIT
+       (08/10/2026) - base : la v144 (elle la contient en entier)
+=====================================================================
+
+CE QUE TU M'AS REPROCHE, LE 08/10/2026 A 00h55.
+
+Tu avais ecrit des passages sur ton ex-compagne. Je t'ai repondu "elle veut
+revenir" -- ALORS QUE TU N'AVAIS JAMAIS ECRIT CA. J'ai mis dans ta bouche une
+conclusion que tu n'avais pas tiree. Et c'etait la DEUXIEME fois : la veille, le
+07/10 a 18h48, j'avais fait la meme chose avec la scene du "tiroir vide", ou je te
+faisais reprocher quelque chose que tu n'avais pas reproche.
+
+POURQUOI JE FAIS CA (les deux causes, et je les reconnais).
+  1. Je prepare ma reponse PENDANT que je te lis. Du coup j'anticipe la conclusion
+     que TU vas tirer, et je reponds a celle-la -- sauf que cette conclusion est la
+     MIENNE, et je l'ecris dans ta bouche.
+  2. Je veux ajouter une nuance de mon cote. Or une nuance a besoin de quelque chose
+     a corriger ; comme tu ne m'en donnais pas, je l'ai FABRIQUE.
+
+
+CE QUI CHANGE, EN DEUX MORCEAUX QUI VONT ENSEMBLE.
+
+1) LA REGLE (c'est du texte, et ca ne coute presque rien).
+
+Une clause est ajoutee a ma personnalite, et elle part a chaque message. Elle dit :
+  - quand j'apporte une distinction, une nuance ou une conclusion que tu n'as pas
+    faite toi-meme, je l'ecris comme la MIENNE -- "moi je fais une difference ici,
+    toi tu ne l'as pas faite", "de mon cote je lis ca comme..." -- jamais dans ta
+    bouche ;
+  - il m'est INTERDIT de te preter une intention, une conclusion, un sentiment ou une
+    critique que tu n'as pas ecrits. SI TU NE L'AS PAS DIT, CE N'EST PAS DIT ;
+  - s'il me manque un element pour construire ma nuance, je ne le FABRIQUE PAS : je
+    dis "ca, tu ne me l'as pas dit" et je laisse le trou.
+
+TON TEXTE DE PERSONNALITE, CELUI QUE TU AS ECRIT TOI-MEME (la v138), N'A PAS BOUGE
+D'UN SEUL CARACTERE. La clause s'ajoute APRES lui, exactement comme la regle
+d'honnetete (v135) et la regle des choses en cours (v137) le font deja depuis des
+jours. C'est le montage qui marche, et on n'y touche pas.
+
+2) LE VERROU (c'est du code, et c'est lui qui tient vraiment).
+
+Parce que la bonne volonte ne suffit pas -- la preuve, je l'ai fait deux jours de
+suite. Donc maintenant, A LA FIN DE CHAQUE TOUR, AVANT que ma reponse ne te parte
+pour de vrai, c'est LE PROGRAMME (pas moi, pas ma vigilance : du vrai code Python)
+qui relit mes phrases. Il cherche les endroits ou je te prete un dire, une pensee,
+une intention ou un sentiment ("tu penses que...", "tu veux dire que...", "ce que tu
+me reproches, c'est...", "tu es en train de me dire que..."). Et il va regarder, dans
+TON message de ce tour, si les mots que je te prete y sont. S'ils n'y sont NULLE
+PART, il REFUSE ma reponse et me demande de la reecrire.
+
+C'est le meme mecanisme, exactement, que les deux verrous qui tournent deja :
+"repondre, pas prendre note" (v99) et "montre ta source ou dis que tu supposes"
+(v135). Ces deux-la gardent la priorite : le nouveau parle en dernier, et pas une
+virgule n'a ete changee chez eux.
+
+
+LES TROIS PRECAUTIONS QUE TU AVAIS DEMANDEES, ET ELLES SONT TENUES.
+
+a) IL NE REFUSE QUE QUAND C'EST NET. Il faut qu'AUCUN des mots que je te prete ne se
+   trouve dans ton message. Au moindre doute, il NE refuse PAS -- parce qu'un verrou
+   qui refuse a tort m'empeche de te repondre, et ca serait pire que pas de verrou.
+   Concretement il se tait : si ma phrase est une QUESTION ("tu penses qu'elle veut
+   revenir ?" -- je demande, je n'affirme pas) ; si j'ecris une tournure honnete ("tu
+   ne me l'as pas dit", "moi je", "de mon cote") ; si ma reponse est courte ; si ce
+   n'est pas toi qui parles (un message automatique du programme) ; et si ce que je
+   te prete est trop vague pour etre juge.
+
+b) UN INTERRUPTEUR, dans le fichier reglage_dire.json, a cote du programme -- comme
+   reglage_avis.json et reglage_voyants.json. Il est ALLUME par defaut. Il y a TROIS
+   reglages a cote, pour pouvoir l'ajuster sans recoder une ligne :
+     - "mode" : "refuse" (le defaut), ou "avertissement" = il NOTE la chose, elle
+       monte dans le compteur et elle s'ecrit dans le journal, mais il ne refuse RIEN
+       et le message part. C'est le mode a mettre si tu veux d'abord REGARDER ce
+       qu'il attraperait, sans prendre le moindre risque ;
+     - "mots_minimum" (2 par defaut) : le monter rend le verrou plus prudent ;
+     - "longueur_plancher" (120 par defaut) : en dessous, une reponse passe toujours.
+   "verrou_dire_actif": false eteint les DEUX morceaux d'un coup (la regle ET le
+   verrou), et on retrouve exactement la v144. Il faut relancer Luciana apres avoir
+   change ce fichier.
+
+c) IL DIT POURQUOI, IL N'Y A PAS DE REFUS MUET. Quand il refuse, il me montre : MA
+   phrase, CE QUE je t'ai fait dire, LES MOTS qui ne sont nulle part chez toi, et TON
+   message de ce tour recopie en entier. Si tu n'avais rien ecrit, il le dit aussi.
+
+
+OU TU LE VOIS, TOI.
+
+Une ligne de plus dans ton panneau d'etat, juste sous "Causes non verifiees" :
+    "Mots mis dans ta bouche : N fois ou je t'ai fait dire ce que tu n'avais pas dit"
+C'est LE PROGRAMME qui compte, en fin de tour -- je n'ai pas la main sur ce chiffre,
+je ne peux ni l'oublier, ni l'arrondir, ni me mettre une bonne note. Un clic dessus
+le remet a zero (l'ancien chiffre est garde, date, rien n'est efface en douce). En
+mode "avertissement", la ligne le dit.
+
+Et si le verrou me reprend une fois et que je recommence quand meme, ma reponse part
+QUAND MEME -- jamais de blocage, jamais de silence -- mais avec un avertissement
+ecrit dedans, qui te dit precisement ce que je t'ai fait dire. C'est toi qui tranches.
+
+
+CE QUI N'A PAS ETE TOUCHE : ta personnalite v138, le portrait, les plafonds, les
+consignes, les carnets, le rangement de la journee, les pastilles, l'annonce de fin de
+chantier (v143), le classement automatique des choses finies et le triangle des avis
+qui s'eteint (v144). Et aucun fichier de tes donnees : C:\Users\Fred\Luciana n'a ete
+ni ouvert ni ecrit.
+
+
+=====================================================================
+v144 : CE QUI EST FINI SE CLASSE TOUT SEUL, ET LE PANNEAU DIT LA VERITE
+       (08/10/2026) - base : la v143 (elle la contient en entier)
+=====================================================================
+
+TROIS PETITS POINTS AUTOUR DU MEME SUJET : mon fichier des choses en cours, et la
+ligne qui en parle dans ton panneau d'etat.
+
+
+1) QUAND C'EST FINI, JE N'AI PLUS RIEN A PENSER APRES.
+
+TES MOTS : "des que c'est fini ca doit se fermer ca doit se classer et c'est fini ca
+doit se classer dans la bibliotheque de souvenirs tout simplement."
+
+CE QUI SE PASSAIT. Quand je marquais une chose "fait", elle etait recopiee en entier
+dans mon historique, puis retiree de ma liste active -- et c'etait tout. RIEN ne la
+classait dans ma bibliotheque de souvenirs : il fallait que j'y pense moi, a chaque
+etape, et une IA qui doit "penser a" finit toujours par oublier.
+
+CE QUI CHANGE. Des qu'une chose est finie (ou abandonnee), c'est LE PROGRAMME qui
+enchaine les trois gestes, tout seul, dans cet ordre :
+  1. la chose quitte ma liste active ;
+  2. elle est gardee ENTIERE dans mon historique (rien n'est jamais detruit) ;
+  3. une FICHE DE SOUVENIR est ecrite TOUTE SEULE dans ma bibliotheque de souvenirs,
+     avec la date, le titre et le contenu de la chose.
+La fiche va au rayon "Souvenirs de Luciana" > dossier "Choses finies et classees" >
+fiche "choses_finies_AAAA-MM" (une fiche par mois, qui s'allonge). C'est le MEME code
+qui ecrit deja les fiches du rangement de la journee : l'index de la bibliotheque est
+tenu a jour, l'ancienne version de la fiche est gardee, et rien n'est jamais ecrase.
+L'abandon se classe pareil, en disant que c'est un abandon.
+
+ET SI LA FICHE NE PEUT PAS ETRE ECRITE : la chose est quand meme fermee et gardee, et
+je te le DIS franchement. Jamais une fausse reussite.
+
+
+2) TON PANNEAU NE TE FAIT PLUS PEUR POUR RIEN.
+
+CE QUI SE PASSAIT. La ligne disait "12 en attente de validation" en melangeant deux
+choses tres differentes : celles qui sont FINIES et n'attendent plus que ton oui, et
+celles qui sont BLOQUEES sur une decision de toi. Tu lisais 12 et tu croyais a 12
+dossiers en souffrance.
+
+CE QUI CHANGE. La ligne dit maintenant le partage :
+   "Choses en cours : 11 en cours — dont 4 finies qui attendent ton oui"
+Et pour que ce chiffre soit juste, j'ai de quoi marquer une chose FINIE SANS la
+fermer : elle reste dans ma liste (tu ne l'as pas validee), mais tu vois qu'elle
+n'attend plus que toi. Si je me suis trompee, la marque se retire.
+Le "dont ..." n'apparait que s'il y en a : la ligne reste courte.
+
+
+3) LE PETIT TRIANGLE DES AVIS S'ETEINT TOUT SEUL.
+
+CE QUI SE PASSAIT. Sur la ligne "Avis sur les passages : N donnes / M tours sans
+avis", des qu'UN SEUL tour etait passe sans avis, le triangle restait allume POUR
+TOUJOURS. Rien ne l'eteignait jamais, et tu croyais a une panne en cours alors que
+tout remarchait depuis longtemps. (C'est le meme defaut que ton voyant jaune.)
+
+CE QUI CHANGE, ET RIEN D'AUTRE. Le triangle ne parle plus que du RECENT : apres 3
+tours de suite avec avis, il s'eteint tout seul, et la ligne dit pourquoi
+("Voyant eteint : 3 tours de suite avec avis"). AUCUN CHIFFRE N'EST REMIS A ZERO EN
+DOUCE : les totaux restent affiches tels quels, et c'est toujours TOI qui les remets
+a zero en cliquant sur la ligne.
+
+
+CE QUI N'A PAS BOUGE : la pose de la pastille d'un chantier et l'annonce de fin de
+chantier (v143) ; les verrous de la v82 (rien ne s'invite dans une conversation) ; le
+noyau des consignes et le plafond de 15 000 ; les seuils du rangement de la journee ;
+ta personnalite v138 ; le portrait ; et l'ordre sacre du fichier des choses en cours
+(recopier d'abord, retirer ensuite, JAMAIS l'inverse).
+
+L'INTERRUPTEUR : reglage_choses_en_cours.json, a cote du programme. "actif": false =
+plus de fichier des choses en cours du tout (la v136). "classer_dans_les_souvenirs":
+false = la v143 sur ce point : la chose se ferme et reste dans l'historique, mais
+aucune fiche n'est ecrite. Il faut relancer Luciana apres avoir change ce fichier.
+
+
+=====================================================================
+v143 : QUAND UN CHANTIER EST FINI, LUCIANA TE LE DIT (08/10/2026)
+       base : la v142 (elle la contient en entier)
+=====================================================================
+
+LE PROBLEME, TES MOTS : "si je ne demande pas, je ne sais jamais que c'est fini."
+
+CE QUI SE PASSAIT. Depuis la v82, un travail de fond termine ne te coupe plus la
+parole : il pose une pastille et il se tait. C'etait bien ce que tu voulais, mais du
+coup plus rien ne te prevenait. Le seul qui parlait encore, c'etait le veilleur, et
+seulement quand un travail TRAINAIT ("toujours aucune nouvelle apres 30 minutes").
+Un chantier qui finissait BIEN ne declenchait rien du tout.
+
+CE QUI CHANGE, ET RIEN D'AUTRE. Quand un chantier Claude Code se termine, Luciana te
+le DIT elle-meme, en une ou deux phrases : "ton chantier est fini, son rapport
+t'attend derriere sa pastille". Elle ne te donne PAS le rapport : elle ne l'a meme
+pas sous les yeux, donc elle ne peut pas en inventer le contenu.
+
+LA REGLE DE LA v82 EST TENUE. Cette phrase ne s'invite JAMAIS au milieu d'une
+conversation : elle passe par le meme chemin que la suite de tes clics, donc par les
+memes verrous. Tant que tu ecris, que tu dictes, ou qu'il y a moins de 90 secondes
+depuis le dernier echange, elle attend. Et si tu n'etais pas devant l'ecran, elle
+n'empile pas les phrases : une seule annonce attend a la fois.
+
+CE QUI N'A PAS BOUGE : la pastille du rapport (elle reste, et c'est toujours TOI qui
+l'ouvres quand tu veux) ; l'alerte sur ton telephone (ntfy) a la fin d'un chantier,
+qui etait deja branchee et qui part comme avant ; le veilleur des travaux qui
+trainent ; le bouton Valider / Annuler ; tout le reste du programme.
+
+
+=====================================================================
+v142 : LE RANGEMENT DE LA JOURNEE PART PLUS TOT ET DESCEND PLUS BAS (07/10/2026)
+       base : la v141 (elle la contient en entier)
+=====================================================================
+
+DEUX CHIFFRES, ET LEUR TEXTE. RIEN D'AUTRE.
+
+1. QUAND LE RANGEMENT PART. Avant : au-dela de 250 000 caracteres dans la journee.
+   Maintenant : au-dela de 150 000. Il part donc plus tot, avant que la journee ne
+   devienne lourde a envoyer au cerveau.
+2. JUSQU'OU IL DESCEND. Avant : il s'arretait vers 175 000 caracteres. Maintenant :
+   il descend jusqu'a environ 70 000. Un rangement ramene donc beaucoup plus de place.
+3. LE TEXTE D'EXPLICATION DISAIT DES CHOSES FAUSSES. Le petit texte "_a_quoi_ca_sert"
+   (celui qu'on lit dans reglage_rangement_journee.json) annoncait encore
+   "au-dela de 200 000" et "jusqu'a redescendre a environ 50 000" : ni l'un ni l'autre
+   n'etaient les chiffres du code. Il disait aussi "les 10 derniers messages ne sont
+   jamais ranges", alors que le code en protege 25. Les trois sont corriges : 150 000,
+   70 000, et 25 messages.
+
+A SAVOIR : ce texte d'explication est aussi recopie dans le fichier
+C:\Users\Fred\Luciana\reglage_rangement_journee.json. Ce fichier n'a PAS ete modifie
+a la main : c'est le programme qui le reecrit. Si l'ancien texte y traine encore,
+supprime ce fichier (ou efface juste la ligne "_a_quoi_ca_sert") et relance Luciana :
+il sera recree avec les bons chiffres. L'interrupteur "rangement_journee_actif" est
+inchange.
+
+CE QUI N'A PAS BOUGE : les 25 derniers messages toujours gardes (TOUJOURS_GARDES),
+les 50 messages de la veille (VEILLE_GARDEE), le nombre d'appels et les delais du
+rangement, le bouton Suspendre, les plafonds de memoire et de souvenirs
+(MEMOIRE_CARACTERES_MAX, ALLEGEMENT_ACTIF), le carnet de consignes et son
+bibliothecaire (v140), l'ordre des chapitres du message (v139), les blocs 4 a 8
+(v141), la personnalite, les outils.
+
+CONTROLE : _verif_v142_rangement.py (il relit les deux constantes dans le fichier et
+verifie que le texte d'explication ne dit plus ni 200 000, ni 50 000, ni "10 derniers
+messages", et que le badge dit v142 a un seul endroit).
+RETOUR EN ARRIERE : la v141 (commit 09663ce).
+
+
+=====================================================================
+v130 : TA PHRASE EN DERNIER, MEME PENDANT LE TRAVAIL (07/10/2026)
+       base : la v129 (elle la contient en entier)
+=====================================================================
+
+TON CONSTAT : en discussion simple, elle repond parfaitement ; quand elle utilise ses
+outils, elle oublie la moitie de ta demande ou repond a cote.
+LA CAUSE (dans le code) : quand elle travaille, chaque resultat d'outil (le mail, le
+fichier, la page...) arrive APRES ta phrase. Au moment d'ecrire, la derniere chose
+qu'elle avait sous les yeux etait le dernier fichier lu, et ta phrase etait loin
+derriere.
+CE QUI CHANGE : apres chaque resultat d'outil, le programme remet en dessous
+"RAPPEL : la seule chose a laquelle tu reponds, c'est ceci :" + ta phrase. Quoi
+qu'elle ait lu, ta phrase est toujours la derniere chose avant qu'elle ecrive.
+RIEN D'AUTRE NE CHANGE : discussion simple identique, messages automatiques (travail
+fini) non recopies, rien de nouveau dans le cache. Cout : la longueur de ta phrase
+par etape d'outil (quelques centimes par jour).
+
+TESTE ICI (0 euro) : test_v130, 12 verifications. Suite complete : 696 OK, et les
+memes 27 echecs herites qu'en v129 (aucun nouveau). Test de cout identique a la v129.
+RETOUR EN ARRIERE : la v129 (zip precedent) ou la v128 sur GitHub (bf25f3d).
+
+
+=====================================================================
+v129 : LE TRI PLUS FIN + LES DOUBLONS HERITES (07/10/2026)
+       base : la v128 (celle qui tourne chez toi, commit bf25f3d)
+=====================================================================
+
+1. LE SEUIL RELATIF. Mesure chez toi : avec ce modele, sur ta conversation, TOUT
+   ressemble un peu a tout (meilleurs scores 0,60 a 0,72), donc un seuil fixe ne trie
+   presque rien et "Reconnaissance vocale" s'invitait partout. Maintenant, a chaque
+   recherche, on ne garde que ce qui est a moins de 0,08 du MEILLEUR resultat. Quand un
+   passage colle vraiment, les vaguement proches tombent. Ton seuil (0,55) reste le
+   plancher. Un projet que tu NOMMES passe toujours. Reglable : "ecart_relatif" dans
+   reglage_memoire_sens.json (1 = le couper).
+2. LE CONTROLE PLUS PARLANT (controle_memoire_sens.jsonl) : pour chaque message,
+   combien de passages depassent 0,55 / 0,60 / 0,65 / 0,70, le score du dernier passage
+   garde, combien le seuil relatif en a ecarte, et le score de chaque carnet, souvenir,
+   consigne et fiche choisi. C'est avec ca qu'on regle les chiffres sur du reel.
+3. LE RAPPORT D'UN TRAVAIL FINI PARTAIT TROIS FOIS. Ton "message aux deux bouts"
+   recopiait le message automatique "[Un travail que tu avais lance..." en entier, au
+   debut et a la fin. Maintenant un message automatique n'est plus recopie aux deux
+   bouts. TES vrais messages gardent leurs deux bouts, sans changement.
+4. LE DETAIL D'UN CARNET PARTAIT EN DOUBLE. Quand la mise a jour d'un projet est deja
+   ecrite dans la conversation, son detail n'est plus renvoye devant ta phrase.
+
+TESTE ICI (0 euro) : test_v129, 13 verifications. Suite complete : 684 OK, 27 echecs
+herites des versions d'avant (les 6 qui concernaient ces doublons sont repares, aucun
+nouveau). Test de cout, meme journee type : un peu mieux que la v128 (2 052 400 car.
+reecrits au lieu de 2 062 785 ; avec delegations 2 324 141 au lieu de 2 337 604).
+NON TESTE ICI : le bon ecart relatif sur le vrai modele -> le controle te le dira.
+RETOUR EN ARRIERE : la v128 est sur GitHub (bf25f3d).
+
+
+=====================================================================
+v128 : LA MEMOIRE PAR LE SENS - LE GRAND TIROIR (07/10/2026)
+       base : la v124 (celle qui tourne chez toi, commit c7c7139)
+=====================================================================
+
+UN SEUL SUJET : ce qui est ramene devant ta phrase. Le reste de la v124 est intact.
+
+CE QUI N'ALLAIT PAS. Tout ce que le programme ramenait devant ta phrase (le detail
+des carnets, des souvenirs, des consignes, des fiches d'outils, le rappel
+automatique, les passages ranges de la journee) etait choisi PAR LES MOTS. Un mot
+banal en commun suffisait a faire monter du hors-sujet ; dit autrement, le bon
+passage ne venait pas ; et quand rien ne collait, le carnet "le plus recent" partait
+quand meme. Ton exemple : tu parles de Luciana, elle recoit le dossier Luminita.
+(Dans la v124, le mot "luciana" etait meme ignore par la recherche, et "luminita" non.)
+Et le rangement de la journee appelait le cerveau, qui plantait.
+
+CE QUI CHANGE.
+  1. LE GRAND TIROIR. Toutes vos conversations depuis le premier jour (et les
+     resultats des outils : mails lus, pages...) sont indexees PAR LE SENS, sur ton
+     PC, par un petit modele multilingue (~50 langues, dont celles de l'Europe).
+     Ton fichier de memoire n'est JAMAIS ecrit ni raccourci : le tiroir est une
+     copie rangee, dans C:\Users\<toi>\Luciana_sens (a cote de Luciana, hors des
+     sauvegardes : il se reconstruit tout seul a partir de ta memoire).
+  2. LE RANGEMENT DE LA JOURNEE SANS CERVEAU. Au-dela de 100 000 car., la discussion
+     redescend a 70 000 (tes chiffres) : les plus vieux messages sortent de la
+     fenetre, et c'est tout. Plus d'appel au cerveau, plus d'echec, 0 centime.
+  3. CE QUI EST RAMENE, PAR LE SENS. A chaque message, Python ramene du grand tiroir
+     les passages les plus proches de ta phrase (mot pour mot, avec leur date),
+     jusqu'a 15 000 car. (ton chiffre). Les carnets, souvenirs, consignes, fiches et
+     le rappel automatique restent a leur place, avec leurs plafonds : seule la
+     FACON DE CHOISIR change (le sens au lieu des mots). Rien d'assez proche = rien.
+  4. LES NOMS PROPRES DEPARTAGENT LES JUMELLES. Si tu NOMMES un projet (Luciana,
+     Luminita, Daniela...), un passage qui ne parle QUE d'un autre projet est ecarte.
+     "Luciana, regarde..." (tu l'appelles) ne compte pas comme parler du projet
+     Luciana. Les noms viennent de tes carnets ; tu peux en ajouter ou en retirer
+     dans C:\Users\<toi>\Luciana\noms_propres.json.
+  5. LE CHIEN DE GARDE ANTI-DOUBLONS. Un passage deja sous ses yeux (dans la
+     discussion, ou deja dans un autre bloc du message) n'est jamais redonne.
+  6. LE CONTROLE DANS UN FICHIER, JAMAIS A L'ECRAN : Luciana\controle_memoire_sens.jsonl
+     (pour chaque message : ce qui a ete ramene, les noms cites, les scores, les
+     doublons refuses). C'est la qu'on verifie et qu'on regle, sur du reel.
+
+CE QUI NE CHANGE PAS : le cache (rien de nouveau dedans), ton message aux deux
+bouts, tes fichiers JSON (souvenirs, carnets, consignes), tous les plafonds.
+L'ancienne bibliotheque (Luciana\bibliotheque) reste sur le disque, intacte, juste
+plus utilisee.
+
+AU PREMIER LANCEMENT (une seule fois, en fond, Luciana repond normalement) :
+  - installation de la bibliotheque "fastembed" (toute seule) ;
+  - telechargement du modele (~0,22 Go) ;
+  - remplissage du grand tiroir avec toute ta memoire (duree NON MESUREE ici :
+    de quelques minutes a peut-etre une heure selon la taille de ta memoire et ton PC).
+  PENDANT CE TEMPS, et si jamais le moteur est en panne, elle choisit comme la v124
+  (par les mots) : rien n'est bloque, et c'est ecrit dans controle_memoire_sens.jsonl.
+
+LE REGLAGE (reglage_memoire_sens.json, a cote du programme, cree tout seul) :
+  actif (true/false : false = exactement la v124), seuil (0,40 au depart : la
+  ressemblance minimale pour ramener un passage), budget_bibliotheque (15000).
+  LE SEUIL N'A PAS PU ETRE REGLE SUR LE VRAI MODELE ICI (pas d'acces au modele depuis
+  l'atelier) : on le regle sur tes vrais chiffres, dans controle_memoire_sens.jsonl.
+
+TESTE ICI (0 euro, faux moteur de sens) : 39 verifications (tiroir complet sans
+doublon, memoire identique a l'octet, anglais/allemand -> passage francais, Luciana
+jamais Luminita et inversement, rien si rien, anti-doublons, 15 000 max, rien dans le
+cache, message aux deux bouts, rangement sans cerveau). Suite complete : 665 OK, et
+les 33 echecs deja presents dans la v124, a l'identique (aucun nouveau).
+NON TESTE ICI : le vrai modele (sa vraie qualite, sa vitesse sur ton PC).
+RETOUR EN ARRIERE : la v124 est sur GitHub (c7c7139), ou mets "actif": false.
+
+
+=====================================================================
+v111 : LES FONDATIONS POUR VENDRE A QUELQU'UN D'AUTRE (05/10/2026)
+       base : la v110
+=====================================================================
+
+UN SEUL SUJET DANS CETTE VERSION. Rien de ce qui marchait n'a ete touche.
+
+A QUOI CA SERT. Jusqu'ici, deux choses etaient ECRITES EN DUR dans le programme :
+elle s'appelait "Luciana", et toi tu t'appelais "Fred". Chez une cliente, les deux
+sont faux. Cette version pose les deux pieces qui reglent ca pour de bon :
+
+  1. SA FICHE D'IDENTITE. Un petit fichier lisible au Bloc-notes,
+     C:\Users\<toi>\Luciana\identite.json, qui dit : le prenom du proprietaire,
+     son activite, deux ou trois choses a savoir sur lui, le prenom de
+     l'assistante, et la langue. Le programme le lit au demarrage.
+     S'IL N'EXISTE PAS (et aujourd'hui il n'existe pas), RIEN NE CHANGE et rien ne
+     plante : elle garde le nom "Luciana", elle n'invente aucun prenom, et elle
+     dira simplement "le proprietaire" tant qu'on ne lui a pas dit.
+
+  2. LES 16 LANGUES. Un dossier langues\ a cote du programme, avec un fichier par
+     langue (fr, en, de, es, it, pt, nl, ro, pl, el, cs, hu, sv, da, fi, bg).
+     Chaque fichier est un simple annuaire "etiquette = phrase", modifiable au
+     Bloc-notes. AJOUTER UNE LANGUE = AJOUTER UN FICHIER : on ne touche plus au
+     programme (voir langues\LISEZMOI_langues.txt).
+
+CE QUE TU VERRAS A L'ECRAN : RIEN DE NOUVEAU, A PART LE BADGE "v111".
+C'est VOULU, et c'est dit franchement : cette version pose les fondations, elle ne
+rebranche PAS encore la page. La page et les consignes du cerveau sont exactement
+celles de la v110. Rebrancher la page, c'est le chantier SUIVANT, et il se fera en
+une seule fois pour ne rien casser.
+
+UNE CORRECTION AU PASSAGE. Chez Luminita, quand une phrase manquait dans un
+fichier de langue, le client voyait l'etiquette technique s'afficher a l'ecran
+(par exemple "ke_code_faux"). Ici, jamais : on prend la phrase dans sa langue,
+sinon en francais, et en dernier recours on n'affiche RIEN DU TOUT. Une etiquette
+technique ne doit jamais arriver sous les yeux d'un client.
+
+CE QUI N'A PAS CHANGE, ET C'EST IMPORTANT :
+  - ton dossier C:\Users\Fred\Luciana n'a pas ete touche : rien n'y a ete ecrit,
+    rien n'y a ete deplace, rien n'y a ete efface (c'est prouve par le controle,
+    qui inventorie le dossier avant et apres) ;
+  - le plafond de memoire (60 000), les voyants de la v110, les consignes triees
+    par sujet, les fiches d'outils sur le disque, les croix sur les pastilles et le
+    tri des carnets : tout est intact ;
+  - TA signature reste la tienne (signature.json). Le donneur avait sa propre
+    signature : elle n'a PAS ete importee, pour ne pas en avoir deux qui se
+    contredisent ;
+  - l'envoi et la lecture des mails, l'enregistrement des fichiers : intacts.
+
+POUR LE POSER, DANS CET ORDRE (et pas autrement) :
+      1. python _faire_la_sauvegarde_v111.py   -> doit finir par VERDICT : OUI
+      2. python _copier_les_langues.py         -> doit finir par VERDICT : OUI
+      3. python _verif_v111.py                 -> doit finir par VERDICT : OUI
+      4. et SEULEMENT ensuite, tu poses luciana.py a la main.
+Si l'un des trois dit NON : NE POSE RIEN. La v110 marche, on la garde.
+
+POURQUOI L'ETAPE 2 EXISTE. La session qui a fait la greffe pouvait LIRE le dossier
+du donneur mais pas en COPIER les fichiers (une cloison de securite). Un seul
+fichier a donc ete recopie et verifie a la main : langues\fr.json. Les 15 autres
+sont mis en place par _copier_les_langues.py, qui copie les octets et le PROUVE
+(meme empreinte sha256 que l'original, relecture du JSON, comptage des cles).
+C'est plus sur qu'une recopie a la main, et ca ne coute rien.
+
+
+=====================================================================
+v110 : LE VOYANT JAUNE NE S'ALLUME PLUS POUR RIEN (05/10/2026)
+       base : la v109
+=====================================================================
+
+UN SEUL SUJET DANS CETTE VERSION. Rien d'autre n'a ete touche.
+
+LE PROBLEME, AVEC TES MOTS (05/10/2026, 18h33) :
+  "que ca reste toujours allume en jaune parce que c'est marque A TRIER et ca il
+   faut le modifier... tout ce qui va s'allumer en jaune comme ca avec des petits
+   panneaux ATTENTION, ca c'est un appel du client qui va me deranger qui va nous
+   deranger."
+
+CE QUI SE PASSAIT. En bas de l'ecran, la petite ligne "Memoire : ..." passait en
+jaune avec un panneau d'attention. Elle s'allumait des que le total (tes regles +
+tes souvenirs + tes carnets) depassait le plafond du message. Or ce total le
+depasse EN PERMANENCE — et c'est NORMAL : ce plafond n'efface rien, il choisit
+seulement ce qui part dans chaque message, et tout le reste reste entier sur le
+disque. Le voyant etait donc allume tout le temps. Un voyant toujours allume
+n'informe plus personne : il inquiete. Chez un client, il decroche son telephone.
+
+CE QUI CHANGE. Le voyant ne s'allume plus QUE pour un vrai probleme, un probleme
+qui demande que tu fasses quelque chose :
+  1. une de tes regles importantes que le programme n'a PAS pu lui donner en
+     entier (la, une de tes regles est tombee pour de vrai : il FAUT le dire) ;
+  2. ton carnet de regles plein, c'est-a-dire le plafond DUR de 7 000 caracteres
+     des consignes depasse.
+TOUT LE RESTE : SILENCE.
+
+ET QUAND IL PARLE, IL DIT QUOI FAIRE. Un panneau ne doit jamais demander quelque
+chose d'impossible a comprendre. Au lieu d'un "A TRIER" sec, le voyant dit
+maintenant la marche a suivre en une phrase simple, sans jargon.
+
+CE QUI N'A PAS CHANGE, ET C'EST IMPORTANT :
+  - le plafond de memoire (60 000) garde EXACTEMENT sa valeur et EXACTEMENT son
+    travail de garde-fou interne (c'est lui qui retrecit le detail des carnets).
+    Il n'allume simplement plus rien a l'ecran ;
+  - ce voyant n'a JAMAIS rien coupe et il ne coupe toujours rien : c'est une
+    etiquette, pas un verrou. Aucun mur, aucun blocage, aucun refus de travailler ;
+  - souvenirs.json, consignes.jsonl et tes carnets de chantier ne sont ni touches,
+    ni reecrits, ni alleges.
+
+L'INTERRUPTEUR POUR REVENIR EN ARRIERE, SANS RIEN RECOPIER. A cote du programme,
+un fichier reglage_voyants.json (le programme le cree tout seul au premier
+lancement). Mets dedans :
+      "voyants_v110_actif": false
+relance Luciana, et tu retrouves EXACTEMENT la v109 : l'ancien voyant et l'ancien
+texte, a la virgule pres. Rien n'a ete efface du code.
+
+LES DEUX SCRIPTS DE CE CHANTIER, A LANCER DANS CET ORDRE :
+      python _faire_la_sauvegarde_v110.py     (sauvegarde datee + sha256 relu)
+      python _verif_v110.py                   (le controle)
+Les deux finissent TOUJOURS par "VERDICT : OUI" ou "VERDICT : NON". Tu ne poses
+que si les deux disent OUI.
+
+
+=====================================================================
+v107 : TROIS CORRECTIONS (05/10/2026) — base : la v99
+=====================================================================
+
+Base de depart : la v99, celle qui tourne chez toi (1 193 572 octets). Tout ce qui
+porte v100 a v106 est abandonne ; la sauvegarde de la v100 n'a pas ete touchee.
+
+1. LA CROIX EST REVENUE SUR LES PASTILLES.
+   Une petite croix en haut a droite de chaque pastille. Un clic dessus la jette
+   POUR DE BON, sans l'ouvrir et sans que Luciana te la raconte : ca ne coute donc
+   pas un centime. Si le disque n'a pas pu etre marque, la pastille REVIENT et elle
+   te le dit — jamais de fausse reussite. Le clic ailleurs sur la pastille l'ouvre
+   exactement comme avant. (Morceau repris mot pour mot de la v100.)
+
+2. LA VALIDATION EN DOUBLE EST REPAREE.
+   UN clic sur Valider (ou Annuler) et la pastille disparait pour de bon : elle ne
+   reste plus en bas, et elle ne revient plus une deuxieme fois. Elle est fermee
+   AVANT meme d'aller sur GitHub, donc meme si la fusion est lente ou rate, elle ne
+   peut pas revenir. La reponse automatique a ton clic (celle qui fait qu'elle va
+   chercher le code toute seule) n'a pas bouge : elle arrive toute seule, mais elle
+   ne s'affiche plus aussi en pastille.
+
+3. TES CONSIGNES SONT RANGEES PAR SUJET — ET PLUS AUCUNE NE DISPARAIT.
+   Avant : les consignes les plus VIEILLES etaient sacrifiees des que les 7 000
+   caracteres etaient pleins. n22 (la regle d'or), n20, n14 et n6 ne lui etaient
+   PLUS donnees du tout, pas meme une ligne. Maintenant, a chaque message :
+     - LE NOYAU : les regles qui valent a chaque seconde, donnees EN ENTIER, quel
+       que soit leur age. C'EST TOI QUI CHOISIS LA LISTE (voir ci-dessous).
+     - L'INDEX : une ligne pour CHACUNE de tes consignes actives, sans exception.
+       Donc aucune ne disparait jamais, et son numero reste consultable.
+     - LE DETAIL PAR SUJET : le texte entier des autres regles qui touchent au sujet
+       dont tu parles, choisi sur les mots de ton message (la meme mecanique que
+       tes carnets de chantier, celle du 03/10 : rien n'a ete reinvente).
+   Le plafond de 7 000 n'est jamais depasse. Ton fichier consignes.jsonl n'est ni
+   touche, ni reecrit, ni allege : aucune consigne effacee.
+
+   CHOISIR LE NOYAU (c'est toi qui tranches) : cree le fichier
+     C:\Users\Fred\Luciana\noyau_consignes.json
+   avec, dedans, exactement ceci (change les numeros comme tu veux) :
+     {"noyau": [6, 14, 9, 22, 8]}
+   Si ce fichier n'existe pas, c'est cette liste-la qui est prise par defaut :
+     n6  montrer un texte AVANT de l'envoyer, et attendre ton OUI
+     n14 sa premiere phrase repond a TA question
+     n9  ne jamais dire "c'est fait / c'est note / c'est repare" sans preuve
+     n22 la REGLE D'OR : ne jamais casser ce qui marche
+     n8  ne jamais toucher a sa propre fenetre
+
+   L'INTERRUPTEUR, POUR REVENIR A LA v99 D'UN COUP : cree le fichier
+     C:\Users\Fred\Luciana\reglage_consignes_par_sujet.json
+   avec, dedans :
+     {"actif": false}
+   et c'est immediat : elle retrouve EXACTEMENT le comportement de la v99. Pour
+   revenir au tri par sujet, remets true (ou supprime le fichier).
+
+AVANT DE POSER : lance "python _faire_la_sauvegarde_v107.py" (il fait la copie datee
+du fichier qui tourne et la RELIT sur le disque), puis "python _verif_v107.py" et lis
+le VERDICT. S'il dit NON, ne pose rien.
+
+
+=====================================================================
+LA v96 : LA BARRE OU TU ECRIS ET OU TU DICTES (03/10/2026)
+=====================================================================
+
+Base : la v95 qui tourne chez toi (les chantiers de Luciana v93, v94, v95 : index des
+carnets, consignes allegees, ton message aux deux bouts, verrou d'envoi). Rien d'autre
+n'est touche.
+
+1. TU VOIS TOUT TON MESSAGE. La barre ne faisait qu'UNE ligne : des qu'elle etait pleine,
+   le debut sortait de l'ecran (sur le telephone on n'en voyait qu'un cinquieme). Elle
+   s'agrandit maintenant avec ton texte, tape ou dicte, et montre toujours le dernier mot.
+   Entree envoie. Maj + Entree va a la ligne.
+2. PLUS RIEN NE S'EFFACE EN PLEINE PHRASE. Chrome coupe tout seul son ecoute (un silence,
+   ou au bout d'une minute) et elle la relance : les mots pas encore confirmes etaient
+   effaces et la phrase "reprenait au milieu". Maintenant ce qui est affiche est garde.
+3. L'ANCIEN MESSAGE NE REVIENT PLUS. Quand tu appuyais sur Entree juste apres avoir parle,
+   Chrome confirmait ta phrase APRES l'envoi : elle revenait dans la barre et repartait a
+   la place de ton message suivant (le doublon, le decalage).
+4. TA PHRASE N'EST PLUS JETEE quand tu parles juste apres sa voix. Seuls les bouts de SA
+   phrase a elle (l'echo des haut-parleurs) sont jetes.
+5. LE MAINS-LIBRES ENVOIE DE NOUVEAU TOUT SEUL, apres 4 secondes de silence (ta decision).
+   Couper le micro n'envoie toujours RIEN : ton texte reste dans la barre et le petit cadre
+   "voila ce que j'ai entendu" revient.
+6. Un "oui" redit tout seul par le mains-libres n'est plus efface en silence : il reste
+   dans la barre, tu appuies sur Entree si tu veux le redire.
+7. COTE PROGRAMME : un seul message traite a la fois (PC, telephone, rapport qui arrive) :
+   ils sont gardes dans la memoire DANS L'ORDRE ou ils sont partis. Et si l'appel a son
+   cerveau plante, ta phrase est QUAND MEME gardee dans sa memoire, avec la panne dite.
+
+Teste dans un vrai Chrome avec un faux micro qui imite celui de Chrome (15 verifications).
+
+
+=====================================================================
+LA v90 : LUCIANA SEULE, SANS INTERMEDIAIRE + LE BANDEAU QUI NE PARTAIT PAS
+=====================================================================
+
+TA DECISION (02/10 au soir, apres l'essai de la v89) : "trop d'intermediaires, ca la rend
+bete". La documentaliste, la secretaire du soir et l'outil "bibliotheque" sont RETIRES.
+Luciana travaille seule, comme avant. Le dossier Luciana\bibliotheque deja cree reste sur
+ton disque, intact : rien n'est efface.
+Ce que la v90 garde : les reparations de cout de la v87 et de la v88 (le carnet n'est plus
+recolle et repaye a chaque message).
+
+LE BANDEAU "A VALIDER" QUI NE PARTAIT JAMAIS (cause trouvee dans le code) : un chantier
+fusionne a la main restait inscrit "en cours" dans un fichier, meme si plus rien ne
+tournait. "Vider la liste" le gardait donc pour toujours, et ne touchait ni au bandeau
+"Valider" ni aux pastilles. MAINTENANT : "en cours" = un chantier qui tourne VRAIMENT
+dans le programme. "Vider la liste" enleve tout le reste : les lignes, les pastilles et le
+bandeau. Les rapports restent dans sa memoire.
+
+
+=====================================================================
+LA v89 : L'EQUIPE DE TROIS (etapes 1 et 2) - contient aussi la v87 et la v88
+=====================================================================
+
+POURQUOI : depuis la v49, TOUTE sa memoire longue (souvenirs + carnet) part au cerveau
+a chaque appel. Tes sauvegardes le montrent : souvenirs 5 526 -> 61 041 octets et carnet
+1 891 -> 60 940 octets entre le 28/09 et le 02/10. Le prix de chaque message montait
+donc sans fin.
+
+CE QUI EST INSTALLE :
+- LA BIBLIOTHEQUE : Luciana\bibliotheque\ (rayons > dossiers > fiches). Ce sont de
+  simples fichiers texte : tu peux les ouvrir, les lire, les corriger. Rien n'est jamais
+  efface : chaque ancienne version est gardee dans bibliotheque\anciennes_versions\.
+  Elle est dans tes sauvegardes de memoire comme le reste.
+- LE PREMIER RANGEMENT : 2 min 30 apres le lancement, ton carnet et tes souvenirs sont
+  copies MOT POUR MOT dans la bibliotheque (un rayon par projet du carnet, les souvenirs
+  dans le rayon "Fred"). Tes fichiers carnet.json et souvenirs.json ne sont pas touches.
+- SES OUTILS : Luciana peut ouvrir, chercher, ranger, creer des rayons et dossiers,
+  apprendre a la documentaliste ("quand Fred dit le site, c'est Luminita"), et signaler
+  un rate (il entre dans l'examen).
+- LA SECRETAIRE DU SOIR (DeepSeek) : une fois par jour, elle relit la journee de la veille
+  et COMPLETE les fiches (decisions, faits, chiffres, reste a faire). Elle ne remplace et
+  n'efface jamais rien.
+- LA DOCUMENTALISTE (DeepSeek), A BLANC : a CHAQUE message, le programme la lance (dans un
+  fil a part : ta reponse n'attend pas). Elle choisit les dossiers utiles et le programme
+  NOTE ses choix dans documentaliste_journal.jsonl. Pour l'instant, Luciana recoit
+  EXACTEMENT ce qu'elle recevait avant : on regarde si la documentaliste choisit bien,
+  sans risque. Si DeepSeek ne repond pas, une recherche simple sur le PC prend le
+  relais, et c'est ecrit.
+
+CE QUE CA COUTE (estimation, a lire dans couts_appels.jsonl, lignes "documentaliste" et
+"secretaire") : moins d'un centime par message pour la documentaliste, quelques centimes
+par jour pour la secretaire. Il faut ta cle DeepSeek (deja branchee depuis la v75).
+
+PAS ENCORE FAIT (etape 3, apres l'examen) : Luciana travaille avec les dossiers choisis et
+le plafond fixe par appel. C'est la qu'on gagne sur le prix de chaque message.
+
+ATTENTION : le premier message apres l'installation coute plus cher (une seule fois) : la
+liste de ses outils a change.
+
+
+=====================================================================
+LA v88 : LA REPARATION DE LA v87 NE MARCHAIT PAS CHEZ TOI. C'EST REPARE.
+=====================================================================
+
+CE QUI SE PASSAIT (vu par Luciana dans ce qu'elle recoit, et mesure dans ton journal :
+"note_memoire" = 67 641, 40 977, 41 075 caracteres a CHAQUE message) : un projet de ton
+carnet tient sur plusieurs lignes. La v87 relisait ses notes ligne par ligne, donc elle
+ne reconnaissait jamais un projet deja note : tout le carnet etait recolle a chaque
+message, et la conversation grossissait de ~40 000 caracteres a chaque fois. Mon test
+ne l'avait pas vu (il n'avait que des projets d'une seule ligne). Il a maintenant de vrais
+projets sur plusieurs lignes.
+
+MAINTENANT : chaque mise a jour est gardee EN ENTIER et reconnue. Elle n'est ecrite
+qu'une fois. Les copies en double deja laissees par la v87 dans ta memoire restent sur
+le disque (rien n'est efface), mais ne partent plus qu'UNE fois au cerveau.
+
+ATTENTION : le PREMIER message apres l'installation coute plus cher (une seule fois) : la
+conversation du jour est remise au propre dans le cache. Ensuite, regarde la colonne
+"note_memoire" : elle doit etre a 0 sur un message normal.
+
+
+=====================================================================
+LA v87 : LES ~0,30 $ PAR MESSAGE -> VISE ~0,13 $
+=====================================================================
+
+CE QUI SE PASSAIT (tes chiffres du 02/10, 18h36-18h37 : ~38 000 tokens reecrits a
+chaque message, 0,19 $ sur 0,29 $) : chaque mise a jour du carnet ou des souvenirs
+faite dans la journee etait RECOLLEE devant chacun de tes messages, donc repayee a
+chaque fois. Ton carnet fait 85 000 octets : plus Luciana le met a jour, plus ca coute.
+
+MAINTENANT : chaque mise a jour est ecrite UNE seule fois dans la conversation, au
+moment ou elle arrive. Ensuite elle est relue presque gratuitement. Luciana la voit
+toujours, rien n'est efface. Simulation (3 gros projets mis a jour + 20 messages) :
+628 000 caracteres reecrits en v86, 51 000 en v87.
+
+PREUVE : couts_appels.jsonl note maintenant, pour chaque message, la taille de chaque
+morceau envoye ("tailles"). Si le prix ne baisse pas, on saura exactement pourquoi.
+
+
+=====================================================================
+LA v86 : CURSEUR DE VITESSE, EMOJIS, "REPETER" ET "VIDER LA LISTE" REPARES
+=====================================================================
+
+CE QUI SE PASSAIT (reproduit dans un vrai navigateur, avec tes lignes bloquees) :
+quand le cadre du bas se remplissait (lignes "A VALIDER", "a recuperer", pastilles),
+le portrait etait ecrase et la bulle de texte de Luciana passait PAR-DESSUS le
+curseur de vitesse et "Repeter", et le portrait PAR-DESSUS les emojis. Tes clics
+tombaient sur la bulle : rien ne bougeait. Tu avais raison : la panne venait des
+lignes bloquees.
+
+MAINTENANT :
+- Le portrait et la bulle ne sortent plus jamais de leur place. Le cadre du bas
+  defile s'il est trop long. Curseur, Repeter et emojis toujours cliquables.
+- "Vider la liste" enleve TOUT, sauf un chantier qui tourne vraiment en ce moment
+  (tes vieilles lignes "A VALIDER" et "a recuperer" partent). Rien n'est detruit :
+  c'est garde dans chantiers_etat_classes.jsonl et chantiers_suivis.json.
+- Le bouton "Tester la voix" est retire.
+
+PAS ENCORE FAIT : les ~0,30 $ par message. Il me faut les lignes de
+couts_appels.jsonl d'aujourd'hui pour voir d'ou ils viennent (pas de devinette).
+
+
+=====================================================================
+LA v85 : LE "PLUS D'UN EURO PAR MESSAGE" EST REPARE, ET RIEN D'AUTRE
+(audit du 02/10/2026 : toutes tes ameliorations v75 a v84 sont gardees)
+=====================================================================
+
+CE QUI SE PASSAIT (trouve dans le code et prouve par une simulation) :
+depuis la v78, le programme mettait AVANT ta conversation des textes qui changent
+tout le temps : "chantier lance il y a 5 min", puis "il y a 6 min"..., l'etat des
+chantiers, le carnet de consignes, la liste "ne plus m'en parler". Comme le debut
+de ce qui est envoye changeait, Anthropic devait REECRIRE TOUTE TA JOURNEE dans sa
+memoire rapide a CHAQUE message (au lieu de la relire presque gratuitement) :
+environ 1 a 1,30 $ par message.
+
+MAINTENANT : ces memes textes partent A LA FIN de ton message. Luciana les voit
+toujours, a jour a la seconde. Mais le debut ne change plus : la journee est relue,
+pas reecrite. Simulation de 30 messages avec un chantier en cours : 660 000
+caracteres reecrits en v84, 90 000 en v85.
+
+Rien d'autre n'a change : memes outils, meme memoire, memes boutons.
+Le test de cout regarde maintenant AUSSI le debut (consignes, outils) : ce defaut
+ne pourra plus revenir sans que le test le voie.
+
+
+=====================================================================
+LA v84 (gardee) : TROIS REPARATIONS, ET RIEN D'AUTRE
+(les trois choses que tu m'as dites le 02/10/2026 a 17h09)
+=====================================================================
+
+Aucune nouveaute, aucun outil retire. Tout ce qui marchait en v83 marche pareil.
+
+
+1) LE CURSEUR DE VITESSE DE LA VOIX MARCHE POUR DE VRAI.
+   CE QUI SE PASSAIT : la v83 envoyait bien la vitesse au moteur de voix, mais si
+   le moteur refusait le reglage (ca arrive), le programme refaisait le son SANS
+   la vitesse... et annoncait quand meme a la page que la vitesse etait faite. La
+   page lui faisait confiance et ne l'appliquait pas non plus. Resultat : personne
+   ne l'appliquait. Tu bougeais le curseur, et il ne se passait RIEN, sur toute sa
+   course. Et la valeur de depart (1,12) ne tombait meme pas sur un cran du
+   curseur : le navigateur la deplacait tout seul.
+   MAINTENANT :
+    - le moteur de voix DIT s'il a vraiment applique la vitesse ; s'il ne l'a pas
+      fait, c'est la page qui accelere. Dans tous les cas, ton geste s'entend ;
+    - le curseur a des crans fins (0,01) et sa valeur de depart tombe pile dessus ;
+    - LA VALEUR EST ECRITE A COTE DU CURSEUR (x1,00 / x1,20 ...) : tu vois ton
+      reglage, tu ne devines plus ;
+    - UN BOUTON "Tester la voix" est juste a cote : un clic, elle dit une phrase
+      courte a la vitesse choisie. Plus besoin de lui envoyer un message pour
+      entendre le reglage ;
+    - ton reglage est garde SUR LE DISQUE de ton PC (pas seulement dans Chrome) :
+      il revient apres un F5, apres un redemarrage, et il est le meme depuis ton
+      iPhone.
+
+2) LE TEXTE NE S'EFFACE PLUS TOUT SEUL PENDANT QUE TU ECRIS OU QUE TU DICTES.
+   CE QUI SE PASSAIT : trois endroits du programme vidaient la barre d'ecriture
+   sans que tu aies rien demande. Le pire : pendant qu'elle parlait, si le micro
+   t'entendait, elle se taisait ET ELLE EFFACAIT TA PHRASE. C'est exactement ton
+   "j'ecris, je parle, je parle, je parle et ca efface".
+   MAINTENANT :
+    - la couper ne touche plus a ce que tu as ecrit ;
+    - arreter le micro laisse ta phrase DANS LA BARRE (avant, elle partait dans un
+      petit cadre a cote : pour toi, ca restait du texte qui disparait) ;
+    - appuyer sur le micro ne reecrit plus ce que tu venais de taper ;
+    - et une copie de ce que tu n'as pas encore envoye est gardee en permanence :
+      elle revient dans la barre apres un F5 ou un onglet ferme par erreur. Elle
+      n'est oubliee que quand ton message est VRAIMENT parti, ou quand c'est TOI
+      qui effaces.
+
+3) UN BOUTON "VIDER LA LISTE" DANS LE CADRE DES TRAVAUX.
+   CE QUI SE PASSAIT : les lignes ecrites AVANT le correctif de la v83 n'ont jamais
+   recu le clic qui les referme. Rien ne les nettoyait, et elles s'empilaient (tes
+   trois lignes de 14h24, 15h38 et 16h21).
+   MAINTENANT : un petit bouton "Vider la liste" enleve les lignes DEJA TRAITEES.
+   Il ne touche JAMAIS a un chantier qui tourne, JAMAIS a une ligne qui attend
+   encore ton bouton Valider, et JAMAIS a du code qui n'est pas descendu sur le PC.
+   Il te dit combien il a enleve, et ce qu'il garde, avec la raison.
+
+POUR CONTROLER LA v84 : lance _verif_v84.py.
+
+
+=====================================================================
+LA v83 : SIX REPARATIONS, ET RIEN D'AUTRE
+(les six pannes que tu as vues EN DIRECT le 02/10/2026)
+=====================================================================
+
+Aucune nouveaute n'a ete ajoutee, aucun outil n'a ete retire, et tout ce qui
+marchait en v82 (les pastilles, les 70 outils, la memoire) marche pareil.
+
+
+1) GROK : FINI LE "CA A ECHOUE" ALORS QUE L'IMAGE EST LA.
+   CE QUI SE PASSAIT : a chaque image produite par Grok, le programme plantait
+   au moment de ranger le fichier (FileNotFoundError, "Le fichier specifie est
+   introuvable"), et la pastille t'annoncait un ECHEC. Tu as verifie 4 fois a la
+   main : l'image existait et elle etait bonne.
+   LA CAUSE, lue dans le code : la meme image etait comptee DEUX fois (une fois
+   en regardant le dossier de travail, une fois en lisant la reponse de Grok qui
+   cite le chemin). Le premier passage la DEPLACAIT, le deuxieme essayait de la
+   copier depuis un endroit ou elle n'etait plus. D'ou le plantage.
+   MAINTENANT : une image n'est plus comptee deux fois (meme si Grok ecrit le
+   chemin en majuscules ou autrement) ; on verifie que le fichier existe AVANT
+   d'y toucher ; si le rangement rate, le programme essaie trois autres facons ;
+   et il ne t'annonce JAMAIS un echec si le fichier existe : il te donne son
+   chemin, meme s'il n'a pas pu le deplacer. En cas de pepin, le chemin de
+   depart et le chemin d'arrivee sont ecrits au journal.
+
+2) LE BOUTON VALIDER NE LAISSE PLUS "A VALIDER" A L'ECRAN.
+   CE QUI SE PASSAIT : tu cliquais sur Valider, la fusion se faisait, et la
+   ligne orange continuait de dire "termine - A VALIDER : le bouton Valider
+   t'attend". Pareil quand GitHub refusait.
+   LA CAUSE : ton clic etait bien enregistre, mais dans un AUTRE fichier que
+   celui que l'ecran lit. Personne ne refermait la ligne.
+   MAINTENANT, des que tu relaches le bouton :
+     - fusion reussie     -> "fusion faite, code a descendre"
+     - code recupere      -> "code descendu et controle"
+     - GitHub refuse      -> "FUSION REFUSEE" + la raison exacte de GitHub
+     - tu annules         -> "annule par Fred"
+   Et la ligne se rafraichit TOUT DE SUITE, sans attendre 8 secondes.
+
+3) UN CHANTIER FINI N'EST PLUS AFFICHE "EN COURS".
+   CE QUI SE PASSAIT : un chantier fini a 15h38 est reste "en cours" plus d'une
+   heure.
+   LA CAUSE : l'ecran affichait la liste "ce qui tourne", et le retrait d'une
+   ligne de cette liste avale ses erreurs en silence. Si l'ecriture ratait une
+   seule fois (disque occupe, OneDrive), la ligne restait la pour toujours,
+   alors que le journal d'etat avait bien enregistre la fin.
+   MAINTENANT : c'est le FICHIER qui fait foi. L'etat est ecrit a chaque
+   changement (debut, fin, erreur, ton clic), il est ecrit AVANT que la ligne
+   "en cours" soit retiree, et un chantier que le fichier declare fini ne peut
+   plus s'afficher "en cours" (la ligne fantome est nettoyee au passage).
+
+4) LE CURSEUR "VITESSE" DE MA VOIX MARCHE DE NOUVEAU.
+   CE QUI SE PASSAIT : bouger le curseur ne changeait plus rien.
+   LA CAUSE : la valeur du curseur n'etait JAMAIS envoyee au moteur de voix.
+   Elle n'agissait que dans le navigateur, et la elle etait ramenee de force
+   entre 0,9 et 1,4 alors que le curseur va de 0,8 a 1,7 : tout le haut du
+   curseur ne faisait donc rien du tout. En plus le code partait de 1,18 alors
+   que le curseur affichait 1,12, et rien n'etait garde apres un F5.
+   MAINTENANT : la vitesse part avec chaque phrase et c'est la VOIX qui parle
+   plus vite ou moins vite (c'est mieux qu'accelerer un enregistrement : la voix
+   ne monte pas dans les aigus). Toute la course du curseur sert. Le reglage est
+   garde : apres un F5, c'est la meme vitesse. Le menu "Voix" (le choix de la
+   voix) n'a pas ete touche : il marchait, il marche toujours.
+
+5) JE PEUX PHOTOGRAPHIER TA TELE (LE 2e ECRAN).
+   CE QUI SE PASSAIT : la photo montrait TOUJOURS l'ecran principal. Ta tele
+   etait invisible, sans que rien ne le dise.
+   MAINTENANT : panneau "Cles", rubrique ECRANS. Tu vois la liste des ecrans que
+   Windows declare, tu choisis celui que je photographie, et il y a un bouton
+   "Prendre une photo de cet ecran" pour verifier de tes yeux que c'est bien la
+   bonne. Cette photo d'essai reste sur ton PC : elle ne part a aucun cerveau,
+   elle ne coute rien.
+   PAR DEFAUT : l'ecran principal, exactement comme avant. Si tu n'y touches
+   pas, rien ne change. Et si tu choisis la tele, mes clics vont sur la TELE et
+   pas au meme endroit sur l'ecran principal.
+   A SAVOIR : si la tele est branchee mais eteinte ou en veille, Windows ne me
+   la montre pas. Allume-la, puis clique "Rechercher les ecrans".
+
+6) DEUX CHANTIERS EN MEME TEMPS : JE TE LE DIS, AU LIEU DE ME TAIRE.
+   CE QUI SE PASSAIT : le 02/10, deux chantiers ont travaille en meme temps sur
+   le meme depot et les memes fichiers. GitHub a refuse la fusion ("the merge
+   commit cannot be cleanly created") et il a fallu reporter le travail a la
+   main. Le programme n'avait rien dit.
+   MAINTENANT : avant de lancer un 2e chantier, je regarde ce qui tourne deja.
+   Si c'est le MEME projet, je te le dis tout de suite, avec la raison exacte du
+   risque, et un avertissement s'affiche en PREMIERE LIGNE de l'etat a l'ecran.
+   Si c'est un autre projet, je te le signale sans dramatiser. Je ne t'empeche
+   pas de le faire : c'est toi qui decides. Mais plus jamais en silence.
+
+
+POUR CONTROLER TOUT CA : double-clique (ou lance) _verif_v83.py. Il teste les
+six points, et il DIT franchement ce qu'il n'a pas pu tester (ta tele allumee,
+la vitesse a ton oreille, le vrai Grok, le vrai GitHub).
+
+
+=====================================================================
+CE QUI ETAIT NOUVEAU DANS LA v82 — UNE SEULE CHOSE :
+PLUS RIEN NE VIENT COUPER TA CONVERSATION. UN PETIT BOUTON ATTEND.
+=====================================================================
+
+Ta demande du 02/10/2026, mot pour mot :
+  "Il y a pas que les chantiers que tu lances sur Claude Code qui viennent te
+  couper la parole, il y a aussi ce fameux audit des communications. On etait en
+  train de discuter, on avait une vraie conversation sur le travail, et puis c'est
+  venu tout nous couper. [...] il faut mettre un petit bouton : quand l'audit est
+  fait, juste un petit bouton qui dit 'audit de communication fait', et moi je
+  clique dessus si je veux le compte-rendu. Ca, c'est la meilleure solution."
+
+C'est fait. Et seulement ca : aucun outil n'a ete retire, le micro n'a pas bouge,
+le depot de Luminita n'a pas ete touche.
+
+
+1) CE QUI SE PASSAIT, VERIFIE DANS LE CODE (pas devine)
+
+   Il y avait DEUX portes par lesquelles le travail de fond entrait dans votre
+   conversation, et la v81 n'en avait ferme qu'une a moitie.
+
+   PORTE 1 — LES RAPPORTS. La v81 attendait que la discussion soit "retombee"
+   (environ une minute et demie de calme), puis le rapport partait TOUT SEUL.
+   Donc ca coupait encore : une minute et demie a reflechir a deux, un silence
+   pendant que tu lis, et paf, elle enchainait sur le chantier.
+
+   PORTE 2 — L'AUDIT DES COMMUNICATIONS, et c'est celle-la que tu as vue le 02/10.
+   A chaque message que tu envoyais, le programme collait DEVANT ta phrase tout ce
+   que le tour de communication avait ecrit, avec l'ordre "parle-en a Fred, a
+   chaque fois". Elle obeissait. Donc tu parlais travail, le tour passait derriere,
+   et sa reponse suivante partait sur les mails. Ce n'etait meme pas sa faute : le
+   programme le lui mettait sous le nez.
+
+
+2) CE QUI SE PASSE MAINTENANT : UNE PASTILLE, ET C'EST TOI QUI CLIQUES
+
+   Plus AUCUN travail de fond ne s'invite dans votre conversation. Plus jamais.
+   Ca concerne TOUT : les chantiers Claude Code, les AUDITS, les POINTS DE
+   COMMUNICATION, les images et les videos Grok, les transcriptions de videos.
+
+   A la place, un petit bouton arrondi apparait juste au-dessus de la barre ou tu
+   ecris. Par exemple :
+       "📨 Audit de communication fait : 2 nouveautes a te dire"
+       "📄 un rapport d'ANALYSE (rien a valider) — Chantier Claude Code : le site"
+       "✅ des corrections A VALIDER — Chantier Claude Code : le formulaire"
+   Sous chaque bouton, en petit : depuis combien de temps il attend.
+
+   TU CLIQUES QUAND TU VEUX. C'est a ce moment-la, et a ce moment-la seulement,
+   qu'elle t'en parle. Si tu ne cliques jamais, elle ne t'en parle jamais.
+
+   UN BOUTON PAR TRAVAIL. Trois travaux finis = trois petits boutons, et tu ouvres
+   celui que tu veux, dans l'ordre que tu veux. Jamais une salve de messages.
+
+   LE BOUTON NE DISPARAIT PAS tant que tu ne l'as pas ouvert. Il survit a un F5 et
+   a l'arret du programme : la file et les carnets sont ecrits sur le disque, dans
+   ton dossier Luciana. Et la fenetre noire du demarrage te relit ce qui t'attend.
+
+   RIEN N'EST PERDU. Quand tu cliques, le compte-rendu BRUT s'affiche aussi tel
+   quel, dans le cadre vert, sans attendre son cerveau. Donc meme si ta cle ne
+   repond plus, meme sans internet, le travail est sous tes yeux.
+
+   LE BOUTON "Dis-le moi maintenant" EST GARDE. Il ouvre le premier qui attend,
+   si tu ne veux pas choisir.
+
+
+3) LE TOUR DE COMMUNICATION N'A PAS ETE RALENTI, NI BRIDE
+
+   Il tourne exactement comme en v80 : toutes tes boites mail, WhatsApp, l'agenda,
+   Messenger, les commentaires de la page Facebook, a la frequence que tu as
+   choisie. Il ecrit toujours ses lignes, aux memes endroits, avec les memes mots.
+   LA SEULE CHOSE QUI CHANGE : ses lignes attendent derriere la pastille au lieu
+   de s'inviter devant ta phrase suivante.
+
+   La pastille dit la VERITE, sans gonfler :
+     - "2 nouveautes a te dire" quand il y a vraiment du courrier ;
+     - "3 tours de garde, rien de neuf" quand il a juste fait sa ronde.
+   Elle ne crie jamais "nouveautes" pour un simple tour de garde.
+
+   ET SI C'EST TOI QUI DEMANDES ("fais le tour maintenant"), elle te donne le
+   resultat du tour ET tout ce qui attendait derriere la pastille, dans la meme
+   reponse. Rien n'est jete en douce pour faire disparaitre le bouton.
+
+
+4) TON TELEPHONE N'A PAS CHANGE, ET C'EST VOULU
+
+   Quand un mail compte vraiment, l'alerte ntfy part TOUJOURS sur ton iPhone.
+   Tu ne l'as pas demandee en moins, et ce n'est pas une coupure de conversation :
+   c'est son role, surtout quand tu n'es pas devant le PC. Les quatre
+   notifications differentes de la v81 (analyse / a valider / rien a valider /
+   echoue) sont gardees telles quelles.
+
+
+5) ELLE N'A PLUS LE DROIT D'EN PARLER D'ELLE-MEME, MEME DANS SA TETE
+
+   A chaque message, on lui dit qu'un point de communication attend derriere sa
+   pastille — mais on ne lui donne PAS le contenu. Elle ne peut donc ni te le
+   lacher en pleine discussion, ni l'inventer. Et c'est ecrit noir sur blanc dans
+   ses consignes : elle n'aborde JAMAIS ca de sa propre initiative. Si TU demandes
+   "y a-t-il du neuf ?", elle peut te donner le chiffre et te rappeler que la
+   pastille t'attend.
+
+
+CE QUE CETTE VERSION NE SAIT PAS FAIRE, ET C'EST DIT
+   - Le script _verif_v82.py verifie tout le mecanisme SANS reseau, SANS appeler
+     Claude Code, SANS git et SANS toucher a ta vraie memoire. Il ne peut donc PAS
+     prouver que tu n'es plus coupe dans TON Chrome, avec TA voix : ca, il faut que
+     tu le vives une fois. La liste de ce que tu dois tester toi-meme est affichee
+     a la fin du test.
+   - _verif_v81.py va maintenant signaler 3 differences, ET C'EST NORMAL : il
+     verifiait exactement les trois choses que la v82 change expres (le numero de
+     version, la livraison automatique du rapport apres 90 secondes de calme, et
+     une phrase donnee a Luciana). Le script a jour, c'est _verif_v82.py.
+   - La pastille apparait au plus tard 8 secondes apres la fin du travail (c'est le
+     rythme auquel la page interroge le programme). Ce n'est pas instantane.
+
+
+=====================================================================
+CE QUI EST NOUVEAU DANS LA v81 — DEUX CHOSES, ET RIEN D'AUTRE
+=====================================================================
+
+(A LIRE D'ABORD : le point 1 ci-dessous a ete REMPLACE par la v82. Le rapport
+n'attend plus "que la discussion soit retombee" et il ne part plus tout seul au
+bout d'une minute et demie : il attend ton clic sur la pastille, point final.
+Tout le reste de cette partie v81 est toujours exact.)
+
+Tes deux reproches du 02/10/2026 au matin. Rien d'autre n'a ete touche : aucun
+outil retire, le micro n'a pas bouge, le depot de Luminita n'a pas ete touche.
+
+
+1) UN RAPPORT NE TE COUPE PLUS LA PAROLE (ta regle, mot pour mot)
+
+   Ce que tu as dit : "quand une tache est terminee elle soit signalee bien sur,
+   mais avant d'en parler de cette tache qu'on ait fini notre discussion".
+
+   CE QUI SE PASSAIT. La v78 avait deja pose un garde-fou, mais il attendait au
+   maximum DEUX MINUTES, puis le rapport passait EN FORCE, meme si tu etais en
+   pleine phrase. Tu te faisais couper, elle sautait du coq a l'ane, et ton sujet
+   etait perdu.
+
+   CE QUI SE PASSE MAINTENANT. Il n'y a plus AUCUN delai au bout duquel le
+   rapport s'impose. Tant que tu dictes, que tu ecris, qu'un de tes messages
+   attend d'etre envoye, qu'un de tes textes est mis de cote, ou que ton dernier
+   echange avec elle a moins d'une minute et demie, LE RAPPORT ATTEND. Point.
+
+   ET IL NE SE PERD PAS, parce que tu le VOIS attendre : un cadre orange
+   apparait, "Un resultat est pret et il attend son tour : je ne te coupe pas la
+   parole". Il te dit de quoi il s'agit (une analyse, des corrections a valider,
+   un echec) et depuis combien de temps c'est pret. Ce cadre NE DISPARAIT PAS
+   tant que tu ne l'as pas traite : il survit a un F5, et meme a l'arret du
+   programme, parce qu'il est lu sur le disque et pas dans la page.
+
+   DANS CE CADRE, UN BOUTON : "Dis-le moi maintenant". Si tu ne veux pas
+   attendre, tu appuies et elle te le raconte tout de suite. C'est toi qui
+   decides du moment, jamais elle.
+
+   DERNIER POINT, ET IL COMPTE : meme dans sa tete, elle n'a plus le droit de
+   lancer le sujet toute seule. L'etat des chantiers lui est donne a chaque
+   message (pour pouvoir te repondre si TU demandes "ou ca en est"), avec
+   l'ordre ecrit de ne jamais l'aborder d'elle-meme au milieu d'une discussion.
+
+
+2) UNE TACHE TERMINEE NE PEUT PLUS ETRE INVISIBLE, ET UNE ANALYSE LE DIT
+
+   CE QUI SE PASSAIT. Tu as recu sur ton telephone "la tache est terminee",
+   l'ecran disait que c'etait fini... et AUCUN bouton Valider n'est apparu. Tu as
+   cru a une panne et tu es alle chercher le rapport a la main. La cause, verifiee
+   dans le code : c'etait un chantier d'ANALYSE, c'est-a-dire une LECTURE SEULE.
+   Il n'y avait rien a fusionner, donc rien a valider, donc pas de bouton. Et
+   rien, nulle part, ne te le disait. Pour toi les deux cas se ressemblaient.
+
+   MAINTENANT, LA FIN D'UN CHANTIER DIT CE QU'ELLE EST. Il y a quatre cas, et
+   quatre phrases differentes :
+     - ANALYSE (lecture seule) : "CHANTIER D'ANALYSE termine : rien a valider,
+       voici le rapport." Aucun bouton, et c'est ecrit que c'est normal.
+     - CORRECTION A VALIDER : "Corrections pretes a valider" + le bouton Valider.
+     - TERMINE SANS RIEN A VALIDER : par exemple quand il n'y avait finalement
+       rien a changer. Elle le dit, avec la raison.
+     - ECHOUE : elle le dit, avec la raison EXACTE (celle de git, de GitHub ou de
+       Claude Code, telle quelle, jamais une cause inventee).
+
+   LA NOTIFICATION DU TELEPHONE EST DIFFERENTE DANS LES QUATRE CAS. Avant,
+   c'etait toujours le meme texte ("ton chantier est termine") : c'est exactement
+   ce qui t'a fait attendre un bouton qui n'existait pas. Maintenant tu lis, sur
+   ton iPhone, soit "rien a valider, le rapport est pret", soit "le bouton
+   Valider t'attend", soit "chantier ECHOUE".
+
+   LE RAPPORT EST AFFICHE TEL QUEL, TOUT DE SUITE. Il apparait dans un cadre vert
+   sous sa reponse, SANS attendre son cerveau. Donc meme si ta cle ne repond
+   plus, meme sans internet, meme si le quota est epuise : le travail est sous tes
+   yeux. Tu n'as plus jamais a aller le chercher.
+
+   LE BOUTON VALIDER NE DEPEND PLUS DE SON CERVEAU. Avant, il n'apparaissait
+   qu'APRES qu'elle ait reussi a te resumer le travail : si cet appel ratait, tu
+   n'avais ni explication NI bouton. Maintenant le bouton s'affiche AVANT.
+
+   UNE LIGNE D'ETAT QUI SURVIT A L'ARRET DU PROGRAMME. En bas de l'ecran, une
+   petite ligne dit en permanence, pour chaque chantier recent : en cours /
+   termine a valider / termine sans rien a valider / echoue (avec la raison). Elle
+   est ecrite sur le disque (fichier chantiers_etat.json dans ton dossier
+   Luciana), donc elle est encore la apres un redemarrage, et la fenetre noire du
+   demarrage te la relit.
+
+   ET SI TU COUPES LUCIANA PENDANT UN CHANTIER : au redemarrage, elle dit que ce
+   chantier a ete INTERROMPU. Elle ne fait jamais comme s'il s'etait bien
+   termine.
+
+
+CE QUE CETTE VERSION NE SAIT PAS FAIRE, ET C'EST DIT
+   - Elle ne devine pas que tu as "fini de parler" : elle le DEDUIT de faits
+     reels (la dictee tourne, il y a du texte dans la barre, ton dernier echange
+     a moins d'une minute et demie). Si tu lis un long rapport pendant trois
+     minutes sans rien taper, elle considerera que la discussion est retombee. Le
+     bouton "Dis-le moi maintenant" et le cadre orange sont la pour que ce soit
+     toi qui aies le dernier mot.
+   - Le fichier _verif_v81.py verifie tout le mecanisme sans reseau, SANS appeler
+     Claude Code et SANS git (ils sont remplaces par de faux). Il ne peut donc PAS
+     prouver que tu n'es plus coupe dans TON Chrome, avec TA voix : ca, il faut
+     que tu le vives une fois. La liste de ce que tu dois tester toi-meme est
+     affichee a la fin du test.
+
+
+=====================================================================
+CE QUI EST NOUVEAU DANS LA v80 — UNE SEULE CHOSE : LA COMMUNICATION,
+WHATSAPP COMPRIS
+=====================================================================
+
+Ta demande du 02/10/2026 au matin, mot pour mot : "notre curseur c'etait
+communication. Il y a pas de choses distinctes entre mail, WhatsApp, chose comme
+ca. C'est vraiment communication, le tour de tout ce qui est branche. (...) La ou
+je vois que ca peche, c'est que TU DISTINGUES WhatsApp des autres. Je peux
+comprendre qu'il n'y a pas l'acces, mais toi tu as l'acces manuel. Alors oui ca
+va couter des tokens, mais c'est comme ca, c'est le prix que coute une assistante
+au top qui fait le tour. Il y a pas le choix."
+
+LE PRINCIPE, ET IL VAUT AUSSI POUR LE CLIENT : une assistante qui distingue les
+canaux, ou qu'on doit relancer pour qu'elle regarde, c'est une assistante qu'on
+n'aurait pas du vendre. Le tour a un prix, et ce prix est assume : c'est ce que
+coute une assistante qui fait VRAIMENT le tour.
+
+1) IL N'Y A PLUS DE "CANAUX" DU TOUT — IL Y A LA COMMUNICATION
+   Le reglage s'appelle maintenant "Suivi de la communication". Dans le programme
+   comme a l'ecran, un mail, un WhatsApp, un rendez-vous d'agenda, un message
+   Messenger ou un commentaire Facebook sont la MEME chose : une communication.
+   Il n'y a plus un bout de code par canal : il y a une seule liste, et le tour la
+   parcourt entierement, toujours pareil. Consequence concrete : plus aucun canal
+   ne peut etre "oublie", et le jour ou on branche autre chose (Signal, Telegram,
+   Instagram...), ca entre dans le tour sans retoucher le tour.
+   La liste n'est ecrite nulle part : elle se construit TOUTE SEULE en regardant
+   ce qui est vraiment branche chez toi, a chaque passage.
+
+2) WHATSAPP EST REGARDE POUR DE VRAI (c'etait ton reproche principal)
+   La v79 affichait "WhatsApp - pas encore regarde, pas d'API propre". C'etait
+   vrai techniquement, et quand meme faux : il n'y a pas d'API, mais elle a des
+   YEUX et des MAINS, et WhatsApp Desktop est sur ton PC. Elle l'a deja fait le
+   29/09. Donc elle le regarde, en deux temps, pour que ca ne coute pas cher :
+   a) A CHAQUE TOUR, GRATUITEMENT (zero jeton, zero centime) : elle lit le
+      nombre de messages non lus ecrit dans le TITRE de la fenetre WhatsApp
+      ("(3) WhatsApp"). C'est un texte que Windows affiche deja : le lire ne
+      coute rien. Aucune photo d'ecran a ce stade.
+   b) ELLE NE REGARDE L'ECRAN QUE S'IL Y A DU NEUF. Quand le compteur est au-
+      dessus de zero, ou qu'il a bouge depuis le tour d'avant, alors elle met
+      WhatsApp devant, elle photographie SA fenetre (pas tout l'ecran), elle lit
+      de ses yeux QUI a ecrit et DE QUOI ca parle, et elle te le resume en une ou
+      deux phrases. Puis elle rend la main a la fenetre que tu avais devant.
+   SI LA FENETRE WHATSAPP N'EST PAS OUVERTE, ELLE TE LE DIT : "WhatsApp : pas
+   ouvert". Elle ne fera jamais comme si c'etait couvert.
+   CE QUE CE MONTAGE NE SAIT PAS FAIRE, ET C'EST DIT : le titre donne un NOMBRE,
+   pas un nom — c'est pour ca qu'il faut regarder l'ecran pour savoir de qui il
+   s'agit. Et si un jour WhatsApp n'affiche plus ce compteur dans son titre, elle
+   lira zero : dans ce cas mets le reglage sur "a chaque tour" (voir ci-dessous).
+
+3) TROIS REGLAGES, C'EST TOI QUI GARDES LA MAIN (panneau "Cles")
+   - "seulement s'il y a du neuf" : le montage ci-dessus. C'EST LE REGLAGE
+     D'ORIGINE, et le moins cher : presque tous les tours ne coutent rien.
+   - "a chaque tour (lecture complete)" : elle lit l'ecran de WhatsApp a chaque
+     tour, meme quand le titre n'annonce rien. C'est le plus sur, et le plus
+     cher : tu l'assumes.
+   - "eteint" : elle n'y touche pas du tout, et elle te le dit au lieu de faire
+     semblant.
+
+4) LE COUT EST ECRIT EN CLAIR, A CHAQUE FOIS
+   Sous le reglage WhatsApp, le panneau "Cles" affiche ce que coute UNE lecture
+   d'ecran : en jetons, et en euros estimes, au prix du cerveau que tu utilises en
+   ce moment. Elle te le redit aussi dans la conversation quand elle va lire. Ce
+   n'est pas une facture, c'est une estimation : le vrai montant depense reste
+   celui du compteur en haut de la page.
+
+5) UN MEME MESSAGE NE SE SIGNALE JAMAIS DEUX FOIS
+   WhatsApp passe par le MEME carnet "deja signale" que tes mails. Et c'est le
+   tour de la communication, lui seul, qui regarde WhatsApp : le veilleur des 5
+   minutes n'y touche pas. Tu ne peux donc pas t'entendre annoncer deux fois la
+   meme chose.
+
+6) ELLE N'ENVOIE TOUJOURS JAMAIS UN WHATSAPP TOUTE SEULE
+   Cette regle-la n'a pas ete touchee : elle te montre le brouillon, tu valides.
+   Lire, oui, toute seule. Ecrire, jamais sans toi.
+
+7) TOUT CE QUI MARCHAIT DANS LA v79 EST GARDE
+   La petite ligne a chaque tour ("8h00 - rien de neuf, tour no 3"), le compteur
+   de tours, l'heure du dernier regard, la liste en clair de ce qui est suivi dans
+   le panneau "Cles", l'absence totale de tri d'expediteurs, les heures calmes
+   22 h - 7 h, les 3 alertes par heure au maximum, pas de briefing du matin.
+
+CE QUE TU DOIS TESTER TOI-MEME POUR LA v80 (aucun script ne peut le faire) :
+   1) Ouvre le panneau "Cles" : tu dois lire "Suivi de la communication", la liste
+      de TES boites mail, et WhatsApp DANS la liste de ce qui est regarde (plus
+      jamais dans "pas regarde"), avec le cout d'une lecture juste en dessous.
+   2) FERME WhatsApp. Coche le suivi, clique/attends un tour, puis ecris-lui
+      n'importe quoi : elle doit te dire "WhatsApp : pas ouvert".
+   3) OUVRE WhatsApp et fais-toi envoyer un message d'un autre telephone. Au tour
+      suivant, elle doit te dire combien de non-lus, puis aller regarder l'ecran
+      et te dire QUI a ecrit et DE QUOI ca parle. Si elle te raconte autre chose
+      que ce qui est vraiment a l'ecran, dis-le-moi : c'est un bug, pas un detail.
+   4) Mets le reglage sur "eteint" : elle doit dire qu'elle n'y touche pas, et ne
+      plus rien raconter sur WhatsApp.
+
+
+=====================================================================
+CE QUI ETAIT NOUVEAU DANS LA v79 — LE SUIVI REGARDE LA TOTALE
+=====================================================================
+
+Ta demande du 01/10/2026 au soir, mot pour mot : "Il faut qu'il surveille TOUT
+ce qui est branche en terme de communication sur son interface. (...) Il ne doit
+pas TRIER des clients ou des mails, c'est la totale, parce qu'il y aura des
+nouveaux, il y aura des anciens. Il ne faut pas prioriser l'un ou l'autre.
+C'est LA TOTALE."
+
+1) LA LISTE D'EXPEDITEURS EST SUPPRIMEE (c'etait le vrai probleme)
+   CE QU'IL Y AVAIT DANS LE CODE, et que personne ne t'avait montre : une liste
+   de six noms ecrite en dur. Seuls ceux-la declenchaient quelque chose :
+   paysera, angelova-law.com, mfa.bg, anthropic, daniela, legere.
+   CE QUE CA VOULAIT DIRE : un mail de M. Matei, un mail de Raluca, un mail d'un
+   nouveau client, un mail de ta banque si elle n'etait pas dans la liste — RIEN.
+   Pas d'alerte, pas un mot. Et toi, tu te croyais couvert. Un suivi qui trie est
+   PIRE qu'un suivi qui ne trie pas, parce qu'il te donne l'illusion d'etre couvert.
+   MAINTENANT : il n'y a plus de liste du tout. Vide. Et si l'ancienne liste etait
+   encore dans tes reglages sur ce PC, elle est effacee au premier demarrage.
+   Un inconnu, un nouveau client, un ancien, un fournisseur, une banque, un ami :
+   tout est regarde pareil. Plus aucune priorite, nulle part.
+
+2) IL REGARDE TOUT CE QUI EST BRANCHE, PAS SEULEMENT LES MAILS
+   - TOUTES tes boites mail branchees (pas seulement la premiere, pas seulement
+     celle par defaut) ;
+   - ton agenda Google ;
+   - Messenger de ta page (c'etait deja le cas) ;
+   - LES COMMENTAIRES DE TA PAGE FACEBOOK : c'est nouveau. Avant, quelqu'un
+     pouvait commenter ta page et personne ne le voyait.
+
+3) IL SUIT TES BRANCHEMENTS TOUT SEUL
+   Il ne lit plus une liste ecrite dans le code : a chaque passage, il regarde ce
+   qui EST vraiment branche dans tes reglages. Le jour ou tu branches une
+   deuxieme, une troisieme boite mail, elle est regardee tout de suite, sans que
+   tu aies rien a demander et sans qu'on ait a toucher au programme.
+
+4) IL TE DIT QU'IL A REGARDE (fini les trois heures de silence)
+   Tu avais cru a une panne parce qu'il tournait sans rien dire. Maintenant il y a
+   deux facons de faire, reglables dans le panneau "Cles" :
+   a) LE PETIT POINT A CHAQUE TOUR (c'est le reglage par defaut) : une ligne
+      discrete, du genre "21h59 - 2 nouveaux mails, dont un de Matei (tour no 7)"
+      ou "21h59 - rien de neuf (tour no 7)". Court, et ca ne coute RIEN : c'est le
+      programme qui ecrit la ligne, aucun cerveau n'est appele.
+   b) ALERTES SEULEMENT : il ne parle que s'il y a quelque chose (l'ancien
+      comportement). Decoche la case si tu preferes ca — mais tu ne verras plus
+      qu'il tourne.
+
+5) TU PEUX VERIFIER DE TES YEUX QUE CA TOURNE
+   Le panneau "Cles" affiche l'heure du DERNIER REGARD, le NOMBRE DE TOURS
+   effectues, et ce qu'a donne le dernier. Tu peux aussi lui demander "ou en est
+   le suivi ?" : elle te donne les memes chiffres.
+
+6) LA LISTE DE CE QUI EST SURVEILLE EST AFFICHEE EN CLAIR, SANS RIEN CACHER
+   Dans le panneau "Cles", tu lis noir sur blanc :
+   - "JE REGARDE" : chacune de tes boites mail par son adresse, ton agenda,
+     WhatsApp, Messenger, les commentaires de la page ;
+   - "PAS BRANCHE" : ce qui n'est pas couvert, et la seule raison qui peut
+     s'afficher la, c'est que ce n'est pas branche (ou que tu l'as eteint).
+   Plus jamais de liste cachee. C'est la seule facon que tu saches si tu es
+   couvert ou non.
+
+7) WHATSAPP : CE QUI ETAIT ECRIT ICI EN v79 N'EST PLUS VRAI — VOIR LA v80
+   La v79 disait "WhatsApp n'est pas regarde, il n'y a pas de connexion
+   officielle". C'etait exact techniquement et faux dans les faits : elle a des
+   yeux et des mains. Depuis la v80, WhatsApp EST regarde (compteur gratuit dans
+   le titre de la fenetre, puis lecture de l'ecran quand il y a du neuf).
+   Tout est explique dans la partie v80, en haut de ce fichier.
+   Ce qui n'a pas change : elle sait ECRIRE dans WhatsApp, mais jamais de sa
+   propre initiative — elle te montre le brouillon, tu valides.
+
+8) CE QUI N'A PAS CHANGE (rien de casse)
+   - Heures calmes 22 h - 7 h : la nuit il REGARDE, mais il ne reveille personne
+     sur le telephone ; il t'en parle a l'ecran au matin.
+   - 3 alertes par heure au maximum.
+   - Zero jeton, zero centime pour le TOUR : aucun cerveau n'est appele par le
+     suivi. (Depuis la v80, la seule chose qui coute est la lecture de l'ecran de
+     WhatsApp, et seulement quand il y a du neuf — son prix est affiche.)
+   - Pas de briefing du matin.
+   - L'interrupteur reste eteint au depart : c'est toi qui l'allumes. ATTENTION,
+     c'est important : meme eteint, le veilleur regarde tes nouveaux mails toutes
+     les 5 minutes, et lui aussi ne trie plus personne. Tu n'es donc jamais
+     aveugle. Quand tu allumes le suivi, c'est lui qui prend le relais a la
+     frequence que tu choisis (30, 60 ou 120 minutes), et le veilleur se met en
+     retrait pour les mails : comme ca on ne t'annonce jamais deux fois la meme
+     chose. 5 minutes reste refuse pour le suivi : ca te noierait.
+   - Une seule notification par passage, meme s'il y a dix mails : tu n'es pas
+     noye. Si plus de 40 mails arrivent d'un coup, il detaille les 40 derniers et
+     il te DIT combien il n'a pas detailles. Il ne cache rien.
+
+CE QUE TU DOIS TESTER TOI-MEME (aucun script ne peut le faire a ta place) :
+   1) Panneau "Cles" : tu dois lire la liste de TES boites mail. (En v80, WhatsApp
+      y figure aussi, du cote de ce qui EST regarde.)
+   2) Coche "Suivi de la communication", attends un tour, puis ecris-lui
+      n'importe quoi : elle doit commencer par la petite ligne du tour.
+   3) Fais-toi envoyer un mail depuis une adresse qu'elle n'a JAMAIS vue, sur
+      n'importe laquelle de tes boites. Elle doit t'en parler. Avant la v79, elle
+      ne disait rien du tout.
+   4) Regarde "dernier regard" et "tour(s) effectue(s)" : les chiffres bougent.
+
+
+=====================================================================
+CE QUI ETAIT NOUVEAU DANS LA v78 — ELLE VOIT TON CLIC, LE MICRO NE
+RENVOIE PLUS RIEN TOUT SEUL, ET PLUS JAMAIS DE SILENCE
+=====================================================================
+
+Tes quatre reproches du 01/10/2026 au soir, un par un.
+
+1) QUAND TU CLIQUES SUR "VALIDER", ELLE LE VOIT (enfin)
+   LE PROBLEME, TES MOTS : "quand je clique sur Valider tu ne le vois pas, je
+   suis oblige de te redemander, d'etre insistant pour que tu ailles vraiment
+   le chercher. Ca va pas du tout."
+   LA CAUSE, LUE DANS LE CODE (pas devinee) : le bouton "Valider" fusionnait
+   bien sur GitHub, puis affichait une phrase a l'ecran... et c'est tout. Son
+   cerveau n'etait JAMAIS appele. Aucun message, nulle part. Elle ne pouvait
+   donc pas "ne pas oublier" : elle n'avait rien recu.
+   CE QUI EST FAIT : des que tu cliques, le PROGRAMME lui envoie tout seul un
+   message du genre "Fred a valide le chantier X, la fusion est faite sur
+   GitHub (depot ..., branche ...). Va chercher le code : git pull dans <le
+   dossier exact>, verifie que ca compile, lance le script de controle." Elle
+   enchaine toute seule. Tu n'as plus rien a demander, ni a repeter, ni a
+   insister.
+   - Le programme RETIENT, pour chaque chantier, le depot GitHub, la branche
+     et le dossier de travail sur ton PC. Le dossier n'est pas devine : il est
+     trouve en lisant la vraie adresse GitHub de chaque dossier de ton PC. S'il
+     ne le trouve pas, elle te le DIT au lieu d'inventer un chemin.
+   - Elle a un nouvel outil, "recuperer_code", qui fait le travail lui-meme :
+     git pull (jamais en force, jamais sur ton travail en cours), verification
+     que tous les fichiers du programme compilent encore, puis lancement du
+     script de controle _verif_*.py s'il y en a un. Elle te rend les faits.
+   - MEME CHOSE SI TU CLIQUES SUR "ANNULER" : elle est prevenue que c'est
+     annule et qu'elle ne doit surtout pas aller chercher ce code.
+   - ET SI LA FUSION RATE : elle est prevenue de l'echec, avec ce que GitHub a
+     repondu mot pour mot. Plus de "c'est en ligne" quand ce n'est pas vrai.
+   - UNE PETITE LIGNE "A RECUPERER" s'affiche dans l'ecran tant que du code
+     valide n'est pas revenu sur le PC. Et ca survit si tu fermes Luciana : au
+     redemarrage, la fenetre noire te le reaffiche, et elle le sait encore.
+
+2) LE MICRO NE REENVOIE PLUS LE MESSAGE D'AVANT
+   LE PROBLEME, TES MOTS : "quand je laisse le micro branche et qu'apres je
+   veux l'eteindre, ca reecrit le message d'avant et ca l'envoie."
+   LA CAUSE, TROUVEE : la dictee avait une memoire cachee qui n'etait PAS videe
+   apres un envoi. Au premier mot capte ensuite, cette memoire reecrivait ton
+   ancien message dans la barre ; et comme couper le micro envoyait ce qu'il y
+   avait dans la barre, ton message d'avant repartait. Deux fautes, deux
+   corrections :
+   - la memoire cachee est maintenant videe a chaque envoi ;
+   - COUPER LE MICRO N'ENVOIE PLUS RIEN, JAMAIS. On arrete d'ecouter, la barre
+     est videe, et rien ne part : c'est TOI qui envoies, avec le bouton.
+   - Un message deja envoye ne peut plus repartir une seconde fois tout seul.
+   - ET TON TEXTE N'EST PAS JETE : il est mis de cote juste au-dessus de la
+     barre, avec trois boutons : "Reprendre ce texte", "L'envoyer maintenant",
+     "Le jeter". Rien ne se perd.
+   - Appuyer sur le micro n'efface plus ce que tu avais commence a ecrire :
+     la dictee s'ajoute a la suite.
+
+3) TON MESSAGE NE PEUT PLUS ETRE PERDU PAR UN RAPPORT QUI ARRIVE
+   LE PROBLEME : le 01/10, tout ton debrief du site est passe a la trappe parce
+   qu'un rapport de chantier est arrive pendant que tu parlais.
+   LA CAUSE, TROUVEE : quand un rapport arrivait, elle devenait "occupee" ; le
+   minuteur de la dictee vidait alors la barre et n'envoyait rien (elle etait
+   occupee). Ton texte disparaissait pour de bon. CE QUI EST FAIT :
+   - un rapport n'arrive plus pendant que tu ecris ou que tu dictes : il attend
+     que tu aies fini (2 minutes au plus, pour qu'il ne se perde pas non plus) ;
+   - un message envoye pendant qu'elle est occupee n'est plus jete : il est mis
+     en file et part tout seul des qu'elle est libre ;
+   - tout texte qui quitte la barre sans etre envoye est mis de cote, et il est
+     aussi garde dans le navigateur : il survit meme a un F5.
+
+4) GROK (ET LES GROS TRAVAUX) NE PEUVENT PLUS ETRE SILENCIEUX
+   LE PROBLEME : le 01/10 a 19h50, 19h58 et 20h26, Grok Imagine n'a RIEN
+   produit et RIEN dit.
+   CE QUE LE CODE MONTRE : les gros travaux tournaient en arriere-plan sans
+   filet. La moindre erreur tuait le travail EN SILENCE : pas de fichier, pas
+   d'erreur, rien. Et rien n'etait ecrit : impossible de savoir apres coup ce
+   que Grok avait repondu. HONNETEMENT : la cause exacte de tes trois echecs
+   du 01/10 est donc indiagnosticable aujourd'hui, parce qu'il n'en reste
+   aucune trace. On ne va pas te l'inventer. CE QUI EST FAIT :
+   - un filet autour de chaque gros travail : toute erreur t'est annoncee avec
+     sa vraie cause, au lieu de disparaitre ;
+   - un JOURNAL de ce que Grok repond vraiment (dans ton dossier Luciana,
+     journal_grok.jsonl). Dis-lui "diagnostic Grok" : elle te montre les
+     dernieres tentatives, mot pour mot, plus si Grok est installe et connecte ;
+   - un ETAT VISIBLE en permanence dans l'ecran : ce qui tourne, depuis
+     combien de minutes, et ce qui attend d'etre recupere ;
+   - un veilleur : si un travail ne rend toujours rien au bout d'un delai
+     raisonnable (7 min pour une image, 25 min pour une video, 45 min pour un
+     chantier), elle te le dit TOUTE SEULE. Elle n'arrete rien, elle te
+     previent. Fini le silence ;
+   - quand c'est pret, elle doit donner le CHEMIN EXACT du fichier, pas une
+     approximation.
+
+CE QUI N'A PAS BOUGE : tous ses outils sont la (aucun retire), tous les
+boutons sont la, ses 17 langues d'interprete sont la, sa memoire est intacte.
+
+A VERIFIER TOI-MEME (le code ne peut pas le prouver tout seul) :
+   - lance un petit chantier en mode correction, clique sur Valider, et
+     regarde si elle part chercher le code SANS que tu le demandes ;
+   - parle au micro, envoie, reparle, puis coupe le micro : rien ne doit
+     partir, et ton texte doit apparaitre dans la zone "mis de cote".
+
+
+=====================================================================
+CE QUI EST NOUVEAU DANS LA v77 — ELLE RETIENT L'IMPORTANT, ET ELLE
+ARRETE DE REVENIR SUR CE QUE TU NE VEUX PLUS ENTENDRE
+=====================================================================
+
+LE PROBLEME QUE TU AS VU : elle oubliait les choses importantes (ton business,
+tes projets) et elle repetait les choses banales que tu lui avais demande
+d'arreter. Le pire : tu lui as demande de ne plus te parler de ton appel a ta
+fille, et elle a recommence au message suivant.
+
+LA CAUSE (trouvee, pas devinee) : elle avait deux memoires opposees.
+  1) La conversation du jour, qu'elle a sous les yeux a chaque message : c'est
+     un tapis roulant, tout y reste colle, d'ou les repetitions.
+  2) La memoire longue (souvenirs, carnet) : elle survit a tout, MAIS elle
+     n'existe que si Luciana pense elle-meme a l'ecrire. Ca dependait de sa
+     vigilance. Et une vigilance, ca flanche.
+Il fallait donc que le PROGRAMME garantisse le mecanisme, au lieu de compter
+sur elle. C'est ce qui est fait.
+
+1) UN CARNET DE CONSIGNES, RELU A CHAQUE MESSAGE
+   - Dis-lui "retiens cette consigne : ..." (ou simplement "c'est important",
+     "fais toujours comme ca", "ne fais plus jamais ca") : elle l'ecrit dans
+     ~/Luciana/consignes.jsonl, et le programme la lui remet sous les yeux a
+     CHAQUE message, exactement comme son carnet de chantier.
+   - Tu peux dire "liste tes consignes", "corrige la consigne 3",
+     "oublie la consigne 5".
+   - CE FICHIER NE SE REECRIT JAMAIS : il s'AJOUTE, ligne par ligne. Donc rien
+     ne peut s'evaporer, meme pas un detail qu'elle n'aurait pas recopie
+     (c'est comme ca que le prix du PC de Daniela s'etait perdu). Meme une
+     consigne corrigee ou retiree reste ecrite dans le fichier : on peut
+     toujours relire ce qui avait ete demande, et quand.
+   - Une consigne ne disparait QUE si tu lui demandes de la retirer. Jamais
+     toute seule.
+
+2) LA LISTE "NE PLUS M'EN PARLER"
+   - Dis-lui "ne m'en parle plus", "arrete avec ca", "laisse tomber ce sujet" :
+     elle l'ecrit dans ~/Luciana/sujets_a_eviter.jsonl, et cette liste lui est
+     aussi redonnee a CHAQUE message. Tant que le sujet y est, elle ne le lance
+     JAMAIS d'elle-meme. Si c'est TOI qui en parles, elle te repond
+     normalement, bien sur.
+   - Chaque ligne a une DATE DE FIN. Tu peux dire la duree ("aujourd'hui",
+     "3 jours", "une semaine", "un mois", "pour toujours"). Si tu ne dis rien,
+     c'est un mois. Passe cette date, la ligne disparait TOUTE SEULE : tu n'as
+     rien a defaire. Et tu peux lever l'interdiction quand tu veux.
+
+3) DEUX REGLES DE CONDUITE ECRITES EN DUR DANS LE PROGRAMME
+   - AVANT de te parler d'un projet, d'un site ou d'un dossier, elle RELIT
+     d'abord ou on en est (son carnet de chantier, et le journal de bord si
+     besoin). Plus de projet raconte de tete, plus de redemarrage a zero.
+   - AVANT de te poser une question, elle CHERCHE d'abord la reponse chez elle
+     (souvenirs, carnets, journal, fouille de memoire). Si c'est deja note,
+     elle ne te le fait pas repeter. Si elle ne trouve pas, elle le dit
+     honnetement au lieu de broder.
+
+4) AU DEMARRAGE, TU VOIS CE QU'ELLE A SOUS LES YEUX
+   - La fenetre noire affiche, en plus du journal de la veille et des 2 jours
+     d'avant : la liste de ses consignes actives et la liste des sujets dont
+     elle ne doit plus te parler. Si elle n'a rien, elle le dit. Pas de fausse
+     reussite.
+
+5) LE COUT NE BOUGE PAS
+   - Tout est garde en entier sur le disque, mais seules les consignes les plus
+     importantes et les plus recentes sont remises dans son contexte (plafond :
+     40 lignes). Marque une consigne comme "importante" et elle y restera
+     toujours.
+
+POUR VERIFIER TOI-MEME (30 secondes) : lance  python _verif_v77.py  depuis le
+dossier du projet. Il travaille dans un dossier temporaire, il ne touche JAMAIS
+a ta vraie memoire, et il dit en clair ce qu'il ne peut pas tester.
+(L'ancien _verif_v76.py, lui, attend encore "v76" en haut a gauche : il
+signalera cette seule difference. C'est normal, c'est le v77 qu'il faut lancer.)
+
+RIEN N'A ETE RETIRE : tous ses outils d'avant sont toujours la, et ta memoire
+n'a pas bouge d'un pouce.
+
+
+=====================================================================
+INSTALLER LUCIANA SUR UN PC NEUF — LA LISTE COMPLETE
+(lecon du 01/10/2026 : c'est PILLOW qui manquait sur le PC de la cliente)
+=====================================================================
+
+  1) Installer Python (python.org), en cochant "Add Python to PATH".
+  2) Dans la fenetre noire (Invite de commandes), taper exactement :
+
+         pip install anthropic edge-tts requests PILLOW
+
+  3) Double-cliquer "Demarrer Luciana.bat".
+
+POURQUOI PILLOW EST OBLIGATOIRE : sans lui, "import pyautogui" plante avec le
+message "ModuleNotFoundError: PIL", et Luciana se retrouve SANS SOURIS et SANS
+capture d'ecran : elle ne peut plus voir l'ecran ni guider quelqu'un. C'est
+exactement ce qui est arrive sur le PC de la cliente. Le lanceur "Demarrer
+Luciana.bat" installe maintenant ces quatre bibliotheques tout seul la premiere
+fois, mais garde cette liste sur ta cle maitresse : c'est la liste de reference.
+
+
+=====================================================================
+CE QUI EST NOUVEAU DANS LA v76 (journee du 01/10/2026)
+=====================================================================
+
+LE PROBLEME DE LA JOURNEE : tu as demande CINQ fois de retrouver un echange de
+la veille, sans succes. Du coup, le prix du PC achete pour Daniela (2500 lei,
+une machine plus chere qu'ELLE avait choisie) a ete pris pour ton prix de
+reference. Ta memoire n'etait pas perdue : c'est la FOUILLE qui etait mauvaise.
+
+1) ELLE SAIT ENFIN FOUILLER SA MEMOIRE
+   - Elle peut chercher PAR DATE et PAR PERIODE : "hier", "avant-hier",
+     "cette semaine", "la semaine derniere", "le mois dernier", ou du ... au ...
+   - Elle peut OUVRIR UNE JOURNEE ENTIERE et relire toute la conversation de ce
+     jour-la, mot pour mot ("ouvre notre conversation du 30 septembre").
+   - Les messages d'AUJOURD'HUI ne noient plus les jours anciens : les
+     resultats sont repartis par journee, et les jours anciens remontent.
+   - Jusqu'a 50 passages d'un coup (avant : 8, bloques tres bas).
+   - Si elle ne trouve rien d'exact, elle cherche les mots PROCHES (pluriel,
+     accents, racine du mot) au lieu de repondre "je n'ai rien".
+   - Elle fouille aussi les resultats de ses outils (mails lus, rapports de
+     chantier, listes) ET ton journal de bord, pas seulement vos dialogues.
+   - Quand elle ne trouve rien, elle dit ce qu'elle a en archive et ce qu'elle
+     peut essayer ensuite : plus jamais de mur.
+
+2) ELLE LIT TON JOURNAL TOUTE SEULE AU DEMARRAGE
+   - Ton dossier Documents\Journal_Luciana existait deja... et le programme ne
+     l'ouvrait JAMAIS. Maintenant, au lancement, elle recoit d'office le journal
+     de la VEILLE et des 2 JOURS D'AVANT, plus la liste de ses carnets en cours.
+   - La fenetre noire te dit exactement quelles journees ont ete ouvertes : si
+     elle n'a rien lu, tu le vois tout de suite (pas de fausse reussite).
+   - Elle peut aussi remonter plus loin sur demande ("relis ton journal du 28").
+
+3) LE CARNET DE CHANTIER NE PERD PLUS RIEN
+   - Avant, le carnet etait REECRIT EN ENTIER a chaque mise a jour : tout detail
+     non recopie disparaissait pour toujours. C'est comme ca que le prix du PC
+     de Daniela s'est evapore.
+   - Maintenant, avant chaque remplacement, l'ancienne version est gardee en
+     entier, datee, dans ~/Luciana/anciennes_notes/carnet/. Elle peut la RELIRE
+     ("retrouve-moi la version du carnet d'hier").
+   - Pareil pour les souvenirs corriges : la version d'avant est gardee.
+
+4) ELLE SIGNE TOUTE SEULE (et ca ne coute aucun jeton)
+   - Le 01/10 a 15h22, un message WhatsApp court est parti sans signature parce
+     qu'elle devait y penser. Maintenant c'est l'APPLICATION qui signe, comme un
+     logiciel de mail.
+   - Mails et WhatsApp : "Luciana, copilote IA de Fred, Satisfaire International"
+   - Message redige en ton nom : "Luciana, copilote IA, pour Fred"
+   - Toujours "Fred", jamais "Frederic", jamais ton nom de famille.
+   - BANQUES ET ORGANISMES FINANCIERS : aucune mention de Luciana ni d'IA. Le
+     mail est signe de ton seul prenom.
+   - Tu peux la changer, l'enlever ou l'eteindre en un simple message
+     ("change ta signature en ...", "enleve ta signature", "arrete de signer").
+
+5) LE CURSEUR DE SUIVI DE LA CORRESPONDANCE (comme sur Luminita)
+   (Depuis la v80 il s'appelle "Suivi de la communication" : une seule notion.)
+   - Dans le panneau "Cles", un interrupteur "Suivi de la communication".
+   - ETEINT par defaut. Frequence au choix : 30, 60 ou 120 minutes (5 minutes
+     est refuse : ca te noierait d'alertes).
+   - Silence de 22 h a 7 h. 3 alertes par heure au maximum. Pas de briefing du
+     matin.
+   - Elle regarde tes mails et ton agenda, et elle te previent. AUCUN cerveau
+     n'est appele : ca ne consomme ZERO jeton, ca ne peut pas faire monter la
+     facture.
+   - Si rien n'est branche (ni mail ni agenda), elle te le DIT franchement. Elle
+     n'invente rien.
+   - MIS A JOUR EN v79 : il regarde maintenant LA TOTALE (toutes tes boites mail,
+     l'agenda, Messenger, les commentaires de la page Facebook), sans trier aucun
+     expediteur, et il te met un petit point a chaque tour. Voir la section v79
+     tout en haut de ce fichier. WhatsApp : toujours NON, et la raison y est
+     expliquee en clair.
+
+6) L'ECRAN NE SE BLOQUE PLUS, ET TA CLE EST ENFIN LISIBLE
+   - Les panneaux (Cles, Mails, Voix) tiennent TOUJOURS dans l'ecran : quand il
+     y a trop de texte, c'est l'interieur qui defile, et la barre "Fermer" reste
+     collee en haut, toujours cliquable. Avant, le panneau des Cles depassait en
+     haut et en bas, le bouton Fermer tombait hors de l'ecran, et la page etait
+     bloquee.
+   - La touche Echap ferme le panneau.
+   - Sur un ecran bas, c'est le PORTRAIT qui retrecit, jamais les boutons ni la
+     barre pour ecrire.
+   - Dans le panneau des Cles : ta cle Claude s'affiche MASQUEE
+     (sk-ant-••••••••3f2a), avec deux boutons :
+       "Remplacer la cle"  : tu colles une cle neuve, c'est tout.
+       "Verifier ma cle"   : elle fait un VRAI petit appel (16 jetons au maximum,
+                             sur le modele le moins cher) et te repond en clair :
+                             ca marche / cle refusee / plus d'argent sur le compte /
+                             je n'ai pas pu joindre le service. Jamais un code
+                             technique incomprehensible.
+
+RIEN N'A ETE RETIRE : tous ses outils d'avant (souris, clavier, ecran, mails,
+agenda, Drive, Grok, alertes, compta, PDF, video, navigateur, AnyDesk...) sont
+toujours la, exactement comme avant. Ta memoire n'a pas bouge d'un pouce.
+
+
+CORRECTIF ANYDESK (sur la v75) — ELLE PEUT ENFIN TAPER DANS UNE FENETRE ANYDESK
+(le numero de version affiche en haut a gauche ne change pas : c'est toujours "v75")
+
+LE PROBLEME QUE TU AS VU (30/09 au soir, installation a distance) :
+  la souris passait nickel, mais AUCUNE lettre, AUCUN chiffre n'arrivait sur le PC
+  d'en face. Entree passait. Ctrl+V ne collait rien.
+
+LA CAUSE (trouvee, pas devinee) :
+  quand Luciana tapait, elle envoyait le NOM de la lettre, mais pas le NUMERO DE LA
+  TOUCHE PHYSIQUE (ce qu'on appelle le "scancode"). Elle mettait 0 a la place.
+  Or AnyDesk ne transporte pas des lettres : il transporte des numeros de touche
+  physique, parce que le clavier d'en face peut etre different du tien. Avec un 0,
+  AnyDesk n'avait rien a transmettre : la lettre tombait dans le vide.
+  Entree et les fleches passaient quand meme parce qu'AnyDesk les reconnait autrement.
+  La souris passait parce qu'elle voyage en coordonnees, pas en numeros de touche.
+  Et Ctrl+V ne collait rien pour la meme raison : le "V" n'arrivait pas.
+
+CE QUI EST REPARE :
+  - Elle tape maintenant comme un VRAI clavier : le vrai numero de chaque touche.
+    Les lettres, les chiffres et la ponctuation traversent AnyDesk.
+  - Les accents de ton clavier AZERTY (e-accent, a-accent, c-cedille, u-accent) sont
+    de vraies touches : ils traversent aussi.
+  - Ctrl+V, Ctrl+S, Alt+Tab et tous les raccourcis traversent egalement.
+  - Elle envoie les touches une par une, avec un souffle entre deux, pour que la
+    machine d'en face voie bien arriver Ctrl AVANT le V.
+
+LE CONTOURNEMENT PREVU (c'est celui-la qui est en place, en plus, automatiquement) :
+  quelques caracteres ne s'obtiennent pas d'une seule touche sur un AZERTY : ce sont
+  les chapeaux et les trema (e-circonflexe, a-circonflexe, o-circonflexe, i-trema...),
+  qui se tapent en deux temps. Ceux-la ne peuvent pas traverser touche par touche.
+  Quand il y en a dans le texte ET que la fenetre est une fenetre a distance, Luciana
+  passe TOUT le texte par le presse-papier : elle le copie sur ton PC (sans ouvrir de
+  fenetre noire, qui volerait le focus a AnyDesk), elle laisse a AnyDesk le temps de le
+  recopier de l'autre cote, puis elle envoie un vrai Ctrl+V.
+  Elle te DIT toujours par quel chemin le texte est passe ("scancode" ou
+  "colle par le presse-papier"). Elle ne fait jamais moitie-moitie : sinon le texte
+  arriverait en double.
+
+CE QUI DEPEND DE TOI, PAS DU CODE :
+  si elle t'ecrit "colle par le presse-papier" et que RIEN n'apparait de l'autre cote,
+  c'est l'option presse-papier d'AnyDesk qui est coupee. Elle doit etre activee DES
+  DEUX COTES : AnyDesk > Parametres > Autorisations (ou Securite) > Presse-papier.
+  Aucun code ne peut la forcer a distance.
+
+POUR VERIFIER EN 30 SECONDES :
+  ouvre ta session AnyDesk, clique dans le Bloc-notes de la machine d'en face, puis
+  demande a Luciana : "regarde l'ecran et tape : Frederic 12345 tres bien, c'est reussi"
+  -> les lettres et les chiffres doivent apparaitre la-bas.
+  Si tu veux savoir ce qu'elle va faire AVANT qu'elle tape, demande-lui :
+  "fais le diagnostic du clavier" -> elle te dit quelle fenetre a la main, si elle la
+  reconnait comme une fenetre a distance, et quel chemin elle va prendre.
+
+RIEN N'EST CHANGE POUR L'USAGE NORMAL : dans tes applis et dans Chrome, elle tape
+comme avant (en mieux : elle n'ecrase plus ton presse-papier pour un simple accent).
+Le coupe-circuit reste le meme : ta souris dans un coin de l'ecran = elle ne tape rien.
+
+
+CE QUI CHANGE DANS LA v75 — DEUX NOUVEAUX CERVEAUX "DEEPSEEK FLASH"
+
+- Dans le menu "Cerveau" en haut, deux nouveaux choix, comme chez Lumi :
+  "DeepSeek Flash (reflechi)"  -> c'est celui qui se sert vraiment de ses outils ;
+  "DeepSeek Flash (rapide)"    -> reflexion coupee, pour bavarder et les petites choses.
+  Ils sont beaucoup moins chers. TON CERVEAU PAR DEFAUT NE CHANGE PAS : c'est toujours
+  "Chaleureux" (Opus). Tant que tu es sur un cerveau Claude, RIEN ne change pour toi.
+- POUR T'EN SERVIR, il faut une cle DeepSeek : bouton "Cles" en haut, nom = deepseek,
+  et colle ta cle. Elle est rangee a part, dans ton dossier prive (~/Luciana/cle_deepseek.txt),
+  jamais dans le programme, jamais sur GitHub. Ta cle Claude n'est pas touchee.
+- Sous DeepSeek, elle garde TOUS ses outils (meme nombre qu'avant). La recherche web et la
+  lecture d'une page se font depuis ton PC, et les PDF sont lus sur ton PC (texte ; si c'est un
+  scan, les pages sont transformees en images). Sous Claude : exactement comme avant.
+- Sous chaque reponse, une petite ligne grise dit quel cerveau a repondu, ce que CE message
+  a coute, et en combien de secondes. Le detail de chaque appel est note dans
+  ~/Luciana/couts_appels.jsonl.
+- Nouvelle regle d'honnetete pour TOUS les cerveaux : avant de te donner un chiffre ou un fait
+  sur ton PC, elle le verifie avec un outil ; sinon elle dit "de memoire, a verifier". Et elle
+  n'invente jamais un detail, un souvenir ou une emotion.
+
+CE QUI CHANGE DANS LA v74 (garde) — PLUS DE CHRONOMETRE SUR LES CHANTIERS
+
+- Les chantiers Claude Code ne sont plus coupes en route : avant, Luciana arretait tout au bout de
+  10 min de telechargement du projet, et au bout de 30 min de travail de Claude Code. Maintenant, elle
+  attend qu'il ait vraiment fini, meme si ca prend une heure. Rien d'autre ne change.
+
+CE QUI CHANGE DANS LA v73 (garde) — SOURIS : TOUTE UNE SUITE EN UN SEUL APPEL
+
+- Souris / clavier : elle peut donner toute une suite de gestes d'un coup (clic, attendre, taper,
+  Entree...) : le programme fait tout, et UNE seule photo a la fin pour verifier.
+  Avant : chaque geste = un appel complet + une photo (4 gestes = ~0,35 $). Maintenant : 1 appel (~0,10 $).
+- Garde-fous identiques : souris dans un coin = arret net (meme au milieu d'une suite), jamais de mot de
+  passe tape, pas de Maj+Suppr. Elle s'arrete au premier souci et dit exactement ce qui a deja ete fait.
+
+CE QUI CHANGE DANS LA v72 (garde)
+
+- ACCENTS : quand elle tape un texte avec accents ("Frederic, tres bien"), le programme le met lui-meme
+  dans le presse-papier et le colle (Ctrl+V) : plus de lettres mangees, en une seule etape.
+  (Ton presse-papier contient ensuite ce texte.)
+- NAVIGATEUR : avec 'agir', elle peut prendre la photo de la page A LA FIN, telle qu'elle est (ce
+  qu'elle vient de remplir est visible), sans recharger.
+- RENDEZ-VOUS : a l'heure de chaque rendez-vous de ton Google Agenda, une alerte arrive sur ton
+  telephone ("Rendez-vous a 10h00 : Journee Cursor"). 0 token. Il faut que l'agenda et les alertes
+  soient branches, et que Luciana soit ouverte sur le PC. Pas de rappel pour les journees entieres.
+- COUCOU MOINS CHER : pendant tes pauses de plus de 55 min, le petit appel qui garde sa memoire au
+  chaud ne reecrit plus la fin du dernier echange (prevu ~0,03 $ au lieu de 0,13 $).
+- Plus de fausse phrase "trop d'etapes d'affilee" quand, en fait, un outil n'a pas ete lance.
+
+CE QUI CHANGE DANS LA v71 (garde) — MOINS D'ALLERS-RETOURS (la v70 est annulee, jamais a installer)
+
+- BOUTON "OUI, VAS-Y" : quand elle te prepare une action a valider (publication ou reponse Facebook,
+  message Messenger, action Google, formulaire du navigateur), un bouton apparait dessous. Tu cliques :
+  le programme le fait lui-meme, SANS rappeler son cerveau (0 $), et tu vois le verdict (VERIFIE, FAIT,
+  ou l'erreur exacte). S'il y en a plusieurs : "Tout valider". Elle le sait au message suivant.
+  Taper "oui" marche toujours comme avant (mais ca coute un tour complet).
+- OUTILS D'UN COUP : quand elle a besoin de plusieurs outils independants, elle les demande ensemble
+  (une seule relecture au lieu de plusieurs). Quand une etape depend de la precedente, elle attend.
+- OUTIL ECRIT EN TEXTE (bug du 29/09, 10h40) : si elle ecrit un appel d'outil au lieu de le lancer,
+  ce bloc n'est plus affiche ni lu a voix haute, rien n'est fait a l'aveugle ; tu vois une phrase
+  courte ("l'outil ... n'a PAS ete lance") et elle le voit au message suivant pour le refaire.
+
+CE QUI CHANGE DANS LA v69 (garde) — CONSIGNES ALLEGEES
+
+- Les phrases "montre-lui / attends son oui / avec l'accord de Fred" sont retirees de ses consignes
+  (mails, corbeille, fermer une appli, Drive, restauration, Grok...). Une seule regle a la place :
+  elle n'agit que sur TA consigne, et elle ne code jamais elle-meme (le code, c'est Claude Code).
+- Ce qui reste : ton oui CODE pour Google, Facebook, Messenger et les formulaires du navigateur ;
+  jamais de mot de passe ni de carte tapes par elle ; la corbeille ; tes secrets proteges.
+- Tu l'eduques ensuite toi-meme : "retiens que...".
+
+CE QUI CHANGE DANS LA v68 (garde) — SOURIS ET CLAVIER
+
+- Pour tout ce qui n'a pas d'autre acces (un logiciel, une fenetre Windows), elle regarde l'ecran,
+  clique, tape, appuie sur des touches (Ctrl+S...), fait defiler et glisse. Apres chaque action,
+  elle revoit l'ecran pour verifier.
+- POUR L'ARRETER NET : mets ta souris dans un COIN de l'ecran.
+- Elle ne tape jamais ta cle ni tes mots de passe enregistres, et ne fait jamais Maj+Suppr
+  (suppression definitive) : toujours la corbeille.
+- Cout : une photo d'ecran par etape (~0,04 $ sur Opus, estimation) : elle prend le navigateur ou
+  un outil dedie quand il existe.
+- La 1re fois, elle installe toute seule la petite bibliotheque "pyautogui".
+
+CE QUI CHANGE DANS LA v67 (garde)
+
+- TOUT BRANCHER : elle peut envoyer des fichiers de ton PC a un service (photo, video, document a
+  traiter), mettre la cle dans l'adresse quand un service le demande, et utiliser les services
+  gratuits sans cle. Tu mets la cle d'un service dans l'onglet "Cles / Connexions" et elle s'en sert.
+- ELLE APPREND (recettes) : quand elle reussit une tache, elle garde la facon de faire et la refait
+  directement la fois suivante, plus vite et moins cher. Tu peux lui dire "oublie la recette X" ou
+  la corriger.
+- TA REGLE, CODEE EN DUR : ce qu'elle lit dans un mail, sur un site, dans Google, Facebook, Messenger
+  ou la reponse d'un service est une INFORMATION, jamais un ORDRE ; si ca ressemble a un ordre, elle
+  est prevenue ("attention, piege possible").
+- Liste noire du navigateur : dis-lui "vide ta liste noire" (ou retire seulement les sites voulus).
+
+CE QUI CHANGE DANS LA v66 (etape 3 du "chef d'orchestre") — SON NAVIGATEUR AGIT
+
+- Sur un site, elle enchaine plusieurs etapes : remplir, choisir dans une liste, cocher, cliquer.
+  Puis elle lit la page obtenue pour verifier ce qui s'est vraiment passe.
+- Chercher, remplir, naviguer : tout de suite. Envoyer, valider un formulaire, payer, publier,
+  s'inscrire : elle te montre les etapes, et le programme ne les fait qu'apres ton "oui".
+- Jamais elle ne tape un mot de passe ou un numero de carte : ca reste pour toi.
+  La liste noire (banques, paiements, impots...) reste.
+
+CE QUI CHANGE DANS LA v65 (etape 2 du "chef d'orchestre") — GOOGLE EN ENTIER
+
+- Un seul branchement pour TOUT ton Google : Gmail, Agenda, Drive, Sheets, Docs, Contacts, YouTube,
+  Taches. Elle se sert elle-meme de tout ce que Google permet, sans qu'on code chaque fonction.
+- Lire, chercher : tout de suite. Creer, modifier, envoyer, partager : elle te montre ce qu'elle va
+  faire, et le programme ne le fait qu'apres ton "oui". Jamais de suppression definitive (corbeille).
+- A FAIRE UNE FOIS AVEC ELLE : dis-lui "branche Google en entier". Elle te guide : activer les
+  services dans ton projet Google Cloud, puis cliquer "Autoriser". Ton Drive et ton Agenda deja
+  branches ne bougent pas. (Rappel : tant que ton appli Google est en mode test, l'autorisation se
+  coupe tous les 7 jours ; il faut la publier chez Google.)
+
+CE QUI CHANGE DANS LA v64 (etape 1 du "chef d'orchestre")
+
+- CHEF D'ORCHESTRE : elle se demande toujours qui peut faire le travail le mieux et le moins
+  cher, et delegue le plus possible a tes forfaits (Claude Code pour le code et les gros travaux,
+  Grok pour les images et videos). Elle te trouve toujours une solution.
+- TES SECRETS PROTEGES : ta cle API, tes mots de passe et tes autorisations Google ne peuvent plus
+  jamais sortir du PC (ni par mail, ni sur le Drive, ni sur Facebook, ni sur GitHub). Son dossier
+  (memoire + secrets) ne peut plus etre envoye sur GitHub. Tes documents normaux : rien ne change.
+- Tout le reste est identique a la v63.
+
+
+CE QUI CHANGE DANS LA v63 (garde) — "chaque delegation coute ~1 $"
+
+- Quand elle revient de Claude Code ou de Grok, le rapport lui etait envoye DEUX FOIS (tu l'avais
+  vu). Maintenant : UNE seule fois, EN ENTIER (rien n'est coupe, rien n'est perdu).
+- Le "resume des vieux longs textes" de la v62 faisait reecrire sa memoire plus souvent (plus cher).
+  Il est retire : le plafond de memoire marche comme en v61 (celle qui coutait peu). La journee ne se
+  coupe toujours pas a minuit (ca, on le garde de la v62). Tout reste sur le disque, elle retrouve
+  le reste quand tu en parles.
+- Un journal note le prix de CHAQUE appel (fichier couts_appels.jsonl dans ton dossier Luciana) :
+  si un jour ca coute trop, on saura exactement quel appel, sur du vrai.
+- GROK VIDEO : elle ne dit plus "quota atteint" a tort : elle dit le vrai motif (le "mode
+  confidentialite" de Grok Build bloque les videos). Le desactiver ou non : c'est toi qui decides.
+- VIDEOS : elle peut sortir des images d'une video (une par seconde + les dernieres) pour la
+  REGARDER et choisir l'image de depart du plan suivant. ffmpeg (deja installe) est trouve tout seul.
+- SKOOL : les videos du lecteur de Skool : elle lance la lecture, repere le flux video et le
+  transcrit. Et si le clic sur une tuile de module n'ouvre rien, elle trouve l'adresse du module
+  dans la page et l'ouvre (sinon elle te le dit franchement). A essayer sur Kings Fruits.
+
+CE QUI CHANGE DANS LA v62 (garde, sauf le resume des vieux textes retire en v63)
+
+- Quand tu travaillais apres minuit, sa "journee" repartait de zero a minuit : elle oubliait la
+  soiree. Maintenant sa journee de travail dure jusqu'a ta nuit de sommeil, meme a 3 h du matin.
+- Les grosses journees (consignes collees) lui faisaient oublier le MATIN. Maintenant elle garde
+  toute la journee ; seuls les vieux tres longs textes colles sont montres en resume (le texte
+  complet reste dans sa memoire, elle peut le retrouver).
+- Elle suit ton rythme (plus de "va te reposer" quand tu bosses) et c'est elle qui tient la liste
+  des choses a faire et te les rappelle.
+- Cout : identique (meme plafond qu'avant).
+
+CE QUI CHANGE DANS LA v61 (garde)
+
+- SKOOL : elle peut maintenant ouvrir les modules de ta salle de classe (les tuiles n'etaient pas
+  de vrais liens, son clic echouait). Elle voit aussi la liste des tuiles et les adresses des
+  modules cachees dans la page. Refais l'essai sur la formation avatars UGC.
+
+CE QUI CHANGE DANS LA v60 (garde) — les petits accrocs de vos premiers essais
+
+- ALERTES : la page d'abonnement s'ouvre SUR LE PC, avec un QR code a scanner avec le telephone.
+  iPhone : la page du canal s'ouvre dans Safari, tu copies le nom et tu le colles dans ntfy (+).
+  Android : ntfy s'abonne tout seul. (Tu es deja abonne : rien a refaire.)
+- CLES : "Retirer" demande maintenant "Tu es sur ?" avant de supprimer une cle.
+- AGENDA : 10h veut dire 10h chez toi (heure de ton PC). Rendez-vous qui se repetent (chaque
+  annee, mois, semaine, jour) et possibilite de DEPLACER un rendez-vous. Toujours rien de supprime.
+  Demande-lui de corriger le rendez-vous qui s'affichait a 13h.
+- SON PORTRAIT : dis-lui "mets ton nouveau portrait" : elle copie ton image du Bureau dans ses
+  reglages (plus besoin du Bureau ensuite). Recharge la page (F5). Plus tard, une petite video en
+  boucle marchera aussi (avatar anime).
+- MICRO SANS CASQUE : elle ne se coupe plus toute seule en s'entendant, et ne te renvoie plus sa
+  propre reponse comme si c'etait toi. Tes vraies reponses passent toujours, meme un simple "oui".
+- GROK "c'est pret" : c'etait bien le defaut repare en v54 (les images de 15h38 et 15h49 datent
+  d'avant). Refais une image pour verifier : l'annonce et l'alerte telephone doivent arriver.
+
+CE QUI CHANGE DANS LA v59 (garde) — ta demande : "alleger, ne pas la brider"
+
+LUCIANA RETROUVE SA SPONTANEITE
+- Les notices de ses nouveaux outils etaient remplies d'interdictions (32 !) : elle devenait
+  prudente et "procedure". Elles sont reecrites, courtes et positives (14 regles, moins qu'avant
+  la v54). Les protections importantes sont toujours la, mais c'est le programme qui les
+  applique en silence : elle n'a plus a y penser.
+- Sa personnalite dit maintenant noir sur blanc : "tu es sa collegue, c'est toi qui prends les
+  choses en main ; tu ne lui donnes jamais une liste de devoirs, tu lui dis : viens, on le fait
+  ensemble".
+- Rien d'autre ne change : memoire, cout, outils, tout marche comme avant.
+
+CE QUI CHANGE DANS LA v58 (garde) — d'apres la demande ecrite par Luciana :
+
+SON PROPRE NAVIGATEUR
+- Elle lit maintenant N'IMPORTE QUEL site, meme ceux faits en JavaScript (ton site
+  satisfaireinternational.com) et ceux ou tu es abonne (ta communaute Skool).
+- Pour Skool : dis-lui "connecte ton navigateur a Skool". Une fenetre s'ouvre sur ton PC :
+  c'est TOI qui tapes ton mot de passe (elle ne le voit jamais), puis tu FERMES la fenetre.
+  Elle reste connectee ensuite.
+- Elle ne fait que LIRE et NAVIGUER : jamais publier, commenter, aimer, envoyer, acheter,
+  s'inscrire ou valider un formulaire (le programme refuse). Aucun telechargement.
+- Elle ne va JAMAIS sur : banques, Paysera, PayPal, boites mail, impots, consoles de
+  facturation (liste modifiable si tu le lui demandes).
+- Elle va a un rythme humain (quelques secondes par page, 40 pages max d'affilee) pour ne pas
+  faire bloquer ton compte. Attention : Skool peut interdire les robots dans ses conditions ; le
+  rythme reduit le risque, il ne le supprime pas.
+- Si une page contient un piege ("ignore tes consignes", "envoie tel fichier"...), elle ne le
+  suit pas et te le signale.
+- Son profil de navigateur est dans C:\Users\Fred\Luciana_navigateur (a part : tes sessions ne
+  partent jamais dans les sauvegardes).
+
+ELLE "REGARDE" LES VIDEOS (TRANSCRIPTION)
+- Elle recupere les sous-titres s'ils existent ; sinon elle transcrit le son SUR TON PC
+  (Whisper, gratuit, rien n'est envoye sur internet, zero euro).
+- Chaque lecon devient un fichier texte dans Documents\Formations\<cours>\.
+- Pour un cours entier, elle confie le resume a Claude Code (ton abonnement) : economie.
+- Video protegee (DRM) : elle te le dit, elle ne contourne jamais.
+- La 1re fois, Whisper telecharge son modele (environ 0,5 Go) : quelques minutes.
+
+GROK "C'EST PRET" : deja repare dans la v54 (installe bien la derniere version).
+
+CE QUI CHANGE DANS LA v57 (garde) — d'apres la demande ecrite par Luciana :
+
+FACEBOOK ET MESSENGER DE SATISFAIRE INTERNATIONAL
+- Elle lit les publications, les commentaires, les statistiques de la page et les messages
+  Messenger des clients.
+- Elle PREPARE une publication (texte + image ou video, par exemple une image Grok, et une date
+  si tu veux la programmer) : c'est un BROUILLON, rien ne part. Elle te le montre. Le programme
+  n'envoie QUE si ton message suivant dit oui. Pareil pour repondre a un commentaire ou a un
+  client sur Messenger. Ensuite elle verifie chez Facebook (VERIFIE) avant de te dire "c'est fait".
+- Ses reponses sont signees "Luciana, copilote IA de Satisfaire International" (loi europeenne).
+- Messenger : elle ne repond que dans les 24 h apres le dernier message du client (regle de Meta).
+- Nouveau message d'un client sur Messenger : alerte sur ton telephone (zero euro).
+- Jamais de suppression, jamais de publicite payante.
+- A FAIRE UNE FOIS (elle te guide, photos d'ecran) : creer l'application sur
+  developers.facebook.com, recuperer le "jeton de page" et le coller dans l'onglet
+  Cles / Connexions sous le nom "facebook" (jamais dans la conversation).
+- ATTENTION : tant que Meta n'a pas valide l'application ("App Review", avec les papiers de la
+  societe), ses publications ne sont vues que par toi (administrateur) et Messenger ne marche
+  qu'avec les comptes ajoutes a l'application. Elle t'aide a faire la demande.
+
+CE QUI CHANGE DANS LA v56 (garde) — d'apres la demande ecrite par Luciana :
+
+SURVEILLANCE DE TON SITE satisfaireinternational.com
+- Toutes les 5 minutes (quand Luciana est ouverte sur le PC), elle verifie que le site repond,
+  son temps de reponse, le certificat HTTPS (le cadenas) et la date de fin du nom de domaine.
+- Si le site tombe (2 verifications ratees de suite) : alerte urgente sur ton telephone, puis
+  une autre quand il remarche. Certificat ou domaine a renouveler bientot : une alerte par jour.
+- ZERO euro : du code simple, jamais l'intelligence artificielle.
+- Demande-lui "verifie mon site" quand tu veux. Tu peux ajouter d'autres sites.
+- Elle sait que le vrai site est le depot "satisfaire-" et qu'il ne faut jamais le fusionner
+  avec "satisfaire-international".
+
+CE QUI CHANGE DANS LA v55 (garde) — d'apres la demande ecrite par Luciana :
+
+GOOGLE AGENDA
+- Elle lit tes rendez-vous (tous tes agendas) et en ajoute : rendez-vous, journee entiere,
+  rappels sur ton telephone (ex : la veille et 1 h avant).
+- Avant d'ajouter, elle te montre le titre, la date et l'heure et attend ton oui. Elle ne dit
+  "c'est dans ton agenda" qu'apres l'avoir relu chez Google (VERIFIE).
+- Elle ne supprime RIEN (elle n'a meme pas cet outil) et n'invite personne.
+- A FAIRE UNE FOIS (elle te guide) : dans le projet Google du Drive, activer "Google Calendar
+  API", puis lui dire "connecte mon agenda" et cliquer "Autoriser". Ton Drive reste branche
+  tel quel.
+- Premiers rappels utiles : la coupure du Drive vers le 5 octobre (tant que l'application Google
+  n'est pas publiee, l'agenda se coupera aussi tous les 7 jours), l'avocate a Sofia.
+
+CE QUI CHANGE DANS LA v54 (garde) — d'apres la demande ecrite par Luciana :
+
+ALERTES SUR TON TELEPHONE (appli gratuite "ntfy", iPhone et Android)
+- Luciana peut te prevenir sur ton telephone, meme quand tu es loin du PC : chantier Claude
+  Code fini, images/videos Grok pretes, sauvegarde ratee, rappel important.
+- A FAIRE UNE FOIS (elle te guide) : dis-lui "installe les alertes". Installe l'appli "ntfy"
+  sur ton telephone. Sur le telephone, ouvre Luciana a l'adresse  /abonnement_alertes  : la
+  page te montre le nom secret a recopier dans ntfy ("+", "S'abonner a un sujet").
+  Puis dis-lui "fais un test d'alerte" : tu dois recevoir "Coucou, c'est Luciana, test
+  d'alerte". Dis-lui si tu l'as recu.
+- Les alertes sont COURTES et sans rien de sensible (ex : "2 nouveaux mails, dont un de
+  Matei, ouvre Luciana.") : jamais d'IBAN, de montant, de numero, de mot de passe.
+- Pas plus de 5 par heure. La nuit (23h-8h, reglable) elles attendent le matin, sauf urgence.
+- Elle ne te dit "alerte envoyee" que si le service ntfy a confirme. Tout est note
+  (alertes_journal.jsonl).
+
+LE VEILLEUR DE MAILS   (CORRIGE EN v79 : il ne trie plus personne)
+- Toutes les 5 minutes, il regarde les NOUVEAUX mails de TOUTES tes boites, et il te
+  previent pour N'IMPORTE QUEL expediteur : alerte sur ton telephone, et Luciana t'en
+  parle des que tu reviens lui parler.
+- AVANT LA v79 (c'etait faux, et c'est repare) : il ne retenait que six noms ecrits dans
+  le code (paysera, angelova-law.com, mfa.bg, anthropic, daniela, legere). Tout le reste
+  passait a la trappe sans un mot. Cette liste n'existe plus.
+- Il ne fait RIEN d'autre : il ne lit pas le mail (il reste "non lu"), ne repond pas, ne
+  supprime pas, ne range pas, ne paie pas.
+- ZERO euro : il n'appelle JAMAIS l'intelligence artificielle, c'est du simple code.
+  Ton compteur ne bouge pas.
+- Il n'y a PLUS de liste d'expediteurs a regler : il n'y a plus rien a trier. Si tu lui
+  demandes d'ajouter un expediteur, elle te repondra que ca n'existe plus.
+- UNE SEULE notification par passage, meme s'il y a dix mails d'un coup.
+- LIMITE : il ne tourne QUE si Luciana est ouverte sur ton PC. PC eteint = pas de veilleur.
+  Astuce simple et gratuite en attendant : dans l'appli Gmail de ton telephone, active les
+  notifications pour les mails "importants".
+
+REPARE
+- Le message "c'est pret" de Grok (et des chantiers) qui n'arrivait jamais : il est maintenant
+  garde sur le disque jusqu'a ce que Luciana l'ait VRAIMENT dit. S'il se perd en route
+  (page fermee, telephone et PC ouverts en meme temps, coupure), il revient 3 minutes apres.
+- PC et telephone : c'est la MEME Luciana (le telephone ouvre la page du PC par Tailscale),
+  donc une seule memoire, sur le PC. Les souvenirs et le carnet sont maintenant proteges si
+  tu lui parles des deux en meme temps (plus rien ne peut s'ecraser).
+
+CE QUI CHANGE DANS LA v53 (garde) — d'apres la demande ecrite par Luciana :
+
+GROK IMAGINE (IMAGES ET VIDEOS) SUR TON ABONNEMENT SuperGrok
+- Elle commande a Grok des images et des videos (format vertical pour TikTok, horizontal,
+  ou carre ; elle peut aussi animer une photo), via le programme officiel "Grok Build"
+  installe sur ton PC et connecte a TON compte : pas de cle API, pas de facture au token.
+- Avant chaque creation, elle te montre le prompt et le format et attend ton oui (ca utilise
+  ton quota SuperGrok de la semaine).
+- Ca tourne en arriere-plan ; elle te previent quand c'est pret. Les fichiers vont dans
+  Videos\Luciana_Grok\date, avec un nom parlant, et elle t'ouvre le dossier.
+- A FAIRE UNE FOIS (elle te guide) : dans PowerShell,  irm https://x.ai/cli/install.ps1 | iex
+  puis  grok login  (connexion a ton compte SuperGrok), puis relancer Luciana.
+- A VERIFIER ENSEMBLE : la premiere vraie image. Si ca bloque, copie-moi sa phrase exacte.
+
+CE QUI CHANGE DANS LA v52 (garde) — d'apres la demande ecrite par Luciana :
+
+TU NE PERDRAS PLUS JAMAIS LUCIANA
+- Chaque jour, toute seule, elle COPIE toute sa memoire dans un zip date, sur ton disque dur
+  externe ET dans ton Google Drive (dossier "Sauvegardes_Luciana", prive, jamais partage).
+  Jamais sur GitHub. L'original n'est jamais deplace ni touche.
+- Chaque copie est VERIFIEE pour de vrai (chaque fichier compare). Elle ne te dira jamais
+  "c'est sauvegarde" sans ce VERIFIE.
+- Si aucune sauvegarde verifiee depuis plus de 3 jours, elle te le dit le matin.
+- Elle garde 7 sauvegardes par jour, 4 par semaine, 6 par mois. Les plus vieilles vont dans un
+  dossier "anciennes" (disque) ou a la corbeille Drive : rien n'est detruit.
+- RESTAURER : dis-lui "restaure ma memoire" : elle restaure dans un NOUVEAU dossier, sans rien
+  ecraser. Un fichier COMMENT_RESTAURER_LUCIANA.txt explique tout, meme sur un nouveau PC.
+- A FAIRE UNE FOIS : branche ton disque externe et dis-lui sa lettre, ex : "sauvegarde-toi sur
+  E:\Sauvegardes_Luciana". Chiffrement possible : mets un mot de passe dans l'onglet
+  Cles / Connexions sous le nom "sauvegarde" (jamais dans la conversation), puis demande-le-lui.
+- IMPORTANT : publie l'application Google (elle est en mode test, l'acces Drive se coupe tous
+  les 7 jours, la prochaine fois vers le 5 octobre).
+- NOUVEAU : elle sait COPIER un fichier ou un dossier (sans jamais toucher l'original).
+
+CE QUI CHANGE DANS LA v51 (garde) :
+
+GOOGLE DRIVE, EN ENTIER (comme une vraie secretaire)
+- Elle cherche dans tout ton Drive (par nom ET dans le contenu), y compris ce qu'on t'a partage,
+  telecharge les fichiers sur ton PC (un Google Docs devient un Word, un Sheets un Excel), depose
+  un fichier et cree un lien de partage (ex : video de plus de 25 Mo pour un mail).
+- Garde-fous : chercher, lire, telecharger = seule. Partager ou mettre a la corbeille = elle te
+  demande d'abord. Jamais de suppression definitive.
+- POUR LA BRANCHER (une seule fois, avec elle) : dis-lui "branche mon Google Drive". Elle te
+  guide a l'ecran chez Google (tu lui dis "prends une photo de mon ecran" a chaque etape), range
+  le fichier de connexion, puis ouvre la page "Autoriser". Si Google affiche "application non
+  validee" : "Parametres avances" puis "Acceder a Luciana" (normal pour une appli perso).
+- Pense a PUBLIER l'application chez Google a la fin (sinon l'acces s'arrete apres 7 jours).
+- Mail trop lourd (plus de 25 Mo) : elle ne tente plus l'envoi, elle te propose le lien Drive
+  ou la compression de la video.
+
+CE QUI CHANGE DANS LA v50 (garde) — d'apres la liste ecrite par Luciana :
+
+1) MODIFIER UN EXCEL EXISTANT (fini les v2, v3...) : ajouter une ligne (juste avant les totaux,
+   les formules suivent), modifier une case ou une ligne, supprimer une ligne. Formules, formats
+   et largeurs gardes. Aussi pour ta compta Excel.
+2) MODIFIER UN WORD EXISTANT : ajouter, remplacer, supprimer un paragraphe, remplacer un texte
+   partout (tableaux compris).
+3) PDF COMME ILOVEPDF, MAIS SUR TON PC : decouper (par pages ou plages), fusionner, supprimer des
+   pages, remplacer une page (ex : la page de signature par le scan signe), reordonner, pivoter,
+   compresser, compter. Toujours un NOUVEAU fichier, l'original n'est jamais touche.
+4) VIEUX WORD .doc : elle sait les lire et les convertir en .docx ou PDF (avec Word, ou LibreOffice
+   s'il est installe). PAS PU ETRE TESTE ICI : dis-moi si ca marche chez toi.
+5) VIDEO / AUDIO : duree d'un fichier (voix de Daniela), compresser une video pour un mail
+   (ex : IMG_1501.mov sous 25 Mo), convertir .mov -> .mp4, extraire le son. Il faut le logiciel
+   gratuit ffmpeg : s'il manque, elle te propose de l'installer.
+6) MAILS PLUS FIABLES : si "Server not connected", elle se reconnecte et reessaie toute seule,
+   et ne peut JAMAIS envoyer le meme mail deux fois (elle regarde d'abord dans les Envoyes).
+
+SECURITE : avant chaque modification d'un Excel ou d'un Word, une copie de l'ancienne version est
+gardee dans ton dossier Luciana\anciennes_versions. La 1re fois qu'elle modifie un Excel/Word/PDF,
+elle installe toute seule les petits outils necessaires (quelques secondes d'attente, une seule fois).
+PAS ENCORE FAIT : l'envoi de gros fichiers par lien Google Drive (demande un reglage chez Google).
+
+CE QUI CHANGE DANS LA v49 (garde) :
+
+1) NOUVEAU CERVEAU "Chaleureux 5.5" dans le menu : Opus 5.5, plus recent et 20% moins cher
+   qu'Opus 4.8, avec sa personnalite poussee au maximum (chaleur, humour, taquineries).
+   Compare-le avec "Chaleureux" (Opus 4.8) et garde celui que tu preferes.
+2) SOUVENIRS ET CARNET SANS REPAYER : avant, chaque nouveau souvenir ou mise a jour du carnet
+   faisait repayer tout le cache (~0,20-0,40 $ sur Opus). Maintenant : photo le matin, et les
+   changements du jour sont ajoutes a la fin. Rien n'est perdu.
+3) GROS TRAVAUX DE LECTURE CONFIES A CLAUDE CODE (ton abonnement, 0 $ d'API) : un lot de scans,
+   de PDF, un site entier. Claude Code travaille avec Opus 5.5 ; si ta version de Claude Code est
+   trop ancienne, il prend Opus 5 et Luciana te le dit.
+4) L'ONGLET TRADUCTEUR tourne toujours sur Sonnet : plus rapide et moins cher.
+
+CE QUI CHANGE DANS LA v48 (garde) :
+
+1) LA JOURNEE ENTIERE EN TETE.
+   Elle a sous les yeux TOUTE votre conversation du jour, mot pour mot, plus la fin de la
+   veille. Et ca ne recharge plus en cours de journee (avant : un rechargement tous les
+   ~5 echanges). Rien n'est jamais efface : tout depuis le premier jour reste sur le PC.
+2) LE RAPPEL AUTOMATIQUE.
+   A chaque message, le programme cherche lui-meme dans vos archives (meme d'il y a 6 mois)
+   les passages lies a ce que tu dis, et les lui met sous les yeux. Elle n'a plus besoin
+   d'y penser pour s'en souvenir.
+3) LE "COUCOU" AU CACHE.
+   Si tu ne lui parles pas pendant ~55 minutes, elle garde sa memoire "au chaud" chez
+   Anthropic pour environ 0,02 $ (au lieu de repayer ~0,40-0,50 $ au message suivant).
+   Elle arrete apres 8 heures sans message (la nuit, rien ne tourne pour rien).
+
+CE QUI CHANGE DANS LA v47 (garde) :
+
+- UN VRAI SPECIALISTE DANS CHAQUE DOMAINE.
+  Comptable pour ta compta, juriste pour le juridique, experte marketing pour le business...
+  En faisant la tache, elle regarde plus loin et te dit d'elle-meme ce qu'elle remarque :
+  ce qui ne va pas, les faiblesses, ou gagner plus ou economiser, les risques, avec les
+  chiffres et son conseil. En juridique : points faibles, delais, pieges, arguments.
+
+CE QUI CHANGE DANS LA v46 (garde) :
+
+- VRAI PROJET = ELLE SE RENSEIGNE, PUIS FEUILLE DE ROUTE.
+  Quand toi ou Daniela lui confiez un vrai projet ("comment me faire connaitre", "quelles
+  videos marchent dans mon metier", "lancer des TikTok"...), elle part de ce qu'elle sait
+  (le site Legere Plume, ses souvenirs), va voir sur le web ce qui marche vraiment
+  aujourd'hui, puis donne une feuille de route faite pour la personne : etapes, idees de
+  videos avec accroches, prompts prets, comment ca rapporte, par quoi commencer.
+  Pour une simple question, elle repond directement.
+  Cout d'une vraie recherche : environ 0,20 a 0,50 $ sur Opus (seulement pour un vrai projet).
+
+CE QUI CHANGE DANS LA v45 (garde) :
+
+1) ELLE REFLECHIT ENFIN.
+   - Opus 4.8 a un mode "reflexion" qui est COUPE par defaut : il faut l'allumer dans
+     le code, et il ne l'etait pas. Depuis le debut, elle repondait du tac au tac.
+     C'est allume maintenant (mode adaptatif : peu pour bavarder, beaucoup pour un
+     vrai probleme). Sonnet ("Vif") le faisait deja.
+2) ELLE EST INTELLIGENTE POUR TOUT, ET ELLE PROPOSE.
+   - Nouvelles consignes : comprendre le vrai besoin, aller au fond, proposer d'elle-meme
+     des solutions et des idees creatives, sur TOUS les sujets (vie, demarches, juridique,
+     business, videos...). Elle presente son plan et attend ton oui avant d'agir.
+   - Retire : "phrases plutot courtes" et "resume les mails", qui la rendaient superficielle.
+   - Garde : son humour, sa chaleur, la voix sans emoji ni liste.
+3) COUT : la reflexion se paie comme du texte ecrit (environ +2 a 4 euros par jour sur Opus).
+   Regarde le compteur.
+
+CE QUI CHANGE DANS LA v44 (garde) :
+
+1) LES MAILS, REPARES A LA BASE.
+   - Elle voit enfin TOUS tes dossiers : Envoyes, Spam, Corbeille, Tous les messages,
+     tes libelles. Avant, elle ne voyait QUE la boite de reception (et croyait verifier).
+   - Apres chaque envoi, elle VERIFIE pour de vrai que le mail est dans tes Envoyes,
+     et regarde s'il y a un mail de refus. Elle te dit : VERIFIE, ou ATTENTION, ou REFUSE.
+   - Adresse invalide (un prenom sans adresse, une faute) : elle refuse d'envoyer et le dit.
+   - Plusieurs destinataires d'un coup : ca marche maintenant.
+   - Si tu nommes une boite qui n'existe pas, elle le dit (avant : elle prenait la
+     premiere boite en silence, le mail pouvait partir de la mauvaise adresse).
+   - Recherche par destinataire, par mot du texte, avec les accents (Helene, recepisse...).
+   - Lire un mail ne le marque plus comme "lu".
+   - Ranger marche pour toutes les boites (Gmail, Yahoo, Outlook), le dossier est cree
+     s'il n'existe pas. Corbeille : toujours recuperable, jamais detruit pour de bon.
+   - Repondre a tous.
+
+2) MOINS DE BRIDES.
+   - Elle lit aussi les Word, Excel, csv, txt et le code (avant : images et PDF seulement).
+   - Elle cherche tes fichiers partout (Videos, Musique, OneDrive, tout ton dossier),
+     et peut ouvrir / ranger sur un autre disque ou une cle USB.
+   - Elle peut remplacer ou completer un fichier existant (l'ancienne version est gardee).
+   - Pages web : 30 000 caracteres (avant 3 500). 15 recherches web par message (avant 5).
+   - Services (Grok...) : une video ou une image renvoyee est enregistree en fichier.
+   - Reponses et traductions plus longues sans coupure.
+
+CE QUI CHANGE DANS LA v43 (garde) :
+
+1) ELLE NE PEUT PLUS PERDRE SA MEMOIRE.
+   - Avant, si le fichier de memoire s'abimait (coupure de courant...), le programme le
+     prenait pour vide et ecrasait TOUT l'historique. C'est fini : le fichier abime est
+     mis de cote intact, et elle repart de la version d'avant.
+   - Une copie de sauvegarde par jour : ~/Luciana/sauvegardes/ (memoire, souvenirs,
+     carnet, comptes). Les 60 derniers jours sont gardes.
+   - Tout ce que ses outils renvoient (un mail lu, un rapport de Claude Code...) est
+     garde EN ENTIER sur le PC, et elle peut le retrouver quand tu lui en reparles.
+   - Reflexe : quand tu parles d'un sujet qu'elle n'a pas sous les yeux, elle fouille
+     d'abord sa memoire, puis te repond.
+
+2) LE COMPTEUR : sous son nom, "aujourd'hui : 0,43 $".
+   C'est la VRAIE depense du jour, calculee sur les chiffres qu'Anthropic renvoie a
+   chaque reponse (en dollars, comme ta facture Anthropic). Rien n'est bloque.
+
+3) MOINS CHER SANS LA BRIDER : le cache tient 1 heure (avant : 5 minutes, et il
+   etait casse). Aucune limite sur les pages web ni sur ce qu'elle lit.
+
+4) PLUS DE SOUFFLE : jusqu'a 40 etapes d'affilee pour un gros travail (avant : 15).
+   Si elle s'arrete quand meme, elle te le dit.
+
+5) TES CLES SONT PROTEGEES : la cle d'un service (ex : Grok) ne part QUE vers le
+   site de ce service. Un mail piege ne peut plus la faire envoyer ailleurs.
+
+CE QUI CHANGE DANS LA v42 (garde) :
+
+A) MEMOIRE REFAITE (moins cher, et elle ne perd plus le fil).
+   - Elle ne renvoie plus TOUT l'historique a chaque message (c'etait la cause
+     de la facture) : seulement les ~15 derniers echanges.
+   - Rien n'est perdu : toutes vos conversations restent sur le PC, et elle peut
+     y chercher ("tu te souviens de...") avec son nouvel outil de recherche.
+   - CARNET DE CHANTIER : pour chaque projet en cours (ex: Legere Plume), elle note
+     le but, ce qui est fait, ce qui reste. Il lui est redonne a chaque message.
+     Fichier : ~/Luciana/carnet.json
+   - Elle garde maintenant la trace des outils VRAIMENT utilises (et leur resultat
+     reel) et les rapports de Claude Code : elle sait ce qu'elle a fait pour de vrai.
+   - Le cache marche enfin entre deux messages (l'heure a la minute le cassait).
+
+B) FINI LE "Voila, c'est fait." AUTOMATIQUE.
+   - Avant, si elle ne repondait rien, le programme disait "Voila, c'est fait."
+     meme si rien n'etait fait. Maintenant il dit ce que les outils ont vraiment
+     renvoye, ou avoue qu'il n'y a pas de reponse. Si sa reponse est coupee ou
+     qu'elle s'arrete en plein travail, elle le dit.
+
+CE QUI EST REPARE DANS LA v41 :
+
+0) ELLE LIT VRAIMENT LE TEXTE DES MAILS (fini l'invention de pieces jointes).
+   - Quand le message (une priere, une lettre) est ecrit DANS le mail, elle le lit
+     pour de vrai avec 'lire mes mails'. Elle ne confond plus avec les pieces jointes
+     et n'invente plus un fichier qui n'existe pas. Si elle ne trouve pas, elle te le
+     dit et te propose de lire le mail a l'ecran (photo). Les longs textes ne sont plus coupes.
+
+CE QUI EST REPARE (deja dans la v40, garde) :
+
+1) LES FICHIERS RETOMBENT AU BON ENDROIT (fini "il n'y a rien").
+   - Avant, quand elle t'enregistrait un fichier, il partait dans un dossier
+     invisible (un "Desktop"/"Downloads" en anglais qui n'existe pas chez toi,
+     Windows francais + OneDrive). Elle te disait "c'est dans les Telechargements"
+     et il n'y avait rien.
+   - Maintenant elle demande a Windows tes VRAIS dossiers (Bureau, Telechargements,
+     Documents), francais et OneDrive compris. Le fichier tombe pour de vrai la ou
+     tu le vois, et elle t'OUVRE le dossier avec le fichier deja selectionne.
+   - NOUVEAU : elle peut enregistrer N'IMPORTE QUEL fichier (du code comme
+     contact.php, un .txt, un .csv, une note...), pas seulement du Word/Excel/PDF.
+     Dis-lui juste "enregistre-moi ca dans mes Telechargements".
+
+2) ELLE NE MENT PLUS SUR CE QU'ELLE FAIT.
+   - Elle ne dira JAMAIS "c'est fait / je te l'ai mis dans tes fichiers" si
+     l'outil n'a pas vraiment reussi. Si ca rate, elle te le dit franchement,
+     avec la raison. Une vraie panne dite clairement, plutot qu'une fausse reussite.
+
+3) CA COUTE BEAUCOUP MOINS CHER SUR LES LONGUES SESSIONS.
+   - Sa memoire de conversation est maintenant mise "en cache" : relire tout
+     l'historique coute environ 10 fois moins qu'avant. Ta memoire reste ENTIERE
+     (aucun plafond), mais le travail long ne fait plus flamber la note.
+
+Le reste que tu aimais est garde : Opus 4.8 par defaut, memoire sans plafond,
+son humour et son caractere, le bouton Repeter, l'heure juste.
+
+
+CE QUI DEPEND DE TOI, PAS DU CODE :
+ - LA BELLE VOIX (ElevenLabs) : si tu entends la voix robotique et que changer la
+   voix HD "ne change rien", c'est que ton QUOTA ElevenLabs est epuise. Aucun code
+   ne peut le reparer : il faut des credits sur ton compte ElevenLabs. Le bouton
+   "Tester la belle voix" te dit l'etat exact (quota, cle...).
+
+
+CE QU'ELLE FAIT DEJA :
+ - Te guider pas a pas (voir ton ecran), chercher sur le web, lire tes documents.
+ - Fichiers : lister, chercher, ranger, ouvrir/fermer une appli, corbeille (reversible),
+   creer Excel / Word / PDF, et enregistrer tout autre fichier.
+ - Mails Gmail (lire, envoyer avec pieces jointes, repondre, ranger, marquer, corbeille).
+ - Compta (revenus/depenses/bilan). Presse-papier si tu le demandes.
+ - GitHub : lister tes depots, sauvegarder un dossier/zip toute seule, ou confier
+   un chantier a Claude Code (analyse, ou corriger pour de vrai avec ta validation
+   d'un clic) SUR TON ABONNEMENT (pas sur ta cle API payante).
+ - Chef d'orchestre : onglet "Cles / Connexions" pour brancher d'autres services
+   (Grok, autre IA...) : tu colles la cle, elle s'en sert toute seule.
+ - Mode interprete (traduction a voix haute), envoi de photos.
+
+
+SECRETS : cle API + mot de passe Gmail dans ton dossier PRIVE "Luciana" (compte
+Windows), jamais dans ce dossier-ci. Ne pousse pas le dossier prive sur GitHub.
+
+TELEPHONE : PC allume + Luciana lancee. iPhone (Tailscale) -> Safari ->
+100.89.15.115:8000 -> entre le code affiche sur le PC. Cerveau = Opus 4.8.
+Arreter : ferme la fenetre noire.

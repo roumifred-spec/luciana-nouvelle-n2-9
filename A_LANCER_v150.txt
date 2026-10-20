@@ -1,0 +1,146 @@
+=====================================================================
+ CE QUE LUCIANA DOIT LANCER, DANS L'ORDRE — CHANTIER v150
+ (le vrai cerveau DeepSeek REFLECHI dans tout le bibliothecaire,
+  l'archiviste ET le rangement)
+=====================================================================
+
+Le code est DEJA ecrit dans luciana.py, dans le dossier du chantier.
+Rien n'a ete execute, rien n'a ete pose chez Fred, rien n'a ete teste.
+C'est toi qui executes. Dans cet ordre, et pas dans un autre.
+
+---------------------------------------------------------------------
+ETAPE 0 — RELEVER LES DEUX POINTS DU FICHIER D'AVANT (avant tout)
+---------------------------------------------------------------------
+Sur le PC de Fred, sur le luciana.py QUI TOURNE AUJOURD'HUI (la v149),
+releve ses DEUX points et garde-les :
+
+   powershell -c "(Get-Item luciana.py).Length"
+   powershell -c "(Get-FileHash luciana.py -Algorithm SHA256).Hash"
+
+Ces deux chiffres, c'est TOI qui les as. Je ne les ai pas inventes et
+je ne les ai pas devines.
+
+---------------------------------------------------------------------
+ETAPE 1 — LA SAUVEGARDE DATEE (jamais sauter cette etape)
+---------------------------------------------------------------------
+   python _faire_la_sauvegarde_v150_cerveau_reflechi.py <taille> <empreinte>
+
+(les deux arguments sont ceux de l'etape 0 ; sans eux le script fait
+quand meme la sauvegarde mais il DIT qu'il n'a pas pu comparer)
+
+Ce script sort le programme d'AVANT de l'historique git (commit 9a7fa4b)
+et l'ecrit sous :
+   SAUVEGARDE_luciana_v149_avant_v150_cerveau_reflechi_2026-10-09.py
+Il NE copie PAS luciana.py : a ce stade luciana.py est deja la v150, le
+copier donnerait une sauvegarde qui mentirait sur son nom.
+Il refuse d'ecraser une sauvegarde qui existe deja.
+
+   -> Si ce script dit RATE : ON S'ARRETE LA. Pas de sauvegarde, pas de pose.
+
+---------------------------------------------------------------------
+ETAPE 2 — LE CONTROLE (zero centime, aucun appel paye)
+---------------------------------------------------------------------
+   python _verif_v150_cerveau_reflechi.py
+
+Il verifie, dans l'ordre demande par Fred :
+   1) luciana.py compile, et le badge dit v150 (et plus v149) ;
+   2) le lecteur de sens n'envoie PLUS l'option qui coupe la reflexion
+      (la vraie requete est interceptee, ce n'est pas "c'est ecrit") ;
+   3) le rangement par le cerveau est rallume, avec sa cascade ;
+   4) UN SEUL appel au cerveau par message, partage entre les trois
+      (les appels sont comptes pour de vrai) ;
+   5) la cascade de replis marche sur CINQ pannes simulees ;
+   6) le repli redonne EXACTEMENT le comportement d'aujourd'hui
+      (compare element par element et caractere par caractere) ;
+   7) aucun fichier de Luminita touche (c'est git qui le dit).
+
+   -> Sortie 0 = tout est vert. Sortie 1 = il y a du rouge : NE PAS POSER,
+      et reprendre le fichier d'avant :
+         git show 9a7fa4b:luciana.py > luciana.py
+
+(Ou, en un seul double-clic, avec la sauvegarde + le badge + le controle :
+    VERIF_v150.bat
+ le resultat complet est aussi ecrit dans res_v150.txt)
+
+---------------------------------------------------------------------
+ETAPE 3 — LA POSE, SEULEMENT SI L'ETAPE 2 EST VERTE
+---------------------------------------------------------------------
+Copier luciana.py du dossier du chantier vers le dossier du programme
+chez Fred, puis relancer Luciana (Demarrer Luciana.bat).
+
+---------------------------------------------------------------------
+ETAPE 4 — LE TEST SUR DU REEL (c'est la seule vraie preuve)
+---------------------------------------------------------------------
+a) Le badge en haut de la page doit dire : ton amie - v150.
+b) Poser a Fred une question qui ne partage AUCUN mot avec le sujet, par
+   exemple "est-ce qu'elle entend encore ce que je lui dicte ?" et
+   verifier dans controle_memoire_sens.jsonl (dossier ~/Luciana) la ligne
+   "choix_du_tour_v150" :
+      - "appels_au_cerveau": 1       <- un seul appel pour les trois roles
+      - "par_quoi": "reflechi"
+      - "profondeur": 1 au premier message, 2 puis 3 s'il creuse
+      - "passages" : un petit nombre (5 au plus au premier message)
+c) Le panneau Etat, ligne "Lecteur de sens" : regarder le TEMPS MOYEN et
+   le nombre de REPLIS. C'est LE chiffre a regarder, et voici comment le
+   lire -- les deux seules choses que ce chantier ne peut PAS deviner a
+   distance, et qui se voient en trois messages chez Fred :
+
+   - "il a mis plus de 12 secondes a repondre" qui revient souvent
+        -> DeepSeek reflechit plus longtemps que prevu. UNE SEULE LIGNE A
+           CHANGER dans luciana.py : LECTEUR_SENS_PLAFOND_SECONDES = 12.0
+           -> 20.0 (ou 25.0). Ce n'est pas un bug, c'est un reglage.
+
+   - "il a ete coupe a N jetons (plafond de sortie atteint)" qui revient
+     souvent, avec "par_quoi": "rapide" dans le fichier de controle
+        -> c'est le risque N.1 de ce chantier, et il faut le dire : sa
+           reflexion ne tient pas dans les 4 000 jetons de sortie. On
+           paierait alors DEUX appels par message et le cerveau reflechi
+           ne servirait jamais. UNE SEULE LIGNE A CHANGER :
+           LECTEUR_SENS_JETONS_REFLECHI = 4000 -> 8000 (ou 12000).
+           Monter ce chiffre monte la depense maximale (1,20 $ le million
+           de jetons de sortie), donc on monte par paliers, on regarde le
+           compteur de depense, et on s'arrete des que les replis cessent.
+
+   - aucun repli, "par_quoi": "reflechi", temps moyen de 2 a 8 s
+        -> c'est l'etat normal attendu. Rien a toucher.
+d) Le rangement : attendre un rangement (ou en declencher un) et lire
+   rangement_journee.jsonl. On doit y voir "paquet range par le cerveau"
+   avec "reflechi": true. S'il y a "repli du rangement", la RAISON est
+   ecrite dedans, en clair.
+
+---------------------------------------------------------------------
+ATTENTION, DEUX CHOSES A SAVOIR AVANT DE LIRE LES RESULTATS
+---------------------------------------------------------------------
+1) NE PAS RELANCER VERIF_v148.bat SUR CE FICHIER. L'ancien controle de la
+   v148 va dire RATE sur deux lignes, et c'est NORMAL : il cherche
+   "LECTEUR_SENS_PLAFOND_SECONDES = 4.0" et
+   "LECTEUR_SENS_CERVEAU = deepseek-flash-rapide", qui sont precisement
+   les deux choses que ce chantier change expres. Le controle a jour,
+   c'est _verif_v150_cerveau_reflechi.py.
+
+2) LUCIANA PEUT METTRE UN PEU PLUS LONGTEMPS A COMMENCER A REPONDRE, ET
+   IL FAUT LE DIRE A FRED. L'appel unique se fait AVANT qu'elle reponde :
+   le tour attend sa reponse. En v149 ce temps etait plafonne a 4 s ; il
+   est maintenant plafonne a 12 s. Au pire, donc, 8 secondes de plus avant
+   qu'elle commence a ecrire -- et au pire des pires (le reflechi coupe,
+   puis le rapide), 12 + 4 = 16 s. En pratique un tri court se repond en
+   2 a 5 s. Si Fred trouve ca trop long, c'est le meme reglage qu'au
+   point (c) ci-dessus : LECTEUR_SENS_PLAFOND_SECONDES, qu'on redescend.
+
+3) LE COUT MONTE UN PEU, ET IL FAUT LE DIRE A FRED. L'appel unique coute
+   au pire ~0,007 $ par message (un seul appel, pas trois). Et le
+   rangement, qui ne coutait plus rien depuis la v128, redevient payant :
+   ~0,004 $ par paquet de 25 000 caracteres, 6 paquets au plus par cycle,
+   soit ~0,025 $ par cycle de rangement. On reste tres loin des 5 euros
+   par jour, mais ce n'est plus zero. Si Fred ne veut pas de ca :
+   RANGEMENT_PAR_PYTHON = True dans luciana.py ramene le rangement
+   gratuit, sans rien casser d'autre.
+
+---------------------------------------------------------------------
+LES DEUX INTERRUPTEURS, SI ON VEUT REVENIR EN ARRIERE SANS SAUVEGARDE
+---------------------------------------------------------------------
+   LECTEUR_SENS_REFLECHI = False   -> ramene EXACTEMENT la v149 pour les
+                                      consignes, les carnets et la
+                                      bibliotheque (aucun appel unique).
+   RANGEMENT_PAR_PYTHON = True     -> ramene EXACTEMENT la v128 pour le
+                                      rangement (Python seul, zero jeton).

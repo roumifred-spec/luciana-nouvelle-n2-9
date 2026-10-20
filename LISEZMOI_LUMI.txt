@@ -1,0 +1,241 @@
+LUMINITA  (v82)  —  CE QUI CHANGE POUR LA PETITE SOEUR
+======================================================
+
+Luminita et Luciana partagent LE MEME code. Ce fichier ne liste que ce qui est
+DIFFERENT chez Luminita, c'est-a-dire chez un client. Pour tout le reste (la
+fouille de memoire, le journal de bord, les carnets, le suivi de la
+correspondance, l'ecran), lis LISEZMOI.txt : c'est exactement pareil.
+
+
+=====================================================================
+v82 — CE QU'IL FAUT REPORTER CHEZ LUMINITA (chantier SEPARE, pas fait ici)
+=====================================================================
+
+ATTENTION, A LIRE EN PREMIER : le chantier v82 a ete fait UNIQUEMENT sur le depot
+de Luciana (roumifred-spec/luciana). Le depot de Luminita (roumifred-spec/lumi)
+n'a PAS ete touche, ni le dossier C:\Users\Fred\Lumi : c'etait une interdiction
+formelle de la consigne. Rien de ce qui suit n'est donc en place chez Luminita.
+
+POURQUOI CA CONCERNE ENCORE PLUS UN CLIENT QUE FRED.
+Un client achete "une assistante avec qui on parle". Si, au milieu d'une phrase,
+l'assistante saute sur un rapport de tache de fond ou sur un releve de mails, il
+ne se dit pas "tiens, un bug" : il se dit "elle ne m'ecoute pas", et il arrete de
+s'en servir. C'est le defaut qui se remarque le plus vite a la demonstration. La
+v82 le supprime a la racine : plus rien ne part sans un clic du client.
+
+LE PRINCIPE EN UNE PHRASE : un travail de fond termine (chantier, audit, point de
+communication, image, video, transcription) ne s'injecte PLUS dans la
+conversation. Il depose une PASTILLE cliquable, qui reste affichee, qui survit au
+F5 et a l'arret du programme, et que le CLIENT ouvre quand il veut.
+
+CE QU'IL FAUT REPORTER, EXACTEMENT (tout est dans luciana.py et dans la page) :
+
+  COTE PROGRAMME :
+  - ajouter_evenement(item, alerte, genre, immediat) : les deux nouveaux arguments.
+    'genre' nomme la pastille, 'immediat' vaut False PAR DEFAUT. C'est ce defaut
+    qui garantit qu'un appelant distrait ne pourra jamais couper le client ;
+  - prendre_evenement(..., ident, immediat_seulement) : 'ident' = le client a
+    clique sur UNE pastille precise ; 'immediat_seulement' = le seul chemin que la
+    page prend toute seule ;
+  - rapports_en_attente() : rend maintenant "id", "genre" et "quoi" (le libelle en
+    francais, table LIBELLE_PASTILLE). Sans l'id, le client ne pourrait ouvrir que
+    le plus ancien ;
+  - le marquage immediat=True dans prevenir_du_clic() UNIQUEMENT. C'est la suite du
+    clic du client sur Valider/Annuler : ce n'est pas un travail de fond qui
+    s'invite, c'est la reponse a son geste (correctif v78, a garder) ;
+  - genre="chantier" / "grok" / "transcription" / "veilleur_travaux" aux quatre
+    autres endroits qui deposent un evenement ;
+  - pastille_communication() : regarde les deux carnets SANS les consommer, et
+    distingue le NEUF des simples tours de garde ;
+  - reclamer_communication() : rend (cadre, texte brut) et vide les carnets. C'est
+    le SEUL endroit qui appelle encore a_dire_veilleur() et a_dire_suivi() ;
+  - DANS repondre() : les appels a a_dire_veilleur() et a_dire_suivi() sont
+    RETIRES de l'entete collee devant le message du client. C'EST LA CORRECTION
+    PRINCIPALE. Si on n'en reporte qu'une, c'est celle-la ;
+  - _suivi_a_dire_ajouter(..., genre=) et le champ "recu" ajoute dans les fiches
+    (_suivi_a_dire_ajouter, _noter_pour_luciana, et le carnet Messenger). Rien
+    n'est retire : ces champs servent uniquement a ce que la pastille dise vrai ;
+  - dans outil_communication, action "regarder_maintenant" : elle rend aussi tout
+    ce qui attendait derriere la pastille, pour ne rien jeter en douce ;
+  - texte_travaux_en_cours() : le bloc qui dit a l'assistante qu'un point attend
+    derriere sa pastille SANS lui en donner le contenu (elle ne peut donc ni le
+    lacher, ni l'inventer), et l'interdiction ecrite d'en parler d'elle-meme ;
+  - la cle "communication" dans la reponse de /etat_travaux ;
+  - l'adresse GET /chantiers?id=... et /chantiers?immediat=1 ;
+  - l'adresse POST /communication_reclamer ;
+  - l'affichage des pastilles au demarrage dans la fenetre noire.
+
+  COTE PAGE (interface) :
+  - la zone <div id="listePastilles">, le style .pastille, et fabriquerPastille() ;
+  - presenterRapport() sortie de verifierChantiers() : elle n'est plus appelee que
+    par un CLIC, jamais par un minuteur ;
+  - reclamerRapport(id) et reclamerCommunication() ;
+  - verifierChantiers() qui ne demande plus que '/chantiers?immediat=1' ;
+  - montrerRapport() qui accepte un 'entete' explicite ;
+  - dernierNbRapports / dernierComm, pour que "Dis-le moi maintenant" ouvre
+    l'audit quand il est seul en attente.
+
+CE QU'IL NE FAUT SURTOUT PAS REPORTER EN MOINS :
+  - LES ALERTES DU TELEPHONE. envoyer_alerte() est toujours appele par
+    ajouter_evenement() et par le tour de communication. Chez un client aussi, un
+    mail grave doit le joindre. Ce n'est pas une coupure de conversation.
+  - RIEN DE LA v78 / v79 / v80 / v81 n'a ete retire : le texte mis de cote, la file
+    des messages, les quatre etats de fin de chantier, la ligne d'etat permanente,
+    le bouton Valider affiche AVANT l'appel au cerveau. Tout est garde.
+
+A VERIFIER APRES LE REPORT CHEZ LUMINITA :
+  - le numero de version affiche en haut a gauche (chez Luciana : "v82") ;
+  - que les carnets (veille_a_dire.json, suivi_a_dire.json), la file
+    (evenements_a_annoncer.json) et le journal d'etat (chantiers_etat.json) se
+    creent bien dans le dossier prive ~/Lumi et PAS dans ~/Luciana. Ils suivent
+    DOSSIER, donc c'est automatique : verifie-le quand meme une fois, de tes yeux ;
+  - lance _verif_v82.py sur le PC du client, en pointant sur SON luciana.py ;
+  - LE TEST QUI COMPTE, a faire devant le client : allume le suivi de la
+    communication, lance un chantier, et aie une vraie conversation pendant ce
+    temps. Rien ne doit l'interrompre. Deux pastilles doivent apparaitre, et c'est
+    LUI qui les ouvre.
+
+CE QUI N'A PAS A ETRE REPORTE : rien de specifique a Fred n'a ete ajoute. Les mots
+affiches ("audit de communication fait") sont generiques et conviennent a un
+client tel quels.
+
+
+=====================================================================
+v81 — CE QU'IL FAUT REPORTER CHEZ LUMINITA (chantier SEPARE, pas fait ici)
+=====================================================================
+
+(A LIRE D'ABORD : le mecanisme "le rapport attend que la discussion soit
+retombee" decrit ci-dessous a ete REMPLACE par la pastille de la v82. Si tu
+reportes tout d'un coup, reporte la v82 : elle contient la v81 corrigee.)
+
+ATTENTION, A LIRE EN PREMIER : le chantier v81 a ete fait UNIQUEMENT sur le depot
+de Luciana (roumifred-spec/luciana). Le depot de Luminita (roumifred-spec/lumi)
+n'a PAS ete touche, et c'etait une interdiction formelle de la consigne. Rien de
+ce qui suit n'est donc en place chez Luminita pour l'instant.
+
+LES DEUX CORRECTIONS DE LA v81 CONCERNENT AUTANT LUMINITA QUE LUCIANA, parce que
+c'est le meme fichier luciana.py et le meme ecran. Un client vit exactement les
+deux memes mauvais moments :
+  1) il est coupe en pleine phrase par un rapport de tache de fond ;
+  2) il recoit "tache terminee" et il n'a rien a cliquer, parce que c'etait une
+     analyse en lecture seule — et rien ne le lui disait.
+Pour un client, le 2 est pire que pour Fred : il n'a personne a qui demander. Il
+croit que le produit est casse.
+
+CE QU'IL FAUT REPORTER, EXACTEMENT (tout est dans luciana.py et dans la page) :
+  - le classement de la fin d'un chantier en QUATRE etats : analyse / a_valider /
+    rien_a_valider / echec (constante ETATS_CHANTIER, fonction _fin_chantier, et
+    tous les retours de _executer_chantier qui passent par elle) ;
+  - les deux phrases qui en decoulent : _alerte_fin_chantier (le texte de la
+    notification du telephone) et _cadre_fin_chantier (l'ordre donne au cerveau,
+    qui impose la premiere phrase) ;
+  - le journal d'etat permanent : FICHIER_ETAT_CHANTIERS, noter_etat_chantier,
+    etat_chantiers, et son affichage au demarrage dans la fenetre noire ;
+  - rapports_en_attente() : regarder ce qui attend SANS le consommer. C'est la
+    piece qui rend possible "le rapport attend son tour" ;
+  - prendre_evenement(force=True) et l'adresse /chantiers?maintenant=1 : le bouton
+    "Dis-le moi maintenant" ;
+  - les deux nouvelles cles de /etat_travaux ("rapports" et "chantiers") ;
+  - dans la page : discussionEnCours(), fredAParle(), CALME_MS, les zones
+    zoneRapportAttente et zoneRapportLu, les boutons btnRapportMaintenant et
+    btnFermerRapport, et le fait que afficherValidation() soit appele AVANT
+    l'appel au cerveau.
+
+A VERIFIER APRES LE REPORT CHEZ LUMINITA :
+  - le numero de version affiche en haut a gauche (chez Luciana : "v81") ;
+  - le fichier d'etat des chantiers se cree bien dans le dossier prive ~/Lumi, et
+    PAS dans ~/Luciana (il suit DOSSIER, donc c'est automatique : verifie-le quand
+    meme une fois, de tes yeux) ;
+  - lance _verif_v81.py sur le PC du client, en pointant sur SON luciana.py ;
+  - fais le test qui compte : une tache de fond qui finit pendant que le client
+    dicte. Il ne doit PAS etre coupe.
+
+CE QUI N'A PAS A ETRE REPORTE : rien de specifique a Fred n'a ete ajoute. Les deux
+corrections sont generiques.
+
+
+=====================================================================
+v78 — LE BUG DU MICRO EST CORRIGE ICI AUSSI (a reporter chez Luminita)
+=====================================================================
+
+Le bug du micro que Fred a signale le 01/10/2026 ("quand je coupe le micro, ca
+reecrit le message d'avant et ca l'envoie") touche AUSSI Luminita, puisque c'est
+le meme fichier luciana.py. La correction est donc deja dans ce code :
+  - la memoire cachee de la dictee est videe a chaque envoi ;
+  - couper le micro n'envoie plus rien, jamais ;
+  - un message deja envoye ne peut plus repartir tout seul ;
+  - le texte non envoye est mis de cote, visible, recuperable d'un clic.
+
+CE QU'IL RESTE A FAIRE (ce n'a PAS ete fait ici, et c'est volontaire) : porter
+ce fichier dans le depot de Luminita, par un chantier separe sur CE depot-la.
+Le chantier v78 avait l'interdiction formelle d'y toucher.
+Les details sont dans LISEZMOI.txt, section v78, point 2.
+
+ATTENTION : ce chantier-ci a ete fait sur le depot de LUCIANA
+(roumifred-spec/luciana). Le depot de Luminita (roumifred-spec/lumi) n'a PAS ete
+touche. Quand tu reporteras le code chez Luminita, ce fichier te dit quoi
+verifier.
+
+
+=====================================================================
+INSTALLER LUMINITA SUR UN PC NEUF — LA LISTE COMPLETE
+=====================================================================
+
+  1) Installer Python (python.org), en cochant "Add Python to PATH".
+  2) Dans la fenetre noire :
+
+         pip install anthropic edge-tts requests PILLOW
+
+  3) Double-cliquer "Demarrer Luminita.bat".
+
+C'est PILLOW qui manquait sur le PC de la cliente le 01/10/2026 : sans lui,
+"import pyautogui" plante (ModuleNotFoundError: PIL) et l'assistante se retrouve
+SANS souris et SANS capture d'ecran. Garde cette liste sur la cle maitresse.
+
+
+=====================================================================
+LA SIGNATURE : LE PRENOM DU PROPRIETAIRE, PAS CELUI DE FRED
+=====================================================================
+
+Chez Luciana, la signature dit "copilote IA de Fred, Satisfaire International".
+Chez Luminita, elle doit porter le PRENOM DU PROPRIETAIRE de la machine.
+
+COMMENT LE PROGRAMME S'Y PREND (c'est automatique) :
+  - Le nom de l'assistante vient du dossier prive : ~/Luciana donne "Luciana",
+    ~/Lumi donne "Luminita".
+  - Le prenom du proprietaire : "Fred" seulement si le dossier prive est
+    ~/Luciana. Partout ailleurs (donc chez Luminita), il est INCONNU au depart,
+    et la signature reste GENERIQUE : "Luminita, copilote IA, Satisfaire
+    International". AUCUN prenom n'est invente, jamais.
+
+POUR METTRE LE PRENOM DU CLIENT : il suffit de le dire a Luminita en un message,
+par exemple "tu es l'assistante d'Elena" ou "mets Elena comme proprietaire".
+Elle enregistre le prenom (fichier signature.json dans son dossier prive) et
+signe ensuite :
+  - mails et WhatsApp        : "Luminita, copilote IA d'Elena, <sa societe>"
+  - message au nom d'Elena   : "Luminita, copilote IA, pour Elena"
+  - banque / organisme financier : "Elena" seul, aucune mention d'IA.
+
+Seul le PRENOM est garde : si on lui donne "Elena Popescu", elle ne gardera
+qu'"Elena".
+
+A VERIFIER AU MOMENT DU REPORT CHEZ LUMINITA :
+  - le dossier prive est bien ~/Lumi (sinon la signature dirait "Fred") ;
+  - mettre la bonne societe du client ("mets <societe> comme societe") ;
+  - le texte de la signature se change, s'enleve et s'eteint par simple message.
+
+
+=====================================================================
+LE RESTE, IDENTIQUE A LUCIANA
+=====================================================================
+
+  - La fouille de memoire par date et par periode, l'ouverture d'une journee
+    entiere, les 50 resultats, les mots proches.
+  - Le journal de bord lu au demarrage (Documents\Journal_Luminita si le dossier
+    porte ce nom : sinon elle le dit franchement, elle n'invente rien).
+  - Les anciennes versions du carnet de chantier et des souvenirs, relisibles.
+  - Le curseur de suivi de la correspondance : eteint par defaut, 30/60/120
+    minutes, silence 22 h - 7 h, 3 alertes par heure, ZERO jeton consomme, et
+    s'il n'y a ni mail ni agenda branche, elle le DIT.
+  - Les panneaux qui tiennent dans l'ecran, la touche Echap, la cle affichee
+    masquee, les boutons "Remplacer la cle" et "Verifier ma cle".

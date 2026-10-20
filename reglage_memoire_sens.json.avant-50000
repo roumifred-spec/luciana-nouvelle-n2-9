@@ -1,0 +1,10 @@
+{
+  "actif": true,
+  "seuil": 0.4,
+  "budget_bibliotheque": 40000,
+  "ecart_relatif": 0.25,
+  "budget_carnets_nommes": 30000,
+  "dossier_sujet_messages": 12,
+  "_a_quoi_ca_sert": "actif : true = tout ce qui est ramene devant la phrase de Fred est choisi PAR LE SENS ; false = on retrouve exactement la v124 (choix par les mots). seuil : de 0 a 1, la ressemblance minimale pour qu'un passage soit ramene (plus haut = plus strict). Le fichier controle_memoire_sens.jsonl note les scores de chaque message : c'est la qu'on regle ce chiffre sur du reel. budget_bibliotheque : les caracteres ramenes du grand tiroir. Il faut relancer Luciana apres avoir change ce fichier. ecart_relatif (v129) : on ne garde que ce qui est a moins de cet ecart du MEILLEUR resultat de la meme recherche ; 1 = le couper. v131 : ecart_relatif passe de 0.08 a 0.25 (a 0.08 il jetait 821 passages sur 845 le 07/10 a 05h43 : le meilleur score etait 0.778, donc tout ce qui etait sous 0.698 partait) et budget_bibliotheque de 15 000 a 25 000. budget_carnets_nommes : quand Fred NOMME un sujet, tous les carnets de ce sujet sortent en entier, sans plafond de NOMBRE, dans cette limite de caracteres (30 000). dossier_sujet_messages : combien de messages de suite le dossier d'un sujet deja sorti est rappele PAR SON NOM, sans etre repioche par ressemblance (12).",
+  "_pour_revenir_en_arriere": "Les valeurs de la v130, si jamais ca ramene trop de choses : budget_bibliotheque 15000, ecart_relatif 0.08. Pour annuler le dossier de sujet : dossier_sujet_messages 0. Pour revenir au plafond de 3 carnets : budget_carnets_nommes 0. Relancer Luciana apres chaque changement."
+}

@@ -1,0 +1,4 @@
+15581:    const b = document.createElement('button');
+15724:      const bt = document.createElement('button'); bt.className = 'boutonVal ok'; bt.textContent = '\u2705 Oui, vas-y (' + b.id + ')';
+15729:      const tout = document.createElement('button'); tout.className = 'boutonVal ok'; tout.style.marginTop = '10px';
+16352:        const b = document.createElement('button'); b.className = "puce"; b.textContent = "Retirer";

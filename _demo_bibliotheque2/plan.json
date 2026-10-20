@@ -1,0 +1,101 @@
+{
+  "_a_quoi_ca_sert": "LE PLAN DE LA BIBLIOTHEQUE, a quatre niveaux : categorie > sous-categorie > filtre > sous-filtre > la fiche. C'est la CARTE que le bibliothecaire lit pour aller chercher par le sens. Cette version REMPLACE l'ancienne : il n'y a jamais deux plans en meme temps.",
+  "quand": "2026-10-11 06:27:37",
+  "empreinte": "630e3144192bd0d6",
+  "version": 1,
+  "chiffres": {
+    "rayons": 5,
+    "sous_categories": 5,
+    "filtres": 5,
+    "sous_filtres": 5,
+    "fiches": 5,
+    "en_suspens": 1
+  },
+  "rayons": {
+    "Famille": {
+      "fiches": 1,
+      "en_suspens": 0,
+      "sous_categories": {
+        "Ma fille": {
+          "fiches": 1,
+          "filtres": {
+            "Evenement": {
+              "fiches": 1,
+              "sous_filtres": {
+                "Ma fille": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "Gouts": {
+      "fiches": 1,
+      "en_suspens": 1,
+      "sous_categories": {
+        "Cuisine": {
+          "fiches": 1,
+          "filtres": {
+            "Gout": {
+              "fiches": 1,
+              "sous_filtres": {
+                "Coriandre": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "Informatique": {
+      "fiches": 1,
+      "en_suspens": 0,
+      "sous_categories": {
+        "Memoire de Luciana": {
+          "fiches": 1,
+          "filtres": {
+            "Reglage": {
+              "fiches": 1,
+              "sous_filtres": {
+                "Curseur de sortie": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "Sante": {
+      "fiches": 1,
+      "en_suspens": 0,
+      "sous_categories": {
+        "Rendez-vous": {
+          "fiches": 1,
+          "filtres": {
+            "Medical": {
+              "fiches": 1,
+              "sous_filtres": {
+                "Dr Martin": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "Vehicules": {
+      "fiches": 1,
+      "en_suspens": 0,
+      "sous_categories": {
+        "Voitures": {
+          "fiches": 1,
+          "filtres": {
+            "Achat": {
+              "fiches": 1,
+              "sous_filtres": {
+                "Voiture rouge": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

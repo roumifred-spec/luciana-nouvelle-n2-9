@@ -1,0 +1,17 @@
+diff --git a/nouvelle/comprendre.py b/nouvelle/comprendre.py
+index 9d6d08e..e7204d3 100644
+--- a/nouvelle/comprendre.py
++++ b/nouvelle/comprendre.py
+@@ -73,8 +73,11 @@ def comprendre(message, bloc, date_message=None):
+         "8 ans »). Dans la langue du message. Pour un simple bonjour : ce qui est dit, tel quel.\n"
+         "- \"quand\" : maintenant (ce qui se passe, ou rien n'est dit), recent (le plus recent sur ce sujet), moment (un "
+         "moment ou un jour precis), histoire (toute l'histoire, comment ca a evolue).\n"
+-        "- \"du\" / \"au\" : seulement si le message situe un jour ou une periode : TOUJOURS avec ces mots francais "
+-        "(aujourd'hui, hier, avant-hier) ou une date AAAA-MM-JJ, quelle que soit sa langue ; sinon vide.\n"
++        "- \"du\" / \"au\" : DES que le message nomme un jour ou une periode, meme dans une question, tu les remplis : "
++        "TOUJOURS avec ces mots francais (aujourd'hui, hier, avant-hier) ou une date AAAA-MM-JJ, quelle que soit sa "
++        "langue ; sinon vide. Si l'annee n'est pas dite, c'est l'annee du message ; si cette date tombe dans le futur, "
++        "c'est l'annee d'avant. Exemple, pour un message ecrit le 2026-10-20 : « Qu'est-ce qu'on a fait le 14 juillet ? » "
++        "-> du = au = 2026-07-14 ; « en septembre » -> du = 2026-09-01, au = 2026-09-30.\n"
+         "- \"vital\" : true si ca touche a la sante, aux medicaments, aux soins, a la securite de quelqu'un (dans le "
+         "doute : true).\n"

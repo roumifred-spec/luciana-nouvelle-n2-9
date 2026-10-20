@@ -1,0 +1,33 @@
+{
+ "_a_quoi_ca_sert": "LE MARQUE-PAGE DE L'ARCHIVISTE. Il retient LE REPERE de chaque souvenir vraiment traite -- une empreinte du souvenir lui-meme, pas sa place dans une liste. C'est ce qui permet de reprendre le travail sans jamais ranger deux fois le meme souvenir, meme quand la liste des messages bouge. Il REMPLACE l'ancien avancee.json, qui ne retenait qu'une position (et bloquait la reprise a 30).",
+ "version": 2,
+ "quand": "2026-10-11 06:27:37",
+ "combien": 5,
+ "combien_par_source": {
+  "bibliotheque": 1,
+  "conversation": 2,
+  "souvenirs": 2
+ },
+ "faits": {
+  "bibliotheque": [
+   "bibliotheque#1900662184d24d0e"
+  ],
+  "conversation": [
+   "conversation#9626a1627fd61c19",
+   "conversation#b1dccaa4d67385c0"
+  ],
+  "souvenirs": [
+   "souvenirs#436c436298880464",
+   "souvenirs#827895a746904bcf"
+  ]
+ },
+ "chiffres": {
+  "fiches": 5,
+  "rayons": 5,
+  "tiroirs": 5,
+  "filtres": 5,
+  "sous_filtres": 5,
+  "en_suspens": 1,
+  "avec_repere": 5
+ }
+}

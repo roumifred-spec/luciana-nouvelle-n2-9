@@ -1,0 +1,131 @@
+======================================================================================
+0) LE FICHIER EXAMINE, ET SA SANTE
+======================================================================================
+   fichier : C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\luciana.py
+   taille  : 1162500 octets, 18213 lignes
+   py_compile : le fichier est du Python valide                         : PASSE
+   toutes les pieces attendues existent dans le fichier                 : PASSE
+        -> 40 pieces retrouvees
+   bac a sable (dossier temporaire) : C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\_bac_verif_memoire_v97_h04sjxig
+   plafond des consignes lu dans le fichier : 7000 car.
+   plafond global de la memoire lu dans le fichier : 24000 car.
+
+======================================================================================
+1) LE PLAFOND DES CONSIGNES CAPITALES EST-IL VRAIMENT APPLIQUE ?
+   (12 consignes 'capitale' de 1 500 car. = 18 000 car. : le plafond est 7 000)
+======================================================================================
+   mesure rendue par le programme : {"avant": 17667, "apres": 7595, "contenu": 5891, "capitales": 4, "normales": 0, "resumees": 0, "capitales_refusees": 8, "a_trier": true, "actives": 12}
+   consignes refusees (numeros) : [8, 7, 6, 5, 4, 3, 2, 1]
+   les 12 consignes sont bien toutes ACTIVES (rien n'est perdu)         : PASSE
+        -> actives = 12
+   le poids des consignes envoyees NE DEPASSE PAS le plafond de 7 000 c : PASSE
+        -> poids envoye = 5891 car. (plafond 7000)
+   des capitales ont ete REFUSEES (le programme ne les ajoute pas toute : PASSE
+        -> 8 refusee(s) sur 12
+   ce sont les PLUS RECENTES qui sont gardees (n12 est donnee)          : PASSE
+   et les plus anciennes qui sont mises de cote (n01 n'est PAS donnee)  : PASSE
+   l'ancien passe-droit de la v94 a bien disparu du code                : PASSE
+        -> c'est la variable qui gardait TOUTES les capitales, plafond ou pas
+   mesure : 17667 car. si tout etait donne en entier -> 7595 car. envoyes
+
+======================================================================================
+2) UNE CONSIGNE 'CAPITALE' AJOUTEE QUAND LE PLAFOND EST DEJA PLEIN
+   (elle doit etre ECRITE SUR LE DISQUE, et le plafond doit tenir quand meme)
+======================================================================================
+   ce que l'outil a repondu, mot pour mot :
+      Consigne n13 ecrite pour de vrai dans C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\_bac_verif_memoire_v97_h04sjxig\consignes.jsonl. Je la relis a CHAQUE message a partir de maintenant, et elle ne disparaitra que si tu me demandes de la retirer. ATTENTION : LE PLAFOND DES CONSIGNES EST PLEIN (7000 car. au maximum par message). 9 consigne(s) capitale(s) (n9, n8, n7, n6, n5, n4, n3, n2, n1) ne me sont PLUS donnees en entier a chaque message — elles restent entieres sur le disque, rien n'est perdu. Si ce qui vient d'etre ecrit doit vraiment passer avant, il faut TRIER : degrade une capitale en normale (action 'corriger', importance 'normale'), ou range ce qui est termine (action 'ranger').
+   la consigne neuve est ECRITE SUR LE DISQUE (rien n'est perdu)        : PASSE
+   l'outil PREVIENT tout de suite que le plafond est plein              : PASSE
+   le plafond de 7 000 car. tient TOUJOURS apres cet ajout              : PASSE
+        -> poids envoye = 6106 car.
+   des consignes capitales ne sont PAS donnees en entier dans le contex : PASSE
+        -> 9 capitale(s) mise(s) de cote
+   le texte des consignes mises de cote n'est PAS dans le contexte      : PASSE
+        -> mises de cote : [9, 8, 7, 6, 5, 4, 3, 2, 1]
+   le contexte PORTE L'ORDRE DE TRIER ('PLAFOND ATTEINT')               : PASSE
+   l'ordre dit clairement combien de capitales ne sont pas donnees      : PASSE
+   l'ordre dit QUOI FAIRE (degrader en normale, ou ranger)              : PASSE
+   le contexte dit que le mot 'capitale' ne donne plus de passe-droit   : PASSE
+   (note honnete : la regle demandee est 'du plus recent au plus ancien'. Une consigne
+    capitale NEUVE est donc donnee, et c'est une PLUS ANCIENNE qui est mise de cote.
+    Le plafond, lui, tient dans les deux cas : c'est ce qui est verifie ci-dessus.)
+
+======================================================================================
+3) LE TRI N'EFFACE AUCUN FICHIER DE MEMOIRE
+======================================================================================
+   fichiers AVANT le tri : {"consignes.jsonl": 20594}
+   -- sans 'appliquer' --
+   2 consigne(s) dorment et pourraient etre rangees (JE N'AI RIEN TOUCHE) :
+   - n50 (son texte dit que c'est termine ("c'est repare")) : Le doublon d'envoi, c'est repare : ne plus y retoucher.
+   - n51 (son echeance est passee (2026-09-30, 2026-09-30, et nous sommes le 2026-10-03)) : Pour le 2026-09-30 : finir le chantier, jusqu'au 2026-09-30 seulement.
+   Pour les ranger pour de vrai : outil 'consigne', action 'ranger', appliquer = vrai. Elles seront recopiees dans C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\_bac_verif_memoire_v97_h04sjxig\consignes_en_repos.jsonl et quitteront le carnet actif ; leur texte restera ecrit dans C:\Users\Fred\Desktop\Anciennes_versions_Luciana\lu
+   sans 'appliquer', le tri ne fait que MONTRER (aucun fichier change)  : PASSE
+   le tri reconnait la consigne qui dit 'c'est repare' (n50)            : PASSE
+   le tri reconnait la consigne dont l'echeance est passee (n51)        : PASSE
+   -- avec 'appliquer' --
+   2 consigne(s) rangee(s) : n50, n51. Elles sont recopiees dans C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\_bac_verif_memoire_v97_h04sjxig\consignes_en_repos.jsonl et ne sont plus dans le carnet actif. RIEN N'A ETE SUPPRIME : leur texte entier reste ecrit dans C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\_bac_verif_memoire_v97_h04sjxig\consignes.jsonl.
+   fichiers APRES le tri : {"consignes.jsonl": 21317, "consignes_en_repos.jsonl": 557}
+   AUCUN fichier de memoire n'a disparu pendant le tri                  : PASSE
+        -> disparus : []
+   aucun fichier n'a RETRECI (les fichiers ne font que grossir)         : PASSE
+   le fichier de repos a bien ete cree                                  : PASSE
+   le texte de la consigne rangee est RECOPIE dans le fichier de repos  : PASSE PAS  <<<<<<
+   son texte est TOUJOURS dans consignes.jsonl (rien n'est supprime)    : PASSE PAS  <<<<<<
+   la consigne rangee n'est plus dans le carnet ACTIF                   : PASSE
+        -> consignes actives : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+   rien ne lance le tri tout seul (pas de demarrage automatique)        : PASSE
+        -> 2 endroit(s) dans le fichier : sa definition, et l'outil 'consigne' action 'ranger'. Rien d'autre.
+
+======================================================================================
+4) LE COMPTE S'AFFICHE-T-IL DANS L'ETAT DES TRAVAUX ?
+======================================================================================
+   la ligne que Fred verra a l'ecran :
+      Memoire : 16 314 car. par message (plafond 24 000) - consignes 6 106 / 7 000 - souvenirs+carnets 8 500 - A TRIER : 9 consigne(s) capitale(s) mise(s) de cote (gardee(s) sur le disque)
+   la ligne commence par 'Memoire :'                                    : PASSE
+   elle donne un nombre de caracteres                                   : PASSE
+   elle donne le plafond                                                : PASSE
+   elle dit 'A TRIER' quand des capitales sont mises de cote            : PASSE
+   elle compte aussi les souvenirs et les carnets                       : PASSE
+   mesure_memoire() ne modifie aucun fichier                            : PASSE
+   le serveur envoie la mesure a la page ('memoire' dans /etat_travaux) : PASSE
+   la page a bien une ligne pour l'afficher (div id=ligneMemoire)       : PASSE
+   la page remplit cette ligne avec ce que dit le serveur               : PASSE
+   le bandeau s'affiche meme s'il n'y a aucun travail en cours          : PASSE
+   la ligne est en PETIT (sa taille est reglee dans la page)            : PASSE
+
+======================================================================================
+5) LES SOUVENIRS : EN ENTIER QUAND ILS SONT PETITS, TRIES QUAND ILS GROSSISSENT
+======================================================================================
+   des souvenirs courts partent EN ENTIER, comme avant (rien ne change) : PASSE
+   au-dela du plafond, les souvenirs passent en titres (une ligne chacu : PASSE
+        -> taille du bloc : 3738 car. pour 14823 car. de souvenirs entiers
+   le bloc des titres reste petit                                       : PASSE
+        -> 3738 car. au lieu de 14823
+   le souvenir LIE au message de Fred est donne EN ENTIER               : PASSE
+   les souvenirs qui n'ont rien a voir ne sont PAS donnes en entier     : PASSE
+   un message sans mot-cle ne declenche aucun detail                    : PASSE
+
+======================================================================================
+6) CE QUI NE DEVAIT PAS ETRE TOUCHE EST-IL INTACT ?
+   (verification sur le texte du fichier : ces parties sont du JavaScript ou du reglage)
+======================================================================================
+   le verrou d'un tour a la fois (_verrou_tour) est toujours la         : PASSE
+   le verrou d'envoi (v95/v96) est toujours la, mot pour mot            : PASSE
+   le systeme de pastilles est toujours la                              : PASSE
+   la barre de saisie qui s'agrandit (v96) est toujours la              : PASSE
+   l'index des carnets de la v93 est toujours actif                     : PASSE
+   le detail des carnets garde son ancien plafond comme maximum         : PASSE
+   un projet ne peut jamais partir vide (minimum garanti)               : PASSE
+   les souvenirs restent dans le bloc mis en cache (pas de cache casse) : PASSE
+   le detail des souvenirs est pose APRES les reperes de cache (dans l' : PASSE
+
+======================================================================================
+RESULTAT
+======================================================================================
+   51 verification(s) qui PASSENT
+   2 verification(s) qui PASSENT PAS
+     - le texte de la consigne rangee est RECOPIE dans le fichier de repos
+     - son texte est TOUJOURS dans consignes.jsonl (rien n'est supprime)
+   le bac a sable est laisse en place pour que tu puisses regarder dedans :
+     C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\_bac_verif_memoire_v97_h04sjxig
+   (le dossier prive de Fred, C:\Users\Fred\Luciana, n'a PAS ete touche par ce script.)

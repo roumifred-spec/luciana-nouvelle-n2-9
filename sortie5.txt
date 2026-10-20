@@ -1,0 +1,40 @@
+﻿
+  ESSAI DE L'ARCHIVISTE (vrai cerveau, FAUX souvenirs, dossier a part).
+  Ta vraie bibliotheque n'est pas touchee. Dossier de l'essai : C:\Users\Fred\Luciana_neuve_essai_archiviste
+
+  70 faux souvenirs ecrits. L'archiviste range (quelques minutes, quelques centimes)...
+
+    lot 1 : 20 fiche(s) rangee(s)
+    lot 2 : 20 fiche(s) rangee(s)
+    lot 3 : 20 fiche(s) rangee(s)
+    lot 4 : 10 fiche(s) rangee(s)
+    tiroir divise : Ma fille (52 fiche(s) deplacee(s))
+
+  CONTROLES DU PROGRAMME :
+   - fiches pas rangees : 0
+   - tiroirs : 9 ; le plus plein a 16 fiche(s) rangee(s) directement dedans
+   - « Le docteur a change mon traitement » : Ma santé ; liens {'remplace': 63} ; vital : vital
+   - « Nouvelle methode de peinture » : Mon travail ; liens {'remplace': 58} ; vital : courant
+   - « Je reviens a l'ancienne methode » : Mon travail ; liens {'remplace': 60, 'reprend': 58} ; vital : courant
+   - grandes categories : Ma fille | Ma santé | Mon chien | Mon travail
+   - le metier et la fille dans la meme grande categorie : NON -> JUSTE (Mon travail / Ma fille)
+   - le retour a l'ancienne methode REPREND : n58 « Ma methode de peinture : base eau, 3 couches fines, sechage 20 minutes entre chaque couche » -> JUSTE (la premiere methode, base eau)
+   - l'ancien traitement (2 cachets) : REMPLACE (archive, pas efface)
+
+  LE PLAN QU'IL A CONSTRUIT :
+
+MON PLAN : LE CATALOGUE DE MA BIBLIOTHEQUE (ecrit par le programme, mis a jour a chaque rangement).
+Les categories sont creees par l'archiviste, par le sens. Aucune n'est fixee d'avance.
+Mis a jour le 2026-10-20 16:53. 9 tiroir(s). 0 fiche(s) pas encore rangee(s).
+
+Ma fille -- 52 fiche(s) (du 12/01/2026 au 12/12/2035) -- Tout ce qui concerne ma fille : sa vie, son école, sa santé, ses moments importants.
+    Amis et amours -- 6 fiche(s) (du 12/02/2026 au 12/07/2034) -- Ses relations avec les autres enfants et adolescents : amitiés, disputes, réconciliations, premiers émois et vie sociale.
+    Grandir, apparence et autonomie -- 14 fiche(s) (du 12/05/2026 au 12/02/2035) -- Les transformations de son apparence, les étapes de son indépendance et de sa vie quotidienne, ses projets d'avenir et son passage vers la vie adulte.
+    Passions, loisirs et moments en famille -- 8 fiche(s) (du 12/08/2027 au 12/04/2035) -- Ce qu'elle aime faire, ses activités, les fêtes et les souvenirs partagés avec Fred ou la famille.
+    Santé et bien-être -- 8 fiche(s) (du 12/07/2027 au 12/12/2035) -- Sa santé physique et son équilibre émotionnel : maladies, soins, corps, peurs et moments où elle souffre.
+    École et études -- 16 fiche(s) (du 12/01/2026 au 12/03/2035) -- Tout ce qui touche sa scolarité : classes, professeurs, notes, examens, sorties scolaires et stages.
+Ma santé -- 4 fiche(s) (du 05/01/2026 au 05/10/2026) -- Tout ce qui concerne ma santé : mon traitement, mes médicaments, mes rendez-vous médicaux et mes soucis de santé.
+Mon chien -- 5 fiche(s) (du 03/02/2027 au 03/06/2027) -- Tout ce qui concerne mon chien Rex : son adoption, sa vie, sa santé, ses bêtises et nos moments ensemble.
+Mon travail -- 9 fiche(s) (du 10/03/2026 au 10/03/2030) -- Tout ce qui concerne mon métier et mon savoir-faire : mes méthodes, mes clients, mes réalisations.
+
+  Envoie-moi le fichier : C:\Users\Fred\Luciana_neuve_essai_archiviste\MON PLAN (catalogue).txt

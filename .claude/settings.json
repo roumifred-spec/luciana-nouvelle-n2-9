@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'RAPPEL : relis CLAUDE.md (doctrine Luciana) AVANT toute action. Vérifie sur les fichiers réels, ne touche qu’à ce qui est demandé ou cassé, pas de modif sans accord de Fred, aucun secret sur GitHub.'",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

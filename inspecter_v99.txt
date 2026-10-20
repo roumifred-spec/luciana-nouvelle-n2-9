@@ -1,0 +1,130 @@
+==========================================================================================
+MOTIF RECHERCHE : RELANCE_REPONDS_SUR_LE_FOND  (lignes contenant ce texte)
+==========================================================================================
+--- ligne 14693 ---
+   14683: 
+   14684: def _seulement_du_rangement(noms_outils):
+   14685:     """Vrai si des outils ont ete appeles et que ce sont TOUS des outils de rangement.
+   14686:     Aucun outil appele -> Faux : repondre sans outil, c'est permis (et souvent la bonne reponse)."""
+   14687:     noms = [str(n) for n in (noms_outils or [])]
+   14688:     return bool(noms) and all(n in OUTILS_DE_RANGEMENT for n in noms)
+   14689: 
+   14690: 
+   14691: # Ce que le PROGRAMME dit au cerveau quand il refuse une reponse faite uniquement de prises de note.
+   14692: # Ce n'est pas un conseil : c'est le tour qui repart, et il ne repart qu'UNE fois.
+   14693: RELANCE_REPONDS_SUR_LE_FOND = (
+   14694:     "[LE PROGRAMME T'ARRETE - CE MESSAGE N'EST PAS DE FRED, IL NE L'A PAS VU.]\n"
+   14695:     "Fred t'a pose une question, ou il t'a corrigee / explique son raisonnement. Ta reponse "
+   14696:     "ci-dessus n'a RIEN fait d'autre que ranger ta memoire (retenir / mettre a jour un souvenir / "
+   14697:     "carnet / consigne). Prendre note N'EST PAS une reponse : le rangement est un outil, pas une "
+   14698:     "parole. Fred ne doit plus jamais avoir a insister une deuxieme fois.\n"
+   14699:     "TA REPONSE N'A DONC PAS ETE ENVOYEE. Recommence maintenant, et reponds SUR LE FOND, en une "
+   14700:     "seule de ces trois formes :\n"
+   14701:     "  - TU ES D'ACCORD : dis-le, et dis POURQUOI, avec son raisonnement a lui.\n"
+   14702:     "  - TU N'ES PAS D'ACCORD : dis-le franchement, et dis sur quel point precis et pourquoi.\n"
+   14703:     "  - C'EST UNE QUESTION OU UNE DEMANDE : donne la reponse, ou le plan concret.\n"
+--- ligne 15121 ---
+   15111:         if (reponse is None or sans_outil or faux_appels
+   15112:                 or reponse.stop_reason in ("refusal", "max_tokens", "tool_use", "pause_turn")):
+   15113:             break   # autre panne, deja dite franchement a Fred juste au-dessus : on n'empile pas
+   15114:         if relance_faite:
+   15115:             relance_sans_effet = True
+   15116:             break
+   15117:         relance_faite = True
+   15118:         blocs_refuses = [b for b in reponse.content] if reponse.content else []
+   15119:         messages.append({"role": "assistant",
+   15120:                          "content": blocs_refuses or [{"type": "text", "text": texte}]})
+   15121:         messages.append({"role": "user", "content": RELANCE_REPONDS_SUR_LE_FOND})
+   15122:         actions.append("LE PROGRAMME (v99) : ta reponse etait une prise de note, pas une reponse. "
+   15123:                        "Elle n'a PAS ete envoyee a Fred : le tour a ete relance (une seule fois).")
+   15124:     if relance_sans_effet:
+   15125:         # Jamais de fausse reussite, et jamais de message avale : Fred doit savoir ce qui s'est passe.
+   15126:         texte += ("\n\n(Attention, c'est le PROGRAMME qui te le dit : tu m'as pose une question ou tu "
+   15127:                   "m'as corrigee, et je n'ai fait que ranger ma memoire -- deux fois de suite. Je n'ai "
+   15128:                   "pas repondu sur le fond. Redis-le moi, s'il te plait : c'est de mon cote que ca coince.)")
+   15129:     # v75 : ce que ce tour a vraiment coute et combien de temps il a pris (ligne grise sous sa reponse).
+   15130:     _DERNIER_TOUR.update(usd=round(cout_du_tour, 6), secondes=round(time.time() - debut_chrono, 1),
+   15131:                          cerveau=cerveau, libelle=_info_cerveau(cerveau).get("libelle", cerveau))
+
+==========================================================================================
+MOTIF RECHERCHE : LE PROGRAMME T  (lignes contenant ce texte)
+==========================================================================================
+--- ligne 14694 ---
+   14686:     Aucun outil appele -> Faux : repondre sans outil, c'est permis (et souvent la bonne reponse)."""
+   14687:     noms = [str(n) for n in (noms_outils or [])]
+   14688:     return bool(noms) and all(n in OUTILS_DE_RANGEMENT for n in noms)
+   14689: 
+   14690: 
+   14691: # Ce que le PROGRAMME dit au cerveau quand il refuse une reponse faite uniquement de prises de note.
+   14692: # Ce n'est pas un conseil : c'est le tour qui repart, et il ne repart qu'UNE fois.
+   14693: RELANCE_REPONDS_SUR_LE_FOND = (
+   14694:     "[LE PROGRAMME T'ARRETE - CE MESSAGE N'EST PAS DE FRED, IL NE L'A PAS VU.]\n"
+   14695:     "Fred t'a pose une question, ou il t'a corrigee / explique son raisonnement. Ta reponse "
+   14696:     "ci-dessus n'a RIEN fait d'autre que ranger ta memoire (retenir / mettre a jour un souvenir / "
+   14697:     "carnet / consigne). Prendre note N'EST PAS une reponse : le rangement est un outil, pas une "
+   14698:     "parole. Fred ne doit plus jamais avoir a insister une deuxieme fois.\n"
+   14699:     "TA REPONSE N'A DONC PAS ETE ENVOYEE. Recommence maintenant, et reponds SUR LE FOND, en une "
+   14700:     "seule de ces trois formes :\n"
+   14701:     "  - TU ES D'ACCORD : dis-le, et dis POURQUOI, avec son raisonnement a lui.\n"
+   14702:     "  - TU N'ES PAS D'ACCORD : dis-le franchement, et dis sur quel point precis et pourquoi.\n"
+
+==========================================================================================
+MOTIF RECHERCHE : proposerEnvoi  (lignes contenant ce texte)
+==========================================================================================
+--- ligne 16823 ---
+   16817:   //  Aucun element nouveau n'est ajoute a la page : c'est le cadre qui existe deja.
+   16818:   // =====================================================================
+   16819:   let enAttenteDeConfirmation = false;   // un texte attend le clic de Fred
+   16820:   // v95 (c) : UN SEUL ENVOI A LA FOIS. Vrai depuis le depart du message jusqu'a la reponse du
+   16821:   // programme (et PAS pendant qu'elle lit sa reponse a voix haute : c'est ca qui decalait tout).
+   16822:   let reflechit = false;
+   16823:   function proposerEnvoi(t){
+   16824:     t = (t||'').trim();
+   16825:     if (!t) return;                      // (b) jamais de proposition vide
+   16826:     // (c) un envoi est deja parti et n'a pas eu sa reponse : on n'en prepare pas un deuxieme.
+   16827:     if (reflechit){ protegerTexte(t); return; }
+   16828:     if (enAttenteDeConfirmation && texteMisDeCote === t) return;   // deja propose : on n'empile pas
+   16829:     enAttenteDeConfirmation = true;
+--- ligne 16915 ---
+   16909:     }
+   16910:     // ---- v95 (a) : LE VERROU D'ENVOI. Rien ne part sans un geste de Fred. ----
+   16911:     // 'clic'  = il a appuye sur Envoyer, sur Entree, ou sur "L'envoyer maintenant" -> ca part.
+   16912:     // 'file'  = un message qu'il a DEJA valide d'un clic et qui attendait son tour -> ca part.
+   16913:     // tout le reste (le mains-libres, un minuteur, un bruit) -> c'est PROPOSE, jamais envoye.
+   16914:     // v96 (decision de Fred) : le mains-libres ('auto', apres son silence) ENVOIE de nouveau tout seul,
+   16915:     // comme avant la v95. Couper le micro, lui, n'envoie toujours rien (reco.onend -> proposerEnvoi).
+   16916:     if (origine !== 'clic' && origine !== 'file' && origine !== 'auto'){ proposerEnvoi(msg); return; }
+   16917:     // ---- v95 (b) : JAMAIS DE MESSAGE VIDE. ----
+   16918:     if (!msg && !photoEnAttente){ aide("Il n'y a rien a envoyer : ta barre est vide."); return; }
+   16919:     // v78 (BUG 2) : jamais deux fois le meme message. Tout seul, c'est interdit ; d'un clic,
+   16920:     // c'est juste protege du double-clic.
+   16921:     const memeQueLeDernier = (msg && msg === dernierEnvoye && (Date.now() - dernierEnvoyeA) < 30000);
+--- ligne 16916 ---
+   16910:     // ---- v95 (a) : LE VERROU D'ENVOI. Rien ne part sans un geste de Fred. ----
+   16911:     // 'clic'  = il a appuye sur Envoyer, sur Entree, ou sur "L'envoyer maintenant" -> ca part.
+   16912:     // 'file'  = un message qu'il a DEJA valide d'un clic et qui attendait son tour -> ca part.
+   16913:     // tout le reste (le mains-libres, un minuteur, un bruit) -> c'est PROPOSE, jamais envoye.
+   16914:     // v96 (decision de Fred) : le mains-libres ('auto', apres son silence) ENVOIE de nouveau tout seul,
+   16915:     // comme avant la v95. Couper le micro, lui, n'envoie toujours rien (reco.onend -> proposerEnvoi).
+   16916:     if (origine !== 'clic' && origine !== 'file' && origine !== 'auto'){ proposerEnvoi(msg); return; }
+   16917:     // ---- v95 (b) : JAMAIS DE MESSAGE VIDE. ----
+   16918:     if (!msg && !photoEnAttente){ aide("Il n'y a rien a envoyer : ta barre est vide."); return; }
+   16919:     // v78 (BUG 2) : jamais deux fois le meme message. Tout seul, c'est interdit ; d'un clic,
+   16920:     // c'est juste protege du double-clic.
+   16921:     const memeQueLeDernier = (msg && msg === dernierEnvoye && (Date.now() - dernierEnvoyeA) < 30000);
+   16922:     // v96 : on ne l'efface plus en silence (un "oui" redit disparaissait) : il reste dans la barre.
+--- ligne 17148 ---
+   17142:       bufFinal = champ.value;
+   17143:       majBrouillonBarre();
+   17144:       // ---- v95 : ET LE PETIT CADRE DE CONFIRMATION REVIENT (c'est ce que Fred reclame) ----
+   17145:       // La v78 affichait ici "Micro coupe : je n'envoie rien toute seule...". La v84 l'a retire.
+   17146:       // On le remet, SANS le defaut de la v78 : le texte reste AUSSI dans la barre, il n'en sort
+   17147:       // pas. Fred relit, corrige, et clique. Rien ne part sans son clic.
+   17148:       if (champ.value.trim()) proposerEnvoi(champ.value.trim());
+   17149:     };
+   17150:     reco.onerror = (ev)=>{
+   17151:       if ((ev.error === 'no-speech' || ev.error === 'aborted') && ecoute && !arretVoulu) return;
+   17152:       if (ev.error === 'not-allowed'){ ecoute = false; arretVoulu = true;
+   17153:         aide("Autorise le micro dans Chrome (le petit cadenas en haut a gauche)."); }
+   17154:     };
+

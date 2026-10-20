@@ -1,0 +1,130 @@
+============================================================================================
+0) LE FICHIER EXAMINE, ET SA SANTE
+============================================================================================
+   fichier : C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\luciana.py
+   taille  : 1199900 octets, 18765 lignes
+   py_compile : le fichier est du Python valide                             : PASSE
+   toutes les pieces attendues existent dans le fichier                     : PASSE
+        -> 30 pieces retrouvees
+   bac a sable (dossier temporaire) : C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\_bac_verif_croix_v99_5q7m4pfo
+
+============================================================================================
+1) LA CROIX EST BIEN DESSINEE SUR CHAQUE PASTILLE (lecture de la page web)
+============================================================================================
+   le style de la croix existe (.croixPastille)                             : PASSE
+   la croix est placee EN HAUT A DROITE de la pastille                      : PASSE
+        -> position:absolute + top + right
+   la pastille est en position:relative (sinon la croix irait se coller ail : PASSE
+   la pastille laisse de la place a droite (le texte ne passe pas sous la c : PASSE
+   la croix est discrete au repos et nette au survol                        : PASSE
+   la fabrique de pastille existe toujours                                  : PASSE
+   elle recoit maintenant un 4e element : ce qu'il faut faire quand on cliq : PASSE
+        -> parametres : titre, sousTitre, action, jeter
+   la croix est ajoutee a la pastille (un <span>, parce qu'un bouton dans u : PASSE
+   POINT 3 : le clic sur la croix N'OUVRE PAS le rapport (stopPropagation)  : PASSE
+        -> le clic s'arrete sur la croix, il ne remonte pas jusqu'au bouton
+   POINT 4 : le clic AILLEURS sur la pastille l'ouvre exactement comme avan : PASSE
+        -> cette ligne-la n'a pas change d'une virgule depuis la v82
+   POINT 5 : la croix n'enleve QUE sa propre pastille (b.remove)            : PASSE
+   un double-clic rapide sur la croix ne compte qu'une fois                 : PASSE
+   si le disque n'a pas pu etre marque, la pastille REVIENT et on le dit (h : PASSE
+   la croix a une bulle d'aide et une etiquette pour la lecture d'ecran     : PASSE
+   POINT 6a : la pastille de RAPPORT recoit une croix                       : PASSE
+   POINT 6b : la pastille de l'AUDIT DE COMMUNICATION recoit la meme croix  : PASSE
+   aucune pastille n'est fabriquee sans croix (les 2 appels en ont une)     : PASSE
+        -> 1 declaration + 2 appels = 3 occurrences du nom
+   la croix d'un rapport va bien marquer le disque (/chantiers_livre)       : PASSE
+   la croix de l'audit va bien vider les carnets (/communication_ignorer)   : PASSE
+   la croix ne dit 'c'est fait' que si le serveur a repondu OUI (jamais de  : PASSE
+   le serveur connait l'adresse /communication_ignorer                      : PASSE
+   le serveur connait toujours /chantiers_livre (il existait deja, on n'y t : PASSE
+   la croix de l'audit n'envoie RIEN au cerveau (donc elle ne coute pas un  : PASSE
+        -> aucun appel paye dans ce chemin
+
+============================================================================================
+2) POINT 2 (LE PLUS IMPORTANT) : UN RAPPORT JETE NE REVIENT PLUS -- CODE EXECUTE POUR DE VRAI
+============================================================================================
+   au depart : 3 pastilles de rapport attendent                             : PASSE
+        -> titres : le premier, le deuxieme, le troisieme
+   la croix marque le rapport sur le disque et le serveur repond OUI        : PASSE
+        -> confirmer_evenement(1791123054015-1) = True
+   POINT 2 : la pastille jetee a disparu tout de suite                      : PASSE
+   POINT 5 : les deux autres pastilles sont toujours la, intactes           : PASSE
+        -> titres restants : le premier, le troisieme
+   POINT 2 : le fichier sur le disque porte bien 'livre': True pour celle q : PASSE
+        -> ce que dit le fichier : {"le premier": false, "le deuxieme": true, "le troisieme": false}
+   et il dit 'livre': False pour les deux autres (rien n'a ete marque par e : PASSE
+   POINT 2 : apres plusieurs tours de rafraichissement, elle ne revient pas : PASSE
+   POINT 2 : meme en forcant (comme 'Dis-le moi maintenant'), elle n'est pl : PASSE
+        -> ce qui sort de la file en forcant : le plus ancien NON jete
+   POINT 2 : APRES REDEMARRAGE DU PROGRAMME, la pastille jetee n'est toujou : PASSE
+        -> titres apres redemarrage : le premier, le troisieme
+   POINT 2 : et les deux autres sont toujours la apres le redemarrage       : PASSE
+   on peut jeter toutes les pastilles : la liste se vide pour de bon        : PASSE
+   et elle est toujours vide apres un nouveau redemarrage                   : PASSE
+
+============================================================================================
+3) POINT 6 : LA MEME CROIX SUR LA PASTILLE DE L'AUDIT DE COMMUNICATION -- CODE EXECUTE
+============================================================================================
+   l'interrupteur de la communication est ALLUME (sinon il n'y a pas de pas : PASSE
+   la pastille d'audit est bien la avant le clic sur la croix               : PASSE
+        -> titre : Audit de communication fait : 2 nouveautes a te dire
+   la croix vide les carnets et le serveur repond OUI                       : PASSE
+        -> ignorer_communication() = True
+   POINT 2 : la pastille d'audit a disparu                                  : PASSE
+   POINT 2 : les deux carnets sont VRAIMENT vides sur le disque             : PASSE
+        -> veilleur = 0 ligne(s), tour = 0 ligne(s)
+   rien n'a ete envoye au cerveau : il n'y a plus rien a raconter (0 jeton  : PASSE
+   POINT 2 : APRES REDEMARRAGE, la pastille d'audit ne revient pas          : PASSE
+   si un nouveau tour ecrit quelque chose, une NOUVELLE pastille apparait ( : PASSE
+        -> titre : Audit de communication fait : 1 nouveaute a te dire
+   POINT 4 : et un clic normal (pas la croix) sort toujours le compte-rendu : PASSE
+        -> 227 caracteres de compte-rendu
+   ignorer_communication() ne ment jamais : elle rend True/False, elle ne l : PASSE
+
+============================================================================================
+4) CE QUI NE DOIT PAS AVOIR BOUGE (tout le reste, que Fred a demande de NE PAS toucher)
+============================================================================================
+   toujours present : les rapports : le clic qui OUVRE la pastille (v82)    : PASSE
+   toujours present : l'audit : le clic qui sort le compte-rendu (v82)      : PASSE
+   toujours present : l'adresse qui donne un rapport precis                 : PASSE
+   toujours present : la ligne d'etat permanente (v78)                      : PASSE
+   toujours present : les boutons Valider / Annuler                         : PASSE
+   toujours present : l'outil de communication (v80)                        : PASSE
+   toujours present : l'interrupteur unique de la communication (v98)       : PASSE
+   toujours present : le minuteur de la suite d'un clic (v78)               : PASSE
+   toujours present : le carnet de consignes (v77/v97)                      : PASSE
+   toujours present : les souvenirs choisis par les mots du message (v97)   : PASSE
+   toujours present : le plafond dur de la memoire (v97)                    : PASSE
+   toujours present : le compteur 'Memoire :' affiche a l'ecran (v97)       : PASSE
+   toujours present : le nettoyage de la memoire (v90)                      : PASSE
+   toujours present : la voix                                               : PASSE
+   toujours present : le personnage anime (la scene, et son overflow:hidden : PASSE
+   toujours present : les langues / le mode interprete                      : PASSE
+   toujours present : le menu des langues dans la page                      : PASSE
+   toujours present : « repondre, pas prendre note » (v99, chantier precede : PASSE
+   le compte-rendu complet n'est PAS touche par la croix (reclamer_communic : PASSE
+   la file des rapports garde son filet de securite de 3 minutes (DELAI_REL : PASSE
+        -> DELAI_RELIVRAISON = 180
+   confirmer_evenement() n'a pas change de role : elle marque 'livre' sur l : PASSE
+   ignorer_communication() ne vide QUE les deux carnets d'audit (rien d'aut : PASSE
+        -> elle passe par les deux fonctions qui existaient deja, elle n'ecrit rien elle-meme
+
+============================================================================================
+RESULTAT
+============================================================================================
+   69 verification(s) passee(s), 0 echec(s).
+
+   => Tout ce qui pouvait etre teste sans lancer l'application est bon :
+      - une croix en haut a droite de chaque pastille (rapport ET audit) ;
+      - le clic sur la croix marque le disque : la pastille ne revient pas, ni au bout
+        de quelques secondes, ni au F5, ni apres un redemarrage du programme ;
+      - la croix n'ouvre pas le rapport, et un clic ailleurs l'ouvre comme avant ;
+      - chaque pastille ne ferme qu'elle-meme ;
+      - rien d'autre n'a bouge.
+
+   Bac a sable laisse en place (on peut regarder dedans) : C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\_bac_verif_croix_v99_5q7m4pfo
+   CE QUI N'EST PAS TESTE ICI, ET QUI NE PEUT L'ETRE QUE SUR LE PC DE FRED :
+     - la vraie page web dans Chrome : la croix sous ses yeux, bien placee, et le clic qui
+       fait disparaitre la pastille sans ouvrir le rapport ;
+     - le F5 et le redemarrage faits a la main devant l'ecran.

@@ -1,0 +1,191 @@
+{
+  "Divers": {
+    "A trier": [
+      {
+        "texte": "Deuxieme jeu, chose numero 1, impossible a trancher.",
+        "filtres": {
+          "date": "",
+          "qui": [],
+          "ou": "",
+          "objet": "",
+          "type": ""
+        },
+        "resume": "Deuxieme jeu, chose 1, a trancher.",
+        "confiance": 0.1,
+        "en_suspens": false,
+        "pourquoi_en_suspens": "",
+        "source": "essai2",
+        "repere": "essai2#016997631ba228dc",
+        "filtre": "Fait",
+        "sous_filtre": "General",
+        "etiquette": "Divers — A trier — Fait — General — Deuxieme jeu, chose 1, a trancher",
+        "question": "Ce souvenir : « Deuxieme jeu, chose 1, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))",
+        "question_etat": "repondue",
+        "question_ecrite_le": "2026-10-12 14:16:24",
+        "question_reponse": "c'est un souvenir de famille, le rayon propose convient",
+        "question_repondue_par": "l_assistante",
+        "question_posee_le": "2026-10-12 14:16:24",
+        "question_fois_posee": 1,
+        "question_repondue_le": "2026-10-12 14:16:24",
+        "question_en_sommeil_jusqu_au": "",
+        "tranche_par": "l_assistante"
+      },
+      {
+        "texte": "Deuxieme jeu, chose numero 3, impossible a trancher.",
+        "filtres": {
+          "date": "",
+          "qui": [],
+          "ou": "",
+          "objet": "",
+          "type": ""
+        },
+        "resume": "Deuxieme jeu, chose 3, a trancher.",
+        "confiance": 0.1,
+        "en_suspens": false,
+        "pourquoi_en_suspens": "",
+        "source": "essai2",
+        "repere": "essai2#fca295e78a0f935e",
+        "filtre": "Fait",
+        "sous_filtre": "General",
+        "etiquette": "Divers — A trier — Fait — General — Deuxieme jeu, chose 3, a trancher",
+        "question": "Ce souvenir : « Deuxieme jeu, chose 3, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))",
+        "question_etat": "repondue",
+        "question_ecrite_le": "2026-10-12 14:16:24",
+        "question_reponse": "c'est pour le garage",
+        "question_repondue_par": "le_proprietaire",
+        "question_posee_le": "2026-10-12 14:16:24",
+        "question_fois_posee": 1,
+        "question_passee_au_lot_le": "2026-10-12 14:16:24",
+        "question_passee_au_lot_pourquoi": "l'assistante ne l'a pas tranchee : elle part au proprietaire",
+        "question_posee_au_proprietaire_le": "2026-10-12 14:16:24",
+        "question_repondue_le": "2026-10-12 14:16:24",
+        "question_en_sommeil_jusqu_au": "",
+        "tranche_par": "le_proprietaire"
+      },
+      {
+        "texte": "Deuxieme jeu, chose numero 4, impossible a trancher.",
+        "filtres": {
+          "date": "",
+          "qui": [],
+          "ou": "",
+          "objet": "",
+          "type": ""
+        },
+        "resume": "Deuxieme jeu, chose 4, a trancher.",
+        "confiance": 0.1,
+        "en_suspens": true,
+        "pourquoi_en_suspens": "l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher)",
+        "source": "essai2",
+        "repere": "essai2#1aa82541adc7f317",
+        "filtre": "Fait",
+        "sous_filtre": "General",
+        "etiquette": "Divers — A trier — Fait — General — Deuxieme jeu, chose 4, a trancher",
+        "question": "Ce souvenir : « Deuxieme jeu, chose 4, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))",
+        "question_etat": "posee_au_proprietaire",
+        "question_ecrite_le": "2026-10-12 14:16:24",
+        "question_reponse": "",
+        "question_repondue_par": "",
+        "question_posee_le": "2026-10-12 14:16:24",
+        "question_fois_posee": 1,
+        "question_passee_au_lot_le": "2026-10-12 14:16:24",
+        "question_passee_au_lot_pourquoi": "l'assistante ne l'a pas tranchee : elle part au proprietaire",
+        "question_posee_au_proprietaire_le": "2026-10-12 14:16:24",
+        "question_declinee_fois": 1,
+        "question_declinee_le": "2026-10-12 14:16:24",
+        "question_en_sommeil_jusqu_au": "2026-10-19 14:16:24"
+      },
+      {
+        "texte": "Deuxieme jeu, chose numero 5, impossible a trancher.",
+        "filtres": {
+          "date": "",
+          "qui": [],
+          "ou": "",
+          "objet": "",
+          "type": ""
+        },
+        "resume": "Deuxieme jeu, chose 5, a trancher.",
+        "confiance": 0.1,
+        "en_suspens": true,
+        "pourquoi_en_suspens": "l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher)",
+        "source": "essai2",
+        "repere": "essai2#0b75a6d6a73d80b1",
+        "filtre": "Fait",
+        "sous_filtre": "General",
+        "etiquette": "Divers — A trier — Fait — General — Deuxieme jeu, chose 5, a trancher",
+        "question": "Ce souvenir : « Deuxieme jeu, chose 5, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))",
+        "question_etat": "posee_a_l_assistante",
+        "question_ecrite_le": "2026-10-12 14:16:24",
+        "question_reponse": "",
+        "question_repondue_par": "",
+        "question_posee_le": "2026-10-12 14:16:24",
+        "question_fois_posee": 2
+      }
+    ]
+  },
+  "Maison": {
+    "Cave": [
+      {
+        "texte": "Deuxieme jeu, chose numero 0, impossible a trancher.",
+        "filtres": {
+          "date": "",
+          "qui": [],
+          "ou": "",
+          "objet": "",
+          "type": ""
+        },
+        "resume": "Deuxieme jeu, chose 0, a trancher.",
+        "confiance": 0.1,
+        "en_suspens": false,
+        "pourquoi_en_suspens": "",
+        "source": "essai2",
+        "repere": "essai2#cad288f4646e58f8",
+        "filtre": "Fait",
+        "sous_filtre": "General",
+        "etiquette": "Maison — Cave — Fait — General — Deuxieme jeu, chose 0, a trancher",
+        "question": "Ce souvenir : « Deuxieme jeu, chose 0, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))",
+        "question_etat": "repondue",
+        "question_ecrite_le": "2026-10-12 14:16:24",
+        "question_reponse": "c'est le vieux compresseur, RAYON: Maison / Cave",
+        "question_repondue_par": "l_assistante",
+        "question_posee_le": "2026-10-12 14:16:24",
+        "question_fois_posee": 1,
+        "question_repondue_le": "2026-10-12 14:16:24",
+        "question_en_sommeil_jusqu_au": "",
+        "tranche_par": "l_assistante"
+      }
+    ],
+    "Cuisine": [
+      {
+        "texte": "Deuxieme jeu, chose numero 2, impossible a trancher.",
+        "filtres": {
+          "date": "",
+          "qui": [],
+          "ou": "",
+          "objet": "",
+          "type": ""
+        },
+        "resume": "Deuxieme jeu, chose 2, a trancher.",
+        "confiance": 0.1,
+        "en_suspens": false,
+        "pourquoi_en_suspens": "",
+        "source": "essai2",
+        "repere": "essai2#3dcf004fd4e5b22d",
+        "filtre": "Fait",
+        "sous_filtre": "General",
+        "etiquette": "Maison — Cuisine — Fait — General — Deuxieme jeu, chose 2, a trancher",
+        "question": "Ce souvenir : « Deuxieme jeu, chose 2, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))",
+        "question_etat": "repondue",
+        "question_ecrite_le": "2026-10-12 14:16:24",
+        "question_reponse": "ca va dans la cuisine, RAYON: Maison / Cuisine",
+        "question_repondue_par": "le_proprietaire",
+        "question_posee_le": "2026-10-12 14:16:24",
+        "question_fois_posee": 1,
+        "question_passee_au_lot_le": "2026-10-12 14:16:24",
+        "question_posee_au_proprietaire_le": "2026-10-12 14:16:24",
+        "question_repondue_le": "2026-10-12 14:16:24",
+        "question_en_sommeil_jusqu_au": "",
+        "tranche_par": "le_proprietaire"
+      }
+    ]
+  }
+}

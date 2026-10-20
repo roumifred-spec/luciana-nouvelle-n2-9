@@ -1,0 +1,37 @@
+const PLACES_DROITE = [0.88, 0.82, 0.92];
+const PLACES_GAUCHE = [0.12, 0.18, 0.08];
+let persoPart = PLACES_DROITE[0];
+const PERSO_ATTENTE_MINI = 20000;
+const PERSO_ATTENTE_MAXI = 40000;
+persoPart += (persoCible - persoPart) * PERSO_GLISSE
+if (!persoPoste && maintenant > persoProchainePlace)
+z-index:0; pointer-events:none;
+return 'replis';
+PAQUET_MAX = 25000
+APPELS_MAX = 6
+id="btnRepeter"
+SEUIL_JOURNEE = 200000
+CIBLE_APRES_RANGEMENT = 50000
+CONSIGNES_CARACTERES_MAX = 9000
+VOYANTS_V110_ACTIF = _lire_reglage_voyants()
+DOSSIER_APPARENCE = os.path.join(DOSSIER
+"changer_apparence": outil_changer_apparence,
+#txtEtatTravaux{white-space:pre-wrap; overflow-wrap:anywhere;
+u.onstart = ()=> body.classList.add('parle');
+const Reco = window.SpeechRecognition || window.webkitSpeechRecognition;
+<div id="panneauTechnique" style="display:none;">
+<div class="cadre"><img id="perso" src="/portrait" alt="Luciana"></div>
+<img id="persoReplis" class="hors" src="/portrait" alt="">
+def voyant_memoire(refusees, consignes, total):
+body.perso-anime .cadre, body.perso-anime .aura{display:none;}
+#personnage.eteint{display:none;}
+id="etatTravaux"
+id="btnViderEtatTravaux"
+id="btnVoix"
+id="btnVoixHD"
+id="btnTechnique"
+id="btnHisto"
+id="btnMails"
+etatTravauxEl.style.display = 'block';
+document.body.classList.add('avecChantiers');
+document.body.classList.remove('avecChantiers');

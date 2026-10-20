@@ -1,0 +1,56 @@
+{
+  "_a_quoi_ca_sert": "TOUS LES SEUILS DE LA MEMOIRE 2 SONT ICI, ET NULLE PART AILLEURS. Ce fichier est relu A CHAQUE LANCEMENT par les quatre roles (l'archiviste, la bibliotheque, le bibliothecaire, la porte de sortie) : il n'y a plus un seul seuil ecrit en dur dans le code. Tu peux changer un nombre ici et relancer : c'est pris en compte tout de suite, sans toucher au code. Si ce fichier manque ou s'il est abime, le programme reprend les memes valeurs par defaut et continue : rien ne se bloque.",
+  "version": 1,
+  "modifie_le": "2026-10-12",
+  "questions_de_l_archiviste": {
+    "_a_quoi_ca_sert": "LE BLOC DE QUESTIONS DE L'ARCHIVISTE (« ou ranger ce souvenir ? », avec un rayon propose) ET SON INTERRUPTEUR. C'EST LA SEULE CHOSE QUI DECIDE. Ce bloc remontait DIRECTEMENT DANS LE CONTEXTE DE LUCIANA, colle aux messages de Fred, et par GROS PAQUETS (plusieurs centaines d'un coup) : elle repondait a ces questions AU MILIEU des phrases de Fred, elle n'arrivait plus a travailler, et Fred ne pouvait plus communiquer avec elle. Defaut grave, constate pendant plusieurs jours, DEBRANCHE DEFINITIVEMENT le 12/10/2026.",
+    "bloc_dans_le_contexte": false,
+    "_bloc_dans_le_contexte": "L'INTERRUPTEUR. false = le bloc de questions n'est JAMAIS injecte dans le contexte de Luciana, quoi qu'il arrive. ETEINT D'ORIGINE : si cette ligne manque, si elle est abimee, ou si ce fichier entier manque, c'est ETEINT. Un vieux fichier QUESTIONS.txt qui traine encore dans ~/Luciana/bibliotheque2 NE CHANGE PLUS RIEN : depuis le 12/10/2026, plus aucune ligne de code ne le lit pour decider, et plus aucune ligne de code ne l'ecrit. SEUL CE REGLAGE COMPTE.",
+    "_rien_ne_se_perd": "ON ETEINT UN AFFICHAGE, ON NE DETRUIT AUCUNE DONNEE. Les questions deja ecrites (questions.json), les reponses deja donnees (reponses.json), les fiches en attente (lot_pour_le_proprietaire.json) et la bibliotheque (arbre.json) restent INTACTES sur le disque, exactement comme elles sont. Le reste de la memoire 2 continue exactement comme avant : le bibliothecaire qui sert les souvenirs PAR SENS, les consignes, les carnets, la memoire longue. Seul le bloc de questions disparait du contexte de Luciana.",
+    "_pour_rebrancher_un_jour": "C'EST POSSIBLE PROPREMENT, PAR LE REGLAGE, SANS RETOUCHER UNE LIGNE DE CODE : mettre true a la ligne « bloc_dans_le_contexte » ci-dessus, ou double-cliquer le bouton « Brancher les questions ». Pour eteindre a nouveau : false, ou le bouton « Debrancher les questions ». Pour voir l'etat sans rien changer : « python biblio2_reglages.py --etat-des-questions ». Aucun redemarrage n'est necessaire : le reglage est relu a chaque message.",
+    "_qui_peut_ecrire_cette_ligne": "UNE SEULE FONCTION DE TOUT LE PROGRAMME, regler_le_bloc_de_questions() dans biblio2_reglages.py, et elle n'est appelee QUE depuis la ligne de commande, c'est-a-dire par les deux boutons de Fred. Quand Luciana tourne, elle ne fait que LIRE cette ligne : LE PROGRAMME NE PEUT PAS SE RALLUMER TOUT SEUL."
+  },
+  "seuil_confiance_entree": 0.55,
+  "_seuil_confiance_entree": "L'ENTREE NE JETTE RIEN. Ce seuil ne sert QU'A MARQUER une fiche « EN SUSPENS » quand l'archiviste hesite. La fiche reste dans la bibliotheque, a sa place, avec son rayon et son tiroir : elle porte juste une etiquette de doute pour que Fred tranche un jour. Aucun souvenir ne disparait a l'entree, jamais.",
+  "curseur_sortie_defaut": 0.35,
+  "_curseur_sortie_defaut": "LA PORTE DE SORTIE : la pertinence minimale (0 a 1) pour qu'une fiche soit SERVIE a Luciana. Le maitre reste le fichier ~/Luciana/bibliotheque2/curseur.txt (regle par le bouton « Regler le curseur memoire »). La valeur ici ne sert que si curseur.txt est absent. Elle est a 0.35, la valeur choisie par Fred : elle n'est PAS remontee.",
+  "debordement_tiroir": 200,
+  "_debordement_tiroir": "Au-dela de ce nombre de fiches, un tiroir est signale comme trop plein, a decouper.",
+  "plafond_caracteres": 40000,
+  "_plafond_caracteres": "Le maximum de caracteres de souvenirs envoyes a Luciana pour un message. C'est un PLAFOND, pas une cible : bien trie, on est tres en dessous.",
+  "paquet_sauvegarde": 25,
+  "_paquet_sauvegarde": "On sauvegarde l'arbre et le marque-page tous les N souvenirs ranges : si ca s'arrete, on reprend sans rien refaire.",
+  "score": {
+    "_a_quoi_ca_sert": "LE MOTEUR DE SCORE. Mesure de Fred avant reparation : sur son message, 30 candidats, meilleure pertinence 0.492 sur 1. La cause : on comparait sa question au TEXTE BRUT du souvenir (long, bavard), alors que le modele de sens compare bien deux textes COURTS. On compare donc maintenant d'abord a l'ETIQUETTE de la fiche (rayon, tiroir, resume, objet, qui, ou, type) : court contre court, le bon candidat remonte.",
+    "poids_etiquette": 1.0,
+    "poids_texte": 0.9,
+    "_poids_texte": "Le texte brut compte un peu moins que l'etiquette : c'est ce qui empeche un long souvenir bavard de gagner juste parce qu'il est long. Si une fiche n'a pas d'etiquette utilisable, son texte compte a 1.0 : aucune fiche ne peut perdre des points a cause d'une etiquette vide.",
+    "prime_par_facette": 0.04,
+    "prime_facette_maxi": 0.12,
+    "_prime_facette": "Petite prime quand les etiquettes du bibliothecaire (date, qui, ou, objet, type) tombent juste. Volontairement petite et plafonnee : elle fait passer la barre a un bon candidat, elle ne peut pas fabriquer un faux.",
+    "morceau_maxi": 700,
+    "morceaux_par_fiche_maxi": 40
+  },
+  "reprise": {
+    "_a_quoi_ca_sert": "CE QUE L'ARCHIVISTE AVALE quand il reprend le passe. Les trois sources sont lues EN LECTURE SEULE, et aucune n'est jamais modifiee.",
+    "souvenirs_json": true,
+    "conversation": true,
+    "ancienne_bibliotheque": true
+  },
+  "modele_ia": "deepseek-flash",
+  "_modele_ia": "Le petit cerveau qui ne fait QUE le sens (dire dans quel tiroir ca va). La structure, les compteurs et les decisions restent au Python.",
+  "v180": {
+    "_a_quoi_ca_sert": "V182 (16/10/2026) : LE BIBLIOTHECAIRE TRAVAILLE QUAND LUCIANA LE DEMANDE. Elle repond de sa tete ; quand Fred parle de sa vie, de ses proches, de vos projets ou du passe, elle appelle fouiller_ma_bibliotheque. Alors le petit moteur de sens sort de l'armoire les fiches les plus proches (aucun appel), et le bibliothecaire lit la conversation en cours + ces fiches EN ENTIER, garde celles qui servent et les lui rend en entier, datees. Relu a chaque message.",
+    "lit_combien": 30,
+    "_lit_combien": "Combien de fiches le bibliothecaire lit EN ENTIER a chaque message (de 5 a 200). Le petit moteur de sens ne fait que les sortir de l'armoire, dans l'ordre ; c'est le bibliothecaire qui decide. Plus haut = il voit plus large, mais c'est plus long et un peu plus cher.",
+    "cerveau": "deepseek-flash",
+    "_cerveau": "La tete du bibliothecaire : 'deepseek-flash' (DeepSeek, choix de Fred) ou 'gemini-flash' (il faut la cle Gemini).",
+    "reflexion_jugement": true,
+    "_reflexion": "true = le bibliothecaire reflechit quand il lit et juge les fiches (choix de Fred : l'efficacite avant la vitesse). false = plus rapide, sans reflexion.",
+    "moteur_de_sens": "google",
+    "_moteur_de_sens": "V196 (18/10/2026, decide avec Fred) : le moteur qui SORT les fiches de l'armoire avant que le bibliothecaire les lise en entier. 'google' = le moteur de sens de Google (gemini-embedding-001), avec la cle Gemini de Fred. 'minilm' = l'ancien petit moteur, exactement comme en V195. Il ne fait QUE la pile : c'est toujours le bibliothecaire qui lit et qui decide. Les fiches ne partent chez Google qu'une fois (empreintes gardees dans ~/Luciana/bibliotheque2/sens_google) ; ensuite seule la phrase part. En panne (pas de cle, pas d'internet), le bibliothecaire prend son secours deja existant (il choisit les tiroirs dans le plan) et la raison est ecrite dans la trace.",
+    "modele_google": "gemini-embedding-001",
+    "dimension_google": 768,
+    "_dimension_google": "La taille de l'empreinte. 768 est une des tailles conseillees par Google (3072 au maximum) : 4 fois moins de place en memoire et sur le disque. Si tu la changes, toutes les empreintes sont a recalculer (CALCULER LE SENS DE MA BIBLIOTHEQUE.bat)."
+  }
+}

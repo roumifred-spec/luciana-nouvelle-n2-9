@@ -1,0 +1,4 @@
+Fichier d'essai sans importance, cree le 09/10/2026 juste pour verifier que l'agent du chantier
+v149 pouvait ecrire dans le dossier. Il ne sert a RIEN : supprime-le, ca n'enleve rien au
+programme. (L'agent n'a pas pu le supprimer lui-meme : son environnement lui a refuse la
+suppression de fichiers.)

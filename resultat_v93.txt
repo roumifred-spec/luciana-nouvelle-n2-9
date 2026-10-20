@@ -1,0 +1,100 @@
+========================================================================
+1) py_compile sur le VRAI fichier en service
+========================================================================
+OK : py_compile passe.
+
+2) Les morceaux trouves dans le fichier : 13/13
+   OK : _MOTS_VIDES, _mots_cles, _texte_carnet, _sans_accents, CARNET_INDEX_ACTIF, _DERNIERS_CARNETS, _maj_de, _etat_de, _resume_projet, ENTETE_INDEX_CARNETS, _index_carnets, ENTETE_DETAIL_CARNETS, _carnets_pertinents
+
+========================================================================
+3) AVANT / APRES, en caracteres (carnet : C:\Users\Fred\Luciana\carnet.json)
+========================================================================
+projets dans le carnet .................. 28
+AVANT, carnet ENTIER dans le bloc cache .  80351 car.
+APRES, INDEX dans le bloc cache .........   6127 car.
+economie sur le bloc cache ..............  74224 car. (-92 %)
+
+Les 5 premieres lignes de l'index :
+   - Version 91 de Luciana (memoire courte + index) | maj 2026-10-03 14:33 | remettre Luciana au top de sa forme contre le fait qu'elle repond A COTE des
+   - Satisfaire International - liste des defauts (test d'usage) | maj 2026-10-03 12:00 | recenser TOUS les defauts de la MARKETPLACE Satisfaire Internat
+   - Site vitrine et video pour vendre Lumi | maj 2026-10-02 23:56 | site de vente de l'assistante IA (ordinateur equipe).
+   - Luciana evolutive (apprentissage continu) | maj 2026-10-02 22:38 | BUT (Fred, 02/10/2026) : que Luciana devienne EVOLUTIVE - qu'elle apprenne d'elle
+   - Trading en compte demo (methode Fred + Luciana) | maj 2026-10-02 15:34 | trading en compte DEMO (TradingView Paper Trading, compte "roumifred USD", 
+
+========================================================================
+4) LA SELECTION PAR LES MOTS DE FRED
+========================================================================
+
+  Fred dit : 'ou on en est sur Alertes telephone de Luciana ?'
+    mots-cles ....... ['alertes', 'telephone']
+    carnets choisis . ['Alertes telephone de Luciana', 'Satisfaire International - point general et juridique']
+    detail .......... 7503 car. (plafond 12000)
+
+  Fred dit : 'oui'
+    mots-cles ....... (aucun -> on garde le tour d'avant)
+    carnets choisis . ['Alertes telephone de Luciana', 'Satisfaire International - point general et juridique']
+    detail .......... 7503 car. (plafond 12000)
+
+  Fred dit : 'vas-y'
+    mots-cles ....... (aucun -> on garde le tour d'avant)
+    carnets choisis . ['Alertes telephone de Luciana', 'Satisfaire International - point general et juridique']
+    detail .......... 7503 car. (plafond 12000)
+
+  Fred dit : 'continue'
+    mots-cles ....... ['continue']
+    carnets choisis . ['Deploiement Luminita chez les clients (PC neuf, Windows, cle maitresse)']
+    detail .......... 5591 car. (plafond 12000)
+
+  Fred dit : 'et ca ?'
+    mots-cles ....... (aucun -> on garde le tour d'avant)
+    carnets choisis . ['Deploiement Luminita chez les clients (PC neuf, Windows, cle maitresse)']
+    detail .......... 5591 car. (plafond 12000)
+
+  Fred dit : 'Angelova'
+    mots-cles ....... ['angelova']
+    carnets choisis . ['Societe Bulgarie - Angelova', 'Alertes telephone de Luciana', 'Compta Luminita (apport en heures de Fred)']
+    detail .......... 8809 car. (plafond 12000)
+
+  Fred dit : 'parle-moi des mails et de la voix'
+    mots-cles ....... ['parle', 'mails', 'voix']
+    carnets choisis . ['Luminita Kids + messagerie papa-fille', 'Navigateur connecte, Skool et avatar UGC']
+    detail .......... 8071 car. (plafond 12000)
+
+  Fred dit : "qu'est-ce qu'on fait pour le site et les factures aujourd'hui ?"
+    mots-cles ....... ["qu'est", "qu'on", 'site', 'factures', "aujourd'hui"]
+    carnets choisis . ['Facebook, Messenger, site et agenda de Satisfaire', 'Site vitrine et video pour vendre Lumi', 'Brancher Google Drive (v51)']
+    detail .......... 7583 car. (plafond 12000)
+
+  -> verifie : jamais plus de 3 carnets, jamais plus de ~12 000 car.,
+     et une phrase sans mot-cle garde les carnets du tour d'avant.
+
+========================================================================
+5) LE FILET : un carnet vide, un carnet casse -> on ne plante JAMAIS
+========================================================================
+   carnet {}                                            -> index    0 car., detail    0 car., choisis []
+   carnet None                                          -> index    0 car., detail    0 car., choisis []
+   carnet {'X': None}                                   -> index  683 car., detail  288 car., choisis ['X']
+   carnet {'Y': 'juste du texte, pas un dictionnaire'}  -> index  718 car., detail  323 car., choisis ['Y']
+   carnet {'Z': {'maj': None, 'etat': None}}            -> index  683 car., detail  288 car., choisis ['Z']
+   carnet {'W': {}}                                     -> index  683 car., detail  288 car., choisis ['W']
+
+   un seul carnet de 40 000 car. -> detail 12388 car., choisis ['Enorme']
+   -> le plafond coupe, mais n'ELIMINE pas : le carnet est bien envoye.
+
+========================================================================
+6) L'ACTION 'lire' EXISTE-T-ELLE VRAIMENT DANS LE FICHIER ?
+========================================================================
+   action.startswith("lire")                     dans outil_carnet              : OUI
+   "enum": ["lire", "noter", "clore"]            dans le schema de l'outil      : OUI
+   action 'lire'                                 dans la description de l'outil : OUI
+
+========================================================================
+7) LES 3 CLES DE MESURE
+========================================================================
+   index_carnets=       dans le journal des couts : OUI
+   carnets_choisis=     dans le journal des couts : OUI
+   detail_carnets=      dans le journal des couts : OUI
+
+========================================================================
+TOUT EST BON.
+========================================================================

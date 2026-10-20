@@ -1,0 +1,22 @@
+{
+  "_a_quoi_ca_sert": "LES QUESTIONS DE L'ARCHIVISTE QUI ATTENDENT ENCORE UNE REPONSE. Chaque question vit DANS sa fiche : ce fichier n'est qu'une vue, pour pouvoir la LIRE d'un coup d'oeil. Il REMPLACE le precedent, il ne s'empile pas.",
+  "quand": "2026-10-11 20:35:18",
+  "combien": 1,
+  "les_cinq_etats": [
+    "ouverte",
+    "posee_a_l_assistante",
+    "a_poser_au_proprietaire",
+    "posee_au_proprietaire",
+    "repondue"
+  ],
+  "questions": [
+    {
+      "repere": "essai#5d85b6e72c620923",
+      "ou_elle_est": "Divers / A trier",
+      "etat": "posee_au_proprietaire",
+      "question": "Ce souvenir : « Il faudra repenser au dossier du mois dernier, celui qui traine. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))",
+      "depuis": "2026-10-11 20:35:18",
+      "dort_jusqu_au": "2026-10-18 20:35:18"
+    }
+  ]
+}

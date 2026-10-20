@@ -1,0 +1,79 @@
+CE QUE LUCIANA A DANS CE DOSSIER
+================================
+
+Ce dossier voyage AVEC le programme : il est a cote de luciana.py, dans le depot, et il se
+retrouve tel quel sur chaque PC ou Luciana est installee.
+
+    personnage_1_marche.webm    <-  ELLE, animee : elle marche, elle reflechit
+    personnage_2_parle.webm     <-  ELLE, animee : elle parle face camera
+    personnage_3_regarde.webm   <-  ELLE, animee : elle s'arrete et te regarde
+    activite_01.webm ... activite_05.webm
+                                <-  ELLE, animee : ses cinq mouvements de la vie courante
+
+HUIT FICHIERS EN TOUT. C'est exactement le nombre de boucles qui ont ete fabriquees pour elle.
+(Chez Luminita, sa petite soeur, il y en a treize : c'est le seul ecart, et il ne change rien
+a la mecanique.)
+
+
+SON PERSONNAGE ANIME : LES HUIT BOUCLES
+=======================================
+
+De petites videos qui tournent en boucle, detourees, a VRAI fond transparent (VP9 avec canal
+alpha) : elle est donc posee sur la page, sans cadre et sans rectangle, et elle passe DERRIERE
+TOUTES LES ECRITURES.
+
+LES TROIS BOUCLES D'ETAT : CE QU'ELLE FAIT AVEC NOUS
+----------------------------------------------------
+Le programme les choisit tout seul, et TOUJOURS DANS CET ORDRE :
+
+    1. DES QUE SA VOIX SORT      ->  personnage_2_parle.webm
+       (elle est alors immobile, sur un cote, bouche visible)
+    2. QUAND LE MICRO EST OUVERT ->  personnage_3_regarde.webm
+       (c'est nous qui parlons : elle nous regarde, immobile, sur un cote)
+    3. TOUT LE RESTE DU TEMPS    ->  ses occupations (ci-dessous)
+
+CET ORDRE N'EST PAS UN DETAIL. Le micro reste ouvert MEME pendant qu'elle parle : si on le
+regardait en premier, on retomberait toujours sur "elle te regarde" et elle ne bougerait pour
+ainsi dire jamais les levres. C'est l'erreur qui a ete faite puis corrigee chez Luminita, et
+c'est la version corrigee qui est reprise ici. SA VOIX PASSE AVANT TOUT, sans condition.
+
+SES CINQ OCCUPATIONS
+--------------------
+Quand elle n'est ni en train de parler ni en train d'ecouter, elle VIT. Le programme pioche AU
+HASARD dans le melange "la marche + ces cinq mouvements", pour une duree elle aussi tiree AU
+HASARD (entre 6 et 14 secondes), et il ne rejoue JAMAIS deux fois de suite le meme : si le
+tirage retombe sur celui qui vient d'etre joue, il retire. Aucun enchainement n'est ecrit a
+l'avance, donc aucun rythme ne se voit.
+
+OU ELLE SE TIENT DANS LA FENETRE
+--------------------------------
+Elle se tient TOUJOURS SUR UN COTE de la fenetre (environ 12 % ou 88 % de la largeur), et
+JAMAIS au milieu : le centre est reserve aux ecritures, et comme le texte passe devant elle,
+au milieu on ne la verrait plus du tout. Quand elle parle et quand elle t'ecoute au micro,
+elle se poste sur le cote ou elle se trouve deja et elle y reste, bouche visible. Pendant ses
+occupations, elle flane doucement dans les zones laterales et traverse d'un trait d'un bord a
+l'autre, sans jamais s'arreter au centre. Tout est calcule en part de la largeur de la
+fenetre : c'est donc juste sur n'importe quel ecran, et ca se recalcule tout seul si on
+redimensionne la fenetre.
+
+
+POUR LES REMPLACER PAR D'AUTRES
+===============================
+Deposer de nouveaux fichiers ICI, en gardant EXACTEMENT ces huit noms. Il n'y a rien a changer
+dans le programme. Conseils :
+  - du .webm en VP9 AVEC canal alpha (sinon le fond se verra, en vert ou en noir : le
+    navigateur ne sait pas detourer tout seul) ;
+  - sans son : elles sont jouees en muet, de toute facon ;
+  - courtes (2 a 5 secondes) et qui bouclent proprement : c'est joue en boucle sans
+    interruption.
+
+SI UN FICHIER MANQUE, RIEN NE CASSE : la page s'ouvre normalement et tout fonctionne. La
+boucle manquante est simplement rayee des tirages, sans message d'erreur a l'ecran.
+
+
+AUCUN SECRET ICI
+================
+Ce dossier ne contient que son apparence (les huit boucles) et ce mode d'emploi : aucune cle,
+aucun souvenir, aucune memoire. A ne pas confondre avec le dossier PRIVE de Fred
+(C:\Users\<lui>\Luciana\apparence), qui garde le portrait qu'il a choisi : celui-la ne bouge
+pas et n'a rien a voir avec ce dossier-ci.

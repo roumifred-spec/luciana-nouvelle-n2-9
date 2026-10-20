@@ -1,0 +1,15 @@
+COMPILATION-OK  
+ M __pycache__/biblio2_reglages.cpython-314.pyc
+ M __pycache__/luciana.cpython-314.pyc
+ M luciana.py
+?? RESULTAT_controle_debranchement_des_questions.txt
+?? RESULTAT_test_des_questions.txt
+?? SAUVEGARDE_2026-10-12_14h42_luciana_v162_AVANT_badge_163.py
+?? __pycache__/biblio2_pont.cpython-314.pyc
+?? __pycache__/biblio2_questions.cpython-314.pyc
+?? _badge_resultat.txt
+?? _controle163.txt
+?? _demo_chaine_des_questions/
+?? _demo_pont_questions/
+?? _diag_badge.txt
+29696:      <div class="nom">Luciana<small>ton amie &middot; v163</small><small id="compteurDepense" title="Depense reelle du jour, en dollars"></small></div>

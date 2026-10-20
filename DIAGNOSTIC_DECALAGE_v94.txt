@@ -1,0 +1,186 @@
+=======================================================================
+ DIAGNOSTIC DU "DECALAGE D'UN MESSAGE" — v94, le 03/10/2026
+ LECTURE SEULE : AUCUNE LIGNE DE CE MECANISME N'A ETE MODIFIEE.
+=======================================================================
+Fichier lu : C:\Users\Fred\Desktop\luciana_v91\luciana_v91\luciana.py
+Les numeros de ligne sont ceux du fichier APRES le chantier v94 (les deux
+autres corrections de la v94 ne touchent pas la dictee ni l'envoi).
+
+Ce qui est ecrit ici est tire du CODE, pas d'une supposition. Quand je ne
+suis pas sur, c'est marque "PISTE". Quand la cause est dans le code noir
+sur blanc, c'est marque "CERTAIN (lu dans le code)".
+
+-----------------------------------------------------------------------
+LA CAUSE PRINCIPALE, ET ELLE EXPLIQUE L'ESSENTIEL DU DECALAGE
+-----------------------------------------------------------------------
+CERTAIN (lu dans le code) : "occupe" reste VRAI pendant TOUT le temps ou
+Luciana PARLE a voix haute, et pas seulement pendant qu'elle reflechit.
+
+  - ligne 15977  : envoyerMessage() met occupe = true au depart du message
+  - ligne 15215  : finParole() { occupe = false; ... }  <-- le SEUL endroit
+                   qui libere, et il n'est appele que quand le son est FINI
+                   (lignes 15100 et 15101 : fin de la voix du navigateur ;
+                    ligne 15209 : fin de la belle voix ElevenLabs)
+
+Donc : tant qu'elle lit sa reponse a voix haute (une belle voix ElevenLabs
+peut parler 30 a 60 secondes), elle est "occupee".
+
+Et pendant qu'elle est occupee (ligne 15970) :
+
+    if (occupe){
+      enAttenteDEnvoi.push(...);   // le message de Fred est MIS EN FILE
+      champ.value = '';            // la barre est videe
+      aide("Je finis ce que je fais et j'enchaine tout de suite...");
+      return;                      // ...mais RIEN N'EST ENVOYE maintenant
+    }
+
+La file est videe par une minuterie (ligne 16003) qui regarde toutes les
+1,5 seconde si elle est libre, et envoie alors le message garde.
+
+CE QUE CA DONNE, EXACTEMENT LE SYMPTOME DE FRED :
+  1. Fred pose la question Q1. Elle repond R1 et commence a la LIRE.
+  2. Pendant qu'elle lit R1, Fred pose Q2 (il tape et appuie sur Entree).
+     Q2 part dans la file, la barre se vide : pour Fred, c'est envoye.
+  3. Elle finit de lire R1 -> occupe = false -> 1,5 s plus tard, Q2 part.
+  4. Elle repond R2 et la LIT... pendant que Fred pose Q3.
+Des le moment ou Fred parle plus vite qu'elle ne lit, la conversation
+reste DEFINITIVEMENT en retard d'un message. Ce n'est pas une impression :
+c'est le mecanisme. Et ca explique aussi qu'il ait le sentiment qu'elle
+"repond a la question d'avant".
+
+RIEN N'EST PERDU dans ce chemin (c'est le correctif v78) : le message est
+bien envoye, mais PLUS TARD. Le decalage, c'est ca.
+
+-----------------------------------------------------------------------
+(a) "LA DICTEE COUPE ET ENVOIE AVANT LA FIN DE MA PHRASE"
+-----------------------------------------------------------------------
+CERTAIN (lu dans le code) : en MAINS-LIBRES, c'est voulu par le code.
+
+  - ligne 16019 : const SILENCE_MS = 4000;
+  - ligne 16039 : minuteurSilence = setTimeout(envoyerMainsLibres, 4000)
+  - ligne 16025 : envoyerMainsLibres() envoie ce qui est dans la barre
+
+Le compte a rebours est relance a chaque mot reconnu (ligne 16082). Donc :
+4 secondes sans qu'un mot soit RECONNU, et ca part. Quatre secondes, c'est
+tres court quand on cherche ses mots, quand on respire, ou quand on reflechit
+au milieu d'une phrase. En mode "appui sur le micro" (mains-libres eteint),
+ce chemin est desactive (ligne 16036 : if (!mainsLibres) return;).
+
+PISTE qui s'ajoute (tres probable, pas verifiable sans mesure chez Fred) :
+Chrome rend les mots en deux temps, "provisoires" puis "definitifs"
+(reco.interimResults = true, ligne 16046). La barre affiche bufFinal +
+provisoire (ligne 16080). Si le minuteur tombe pendant que la fin de la
+phrase est encore "provisoire", c'est une phrase TRONQUEE qui part, et la
+fin arrive apres l'envoi -> elle se retrouve dans la barre pour le tour
+SUIVANT. Resultat visible : question coupee en deux, et un bout de phrase
+parti seul au message d'apres. C'est exactement une forme de decalage.
+
+-----------------------------------------------------------------------
+(b) "UN MOT ENVOYE DANS UNE ZONE DE SAISIE VIDE"
+-----------------------------------------------------------------------
+CERTAIN (lu dans le code) pour le mecanisme ; PISTE pour l'origine du mot.
+
+En mains-libres, le micro n'est JAMAIS coupe, meme pendant qu'elle parle :
+  - ligne 16085-16087 : reco.onend -> if (mainsLibres && !arretVoulu) reco.start()
+Le micro tourne donc en permanence. Un bruit, un mot capte dans la piece,
+un reste de SA voix : la barre recoit ce mot (ligne 16080), le minuteur de
+4 s demarre (ligne 16082), et 4 s plus tard ce seul mot est envoye.
+Pour Fred, la barre a l'air vide (elle est videe a l'instant de l'envoi,
+ligne 15983) : il voit juste un mot partir tout seul.
+
+Le filtre "c'est sa propre voix" existe (lignes 16070-16078) mais il ne
+couvre que les 1,5 s qui suivent sa parole (lignes 16070-16077), puis 15 s
+avec une comparaison
+de texte. Un mot dit par quelqu'un d'autre, ou un bruit, passe le filtre.
+
+-----------------------------------------------------------------------
+(c) "L'ENVOI AUTOMATIQUE SANS CLIC"
+-----------------------------------------------------------------------
+CERTAIN (lu dans le code) : il y a TROIS chemins qui envoient sans clic.
+
+  1. le minuteur du mains-libres (4 s de silence) : ligne 16039,
+     envoyerMessage(dit, 'auto') ligne 16033
+  2. la minuterie qui vide la file toutes les 1,5 s : ligne 16003,
+     envoyerMessage(x.msg, 'file') ligne 16007
+  3. le bouton "Envoyer" du cadre "texte mis de cote" : ligne 15943
+
+Le garde-fou anti-doublon (ligne 15965) ne bloque un renvoi automatique
+que si le texte est EXACTEMENT le meme et dans les 30 secondes. Un texte
+different, ou le meme 31 s plus tard, repart.
+
+A noter : la touche Entree (ligne 16010) envoie sans preventDefault() et
+sans regarder e.isComposing. PISTE : sur un clavier de telephone ou avec
+la dictee du systeme, une validation du clavier peut etre lue comme un
+"Entree" et envoyer une phrase en cours. Non verifiable d'ici : il faudrait
+que Fred dise si ca arrive sur l'iPhone ou sur le PC.
+
+-----------------------------------------------------------------------
+(d) "LE MICRO ETEINT RENVOIE LE MESSAGE PRECEDENT" (signale le 01/10)
+-----------------------------------------------------------------------
+Le chemin d'origine EST bien bouche : couper le micro n'envoie plus rien
+(reco.onend, lignes 16085-16109 : le commentaire v78/v84 est exact, j'ai
+verifie le code, il n'y a aucun appel a envoyerMessage dans onend).
+
+MAIS le symptome peut tres bien revenir par un AUTRE chemin, et c'est ma
+piste n.1, par ordre de vraisemblance :
+
+  PISTE 1 (la plus vraisemblable) : la FILE. Un message mis en file plus
+  tot (parce qu'elle parlait) part des que occupe redevient faux, dans les
+  1,5 s. Or cliquer sur le micro PENDANT qu'elle parle appelle faireTaire()
+  (ligne 16146), et faireTaire() met occupe = false IMMEDIATEMENT
+  (ligne 15227). Donc : Fred touche au micro -> elle se tait -> 1,5 s plus
+  tard le message GARDE EN FILE (donc "le message precedent", de son point
+  de vue) part tout seul. Vu de l'exterieur, c'est mot pour mot "le micro
+  renvoie le message d'avant".
+
+  PISTE 2 : le brouillon remis dans la barre. Le contenu de la barre est
+  copie dans le navigateur une fois par seconde (ligne 15931) et cette
+  copie n'est EFFACEE que si le message parti est EXACTEMENT egal a la
+  copie (texteBienParti, ligne 15904). A l'ouverture de la page, la copie
+  est remise dans la barre (ligne 15924). Si une copie survit a un envoi
+  (phrase pas identique au caractere pres), elle revient dans la barre et
+  peut repartir au prochain envoi. Non verifiable d'ici : il faudrait
+  regarder le localStorage de Chrome chez Fred (cles
+  'luciana_brouillon_barre' et 'luciana_texte_de_cote').
+
+  PISTE 3 : demarrerEcoute() (ligne 16117) amorce la memoire de dictee avec
+  ce qui est deja dans la barre : bufFinal = champ.value + ' '. C'est voulu
+  (ne pas jeter ce que Fred a tape). Mais si la barre contient encore un
+  reste d'avant, la phrase suivante est collee derriere ce reste et part
+  avec lui.
+
+-----------------------------------------------------------------------
+"UN LANCEMENT ANNONCE NE PART QU'A LA PHRASE D'APRES"
+-----------------------------------------------------------------------
+Cote programme, le lancement est IMMEDIAT : outil_chantier (ligne 4565)
+demarre un fil tout de suite et rend la main. Il n'y a aucune file
+d'attente, aucun differe. Donc si rien n'est parti, c'est qu'AUCUN OUTIL
+N'A ETE APPELE a ce tour-la. Deux explications, les deux dans le code :
+
+  1. CERTAIN (lu dans le code) : elle a ecrit l'appel d'outil EN TEXTE au
+     lieu de l'appeler. Le programme le detecte, le retire, et previent
+     Fred : _retirer_appels_en_texte (ligne 13948), message "je voulais
+     utiliser l'outil ..., mais il n'a PAS ete lance". Au tour suivant elle
+     le fait pour de vrai -> le lancement part "a la phrase d'apres".
+     Ce garde-fou existe depuis la v71 parce que c'est DEJA arrive.
+  2. PISTE : elle a simplement annonce le lancement en mots, sans appeler
+     l'outil. C'est le probleme que la correction n.1 de cette v94 (le
+     message de Fred mis AUX DEUX BOUTS) doit justement reduire : sa phrase
+     n'etait plus noyee derriere 14 000 caracteres de paperasse.
+
+-----------------------------------------------------------------------
+CE QUE JE N'AI PAS PU VERIFIER (et il faut le dire)
+-----------------------------------------------------------------------
+- Je n'ai pas lance Luciana, je n'ai pas parle dans le micro : tout ce qui
+  est ci-dessus est de la LECTURE de code. Aucune mesure sur le vrai PC.
+- Je ne sais pas si le mains-libres etait ALLUME quand Fred a eu ces
+  symptomes. C'est la question qui tranche : le mains-libres est la source
+  des envois automatiques (a) et (b). Il n'est pas memorise d'un demarrage
+  a l'autre (ligne 15000 : let mainsLibres = false), donc il faut qu'il ait
+  ete allume a la main pendant la session.
+- Je n'ai pas regarde le localStorage de Chrome chez Fred (piste 2 du (d)).
+- RIEN N'A ETE MODIFIE dans la dictee ni dans l'envoi : la consigne etait
+  de diagnostiquer d'abord. Les corrections possibles (ne plus bloquer sur
+  "occupe" quand elle ne fait que LIRE a voix haute, allonger ou rendre
+  reglable le silence de 4 s, ne plus envoyer un message de moins de N
+  mots tout seul) attendent l'accord de Fred.

@@ -1,0 +1,36 @@
+LA NOUVELLE LUCIANA (nouvelle N2) - 19/10/2026
+
+CE QUE C'EST : ton ecran de la V198 a l'identique (portrait, boutons, voix, panneau, tous ses outils),
+avec des COULISSES NEUVES : la memoire, l'apprentissage, le trajet d'un message. + le micro de Luminita.
+
+1) LANCER : « 2 - LANCER LA NOUVELLE LUCIANA.bat ». Meme adresse que d'habitude (port 8002, iPhone compris).
+   Il ferme d'abord une Luciana deja ouverte : une seule a la fois.
+   Pour revenir a l'ancienne : « 1 - LANCER LUCIANA.bat » (elle est intacte).
+
+2) SA MEMOIRE DE DEPART (une fois) : « 3 - NOUVELLE LUCIANA - REMPLIR SA MEMOIRE AVEC MES MESSAGES.bat ».
+   Il lit ton ancienne memoire SANS Y TOUCHER, garde SEULEMENT TES messages (rien de ce qu'elle a ecrit),
+   te montre combien il en a trouve + des exemples + la liste complete, et attend ton OUI.
+   Puis l'archiviste les range par le sens, mot pour mot, et note ce qu'ils lui apprennent.
+
+SA MEMOIRE : ~\Luciana_neuve (copie de sauvegarde chaque jour dans ~\Luciana_neuve\sauvegardes).
+  Tout est lisible : ~\Luciana_neuve\MA BIBLIOTHEQUE (lisible).txt
+
+COMMENT ELLE MARCHE (les coulisses) :
+  - UNE bibliotheque pour tout (souvenirs, regles, faits, personnes, savoir-faire, savoir-vivre).
+  - Rien n'est jamais coupe : une fiche est donnee EN ENTIER ou pas du tout.
+  - A chaque message, le bibliothecaire lit LA MEME conversation qu'elle + ton message + les 30 fiches les
+    plus proches PAR LE SENS (phrase entiere), en entier, et garde ce qui sert. Elle repond d'abord de sa
+    tete ; s'il apporte quelque chose, elle repond avec les fiches en entier. Elle peut aussi chercher.
+  - Elle apprend toute seule apres chaque echange (sans clic).
+  - L'archiviste range la conversation au-dela de 80 000 caracteres, mot pour mot, par le sens.
+  - Outils : 7 toujours en main + les 5 plus proches de ta phrase ; les autres, elle les trouve.
+  - Rappels a l'heure : tenus par le programme (pastille + telephone).
+  - Panneau « Etat » : toutes les coulisses, en quantites.
+  - Reglages (nombres) : nouvelle\reglages.json. Personnalite : nouvelle\personnalite.txt.
+
+LE MICRO (dictaphone de Luminita) : Chrome ecrit en direct, Gemini reecoute le son et corrige.
+  Curseur « gratuit / payant » au-dessus de la barre. Le cout de Gemini pour la dictee n'est pas
+  compte dans la depense affichee.
+
+TESTE ICI avec un faux cerveau, un faux Google et un faux micro (ecran, 47 adresses des boutons identiques
+a la V198, panneau, micro, import). PAS ENCORE ESSAYE CHEZ TOI : le premier vrai essai, c'est sur ton PC.

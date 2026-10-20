@@ -1,0 +1,38 @@
+﻿
+  ESSAI DE « COMPRENDRE LA SITUATION » (vrai cerveau ; rien n'est ecrit, sa bibliotheque n'est pas touchee).
+
+  « Et maintenant, elle les a comment ? »
+     compris : Le message parle de : comment sont maintenant les cheveux de sa fille (qui avait les cheveux très longs à 8 ans). Quand : maintenant.
+     -> JUSTE
+  « Est-ce que j'ai pris mon cachet ce matin ? »
+     compris : Le message parle de : La personne demande si elle a pris son cachet (son médicament) ce matin.. Quand : maintenant (du 2026-10-20 au 2026-10-20). Ca touche au VITAL.
+     -> JUSTE
+  « Qu'est-ce qu'on a fait hier sur le trading ? »
+     compris : Le message parle de : Ce qui a été fait hier concernant le trading (les activités ou opérations de trading de la veille).. Quand : recent (du 2026-10-19 au 2026-10-19).
+     -> PAS BON : quand = recent (attendu moment)
+  « Elles en sont ou, les positions ? »
+     compris : Le message parle de : Où en sont les huit positions prises hier sur TradingView, sur le compte démo.. Quand : maintenant (du 2026-10-19 au 2026-10-19).
+     -> JUSTE
+  « Raconte-moi toute la vie de ma fille »
+     compris : Le message parle de : Toute la vie de la fille de la personne qui écrit, depuis sa naissance jusqu'à maintenant.. Quand : histoire.
+     -> JUSTE
+  « Et lui, il pense que c'est grave ? »
+     compris : Le message parle de : l'avis du docteur Martin sur la gravité de la situation après le changement de traitement. Quand : maintenant. Ca touche au VITAL.
+     -> JUSTE
+  « Le 2 octobre, on avait parle de quoi ? »
+     compris : Le message parle de : Ce dont on avait parlé le 2 octobre (la personne demande de quoi il s'agissait ce jour-là).. Quand : moment.
+     -> PAS BON : du = rien (attendu 2026-10-02)
+  « Et ca ? »
+     compris : Le message parle de : La personne demande « Et ca ? » sans qu'on sache à quoi « ca » renvoie.. Quand : maintenant. Si rien ne repond, une question possible : « À quoi pensez-vous en disant « Et ca ? » ? ».
+     -> JUSTE
+  « Ce am facut ieri cu Luminita? »
+     compris : Le message parle de : Ce que la personne a fait hier avec Luminita.. Quand : moment (du 2026-10-19 au 2026-10-19).
+     -> JUSTE
+  « Bonjour Luciana ! »
+     compris : Le message parle de : Un simple bonjour adressé à Luciana.. Quand : maintenant.
+     -> JUSTE
+  « Comment ca a evolue avec Satisfaire depuis septembre ? »
+     compris : Le message parle de : Comment la relation avec Satisfaire a évolué depuis septembre.. Quand : histoire (du 2026-09-01 au 2026-09-01).
+     -> JUSTE
+
+  RESULTAT : 9 juste(s) sur 11.

@@ -1,0 +1,6 @@
+octets ancien (depot, avant croix) : 1174921
+octets service (ce qui tourne)     : 1174921
+octets corrige (avec la croix)     : 1181136
+SERVICE == ANCIEN (hors fins de ligne) : True
+nombre de lignes corrige : 18765
+=> le fichier qui tourne est EXACTEMENT la base du depot : on peut poser la croix dessus.

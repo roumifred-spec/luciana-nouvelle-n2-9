@@ -1,0 +1,190 @@
+==========================================================================================
+0) LE FICHIER EXAMINE, ET SA SANTE   [point (a) de Fred]
+==========================================================================================
+   fichier : C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\luciana.py
+   taille  : 1346247 octets, 20981 lignes
+   (a) py_compile : TOUT le fichier est du Python valide                : PASSE
+   la SAUVEGARDE DATEE d'avant le chantier est a la racine              : PASSE
+        -> 2026-10-05_11h25_luciana_v102_sauvegarde_avant_verrou6.py (1302922 octets)
+   je decoupe luciana.py (une seule fois)...
+   decoupage fait en 0.6 s : 865 pieces trouvees
+
+==========================================================================================
+1) LE BRAS EXISTE-T-IL VRAIMENT DANS LE CODE ?
+==========================================================================================
+   les 14 pieces du verrou 6 sont dans luciana.py                       : PASSE
+        -> toutes presentes (constantes, catalogue, lecteur de fiche, le bras)
+   repondre() appelle bien _biblio_pertinente(...)                      : PASSE PAS  <<<<<<
+        -> c'est le PROGRAMME qui va lire le tiroir, pas un outil que l'IA appelle
+   AUCUN nouvel outil 'bibliotheque' n'est rebranche (piege du 02/10)   : PASSE
+        -> outils declares contenant 'biblio' : aucun
+   le code ne declare aucun outil nomme 'bibliotheque'                  : PASSE
+        -> rien a appeler : le programme pose la fiche tout seul
+   l'interrupteur de secours existe (BIBLIOTHEQUE_ACTIVE)               : PASSE
+        -> mets False et on revient EXACTEMENT a la v102
+
+==========================================================================================
+2) RIEN DE VARIABLE DANS LE BLOC SYSTEME MIS EN CACHE   [point (b) de Fred]
+==========================================================================================
+   C'est LA contrainte la plus importante : le bloc 'systeme' est garde 1 h en cache.
+   Si du texte qui change a chaque message y entrait, Fred repaierait toute sa journee
+   de conversation a chaque message (le defaut repare en v85, ~1 $ par message).
+   on retrouve bien la construction de blocs_systeme dans repondre()    : PASSE PAS  <<<<<<
+        -> derniere ligne ou blocs_systeme est construit : 0
+   (b) l'ecriture dans messages[-1] se fait APRES la fermeture du bloc  : PASSE PAS  <<<<<<
+        -> lignes d'insertion dans messages[-1] : [] (fermeture ligne 0)
+   (b) 'entete' (qui porte les tiroirs) n'est LUE qu'apres la fermeture : PASSE PAS  <<<<<<
+        -> lignes ou entete est lue : [] (fermeture ligne 0)
+   (b) 'systeme' / 'fin_systeme' ne recoivent RIEN du verrou 6          : PASSE
+        -> 0 lignes construisent systeme/fin_systeme, aucune ne parle de biblio
+   (b) le texte mis en cache ne parle NULLE PART des tiroirs            : PASSE
+        -> ni dans PERSONNALITE (24640 car.), ni dans fin_du_prompt() : les deux morceaux du bloc garde 1 h
+   (b) detail_biblio est bien utilise, et seulement apres son calcul    : PASSE PAS  <<<<<<
+        -> references a detail_biblio dans repondre() : lignes []
+   (b) meme canal que l'avertissement de tri de la v102 (messages[-1])  : PASSE PAS  <<<<<<
+        -> l'avertissement de tri (v102) et les tiroirs (v103) voyagent ensemble, hors cache
+   la taille injectee est ECRITE dans couts_appels.jsonl (biblio=...)   : PASSE
+        -> Fred pourra VERIFIER sur du reel combien de caracteres sont partis, et quels tiroirs
+
+==========================================================================================
+3) UN MESSAGE SUR UN SUJET CONNU FAIT-IL REMONTER LE BON TIROIR ?   [point (c)]
+==========================================================================================
+   (c) un sujet connu remonte au moins un tiroir                        : PASSE
+        -> phrase d'essai : "je veux reprendre l'apparence du personnage anime de Luciana" -> tiroirs ouverts : ['apparence']
+   (c) c'est le BON tiroir ('apparence')                                : PASSE
+        -> tiroirs rendus, dans l'ordre : ['apparence']
+   (c) le CONTENU REEL de la fiche est bien dedans (pas un resume)      : PASSE
+        -> on retrouve mot pour mot des phrases du fichier fiche_personnage.txt
+   (c) le nom de la fiche lue est dit a Luciana                         : PASSE
+        -> elle sait DE QUEL fichier ca vient : elle peut le citer sans inventer
+   (c) le dossier 'anciennes_versions' n'est JAMAIS remonte             : PASSE
+        -> la reserve des vieilles copies est ignoree, comme prevu
+   (c) le mauvais tiroir ne remonte pas                                 : PASSE
+        -> ni Grok ni les alertes telephone : la phrase ne parlait pas de ca
+   (c) un autre sujet ouvre un autre tiroir (pas toujours le meme)      : PASSE
+        -> tiroirs ouverts : ['brancher-grok-videos']
+   (c) un SEUL mot croise dans l'index n'ouvre AUCUN tiroir             : PASSE
+        -> 'portrait' n'existe que dans l'index du dossier apparence : score 1, seuil 2
+   (c) index 'dictionnaire' : les mots d'un dossier ne contaminent pas  : PASSE
+        -> mots-cles retenus pour 'apparence' : ' personnage anime portrait avatar personnage anime portrait avatar le personnage'
+   (c) index 'dictionnaire' : aucun tiroir voisin ne s'ouvre a tort     : PASSE
+        -> un seul tiroir ouvert : apparence
+   (c) index 'dictionnaire' : seuls les dossiers qui ont des fiches son : PASSE
+        -> dossiers catalogues : ['alertes-telephone-de-luciana', 'apparence', 'brancher-grok-videos', 'plafond-essai-tres-long']
+   (c) index 'liste' : les mots d'un dossier ne contaminent pas les aut : PASSE
+        -> mots-cles retenus pour 'apparence' : ' apparence dossier apparence cles personnage anime portrait avatar'
+   (c) index 'liste' : aucun tiroir voisin ne s'ouvre a tort            : PASSE
+        -> un seul tiroir ouvert : apparence
+   (c) index 'liste' : seuls les dossiers qui ont des fiches sont catal : PASSE
+        -> dossiers catalogues : ['alertes-telephone-de-luciana', 'apparence', 'brancher-grok-videos', 'plafond-essai-tres-long']
+   (c) ca marche avec un index.json en forme 'liste'                    : PASSE
+        -> le disque fait foi : aucun schema de JSON n'est suppose
+   (c) ca marche avec un index.json en forme 'casse'                    : PASSE
+        -> le disque fait foi : aucun schema de JSON n'est suppose
+   (c) ca marche avec un index.json en forme 'absent'                   : PASSE
+        -> le disque fait foi : aucun schema de JSON n'est suppose
+
+==========================================================================================
+4) UN MESSAGE SANS SUJET RECONNU N'INSERE-T-IL RIEN ?   [point (d)]
+==========================================================================================
+   Exigence de Fred : 'Si aucun sujet n'est reconnu, RIEN n'est insere (silence total,
+   jamais un dossier au hasard).'
+   (d) 'oui'                  -> RIEN n'est insere                      : PASSE
+        -> 0 caractere(s) injecte(s), 0 tiroir(s)
+   (d) 'vas-y'                -> RIEN n'est insere                      : PASSE
+        -> 0 caractere(s) injecte(s), 0 tiroir(s)
+   (d) 'continue'             -> RIEN n'est insere                      : PASSE
+        -> 0 caractere(s) injecte(s), 0 tiroir(s)
+   (d) 'ok merci'             -> RIEN n'est insere                      : PASSE
+        -> 0 caractere(s) injecte(s), 0 tiroir(s)
+   (d) 'et ca ?'              -> RIEN n'est insere                      : PASSE
+        -> 0 caractere(s) injecte(s), 0 tiroir(s)
+   (d) sujet inconnu -> RIEN ('quelle heure pour le rendez-vous c')     : PASSE
+        -> 0 caractere(s) injecte(s)
+   (d) sujet inconnu -> RIEN ('le prix du carburant a monte cette')     : PASSE
+        -> 0 caractere(s) injecte(s)
+   (d) sujet inconnu -> RIEN ('')                                       : PASSE
+        -> 0 caractere(s) injecte(s)
+   (d) pas de bibliotheque du tout -> RIEN, et aucun plantage           : PASSE
+        -> sur un PC sans bibliotheque, Luciana tourne comme avant
+   (d) BIBLIOTHEQUE_ACTIVE = False -> RIEN du tout                      : PASSE
+        -> retour a la v102 en changeant un seul mot
+
+==========================================================================================
+5) LE PLAFOND DE TAILLE EST-IL RESPECTE ?   [point (e)]
+==========================================================================================
+   les chiffres choisis : 4000 car. de contenu + 1200 car. d'habillage = 5200 car. au maximum
+   2 dossiers au maximum, 4 fiches au maximum, 1500 car. par fiche
+   les plafonds sont des chiffres serieux (ni zero, ni enormes)         : PASSE
+        -> contenu 4000 car., 4 fiches, 2 dossiers
+   l'habillage (entete explicative) tient dans sa part                  : PASSE
+        -> entete = 647 car., part reservee = 1200 car.
+   (e) sur des fiches enormes, le texte injecte reste sous le plafond   : PASSE
+        -> injecte : 4156 car. (plafond dur 5200). Les fiches d'essai pesent ~100 000 car.
+   (e) jamais plus de 4 fiches lues dans un message                     : PASSE
+        -> fiches lues dans cet essai : 2
+   (e) jamais plus de 2 tiroirs ouverts dans un message                 : PASSE
+        -> tiroirs ouverts : 1
+   (e) une fiche coupee le DIT (elle n'a pas l'air complete)            : PASSE
+        -> et elle dit ou trouver le fichier ENTIER, qui n'est jamais touche
+   (e) avec un budget serre a 300 car., le plafond tient encore         : PASSE
+        -> injecte : 983 car.
+
+==========================================================================================
+6) AUCUNE FONCTION N'ECRIT DANS LA BIBLIOTHEQUE   [point (f)]
+==========================================================================================
+   Exigence de Fred : 'LECTURE SEULE ABSOLUE... On LIT, point.'
+   (f) le code du bras n'ecrit, ne renomme, n'efface RIEN (analyse du c : PASSE
+        -> 5 fonctions passees au crible : uniquement open(..., 'r'), os.scandir et os.path
+   (f) dans TOUT luciana.py, aucune ecriture sur DOSSIER_BIBLIOTHEQUE   : PASSE
+        -> 4 lignes mentionnent ce chemin, aucune n'ecrit
+   (f) PREUVE REELLE : apres 6 lectures, pas un fichier change          : PASSE
+        -> 10 fichiers : memes noms, memes tailles, memes dates
+   (f) aucun fichier n'a ete AJOUTE dans la bibliotheque                : PASSE
+        -> 10 fichiers avant, 10 apres
+   (f) aucun outil ne permet a l'IA de modifier la bibliotheque         : PASSE
+        -> il n'y a aucune entree 'biblio...' dans la table OUTILS
+
+==========================================================================================
+7) LES VERROUS 1 A 5 SONT-ILS INTACTS ?   [point (g)]
+==========================================================================================
+   Fred : 'Ne pas toucher aux verrous 1 a 5 : ils viennent d'etre poses et valides.'
+   (g) verrou 1 (plafonds / etat de tri) : les 9 reperes sont la        : PASSE
+        -> noter_un_vrai_tri, etat_de_tri, avertissement_etat_de_tri, refus_si_en_tri, MEMOIRE_CARACTERES_MAX, SOUVENIRS_TOUJOURS_E
+   (g) verrou 2 (regles en double) : les 2 reperes sont la              : PASSE
+        -> regles_qui_se_repetent, _DOUBLONS_CACHE
+   (g) verrou 3 (la preuve avant la parole) : les 2 reperes sont la     : PASSE
+        -> _faits_sans_preuve, _annotation_sans_preuve
+   (g) verrou 4 (nommage et rangement) : les 1 reperes sont la          : PASSE
+        -> dossier_du_projet
+   (g) verrou 5 (la cible obligatoire) : les 1 reperes sont la          : PASSE
+        -> ligne_de_cible
+   (g) les briques reutilisees (non touchees) : les 7 reperes sont la   : PASSE
+        -> _mots_cles, _sans_accents, _MOTS_VIDES, _carnets_pertinents, _souvenirs_pertinents, _index_carnets, rappel_automatique
+   (g) les plafonds de la v102 ont EXACTEMENT les memes chiffres        : PASSE
+        -> 24000 / 12000 / 2000 / 3000 : pas un chiffre bouge. Le budget des tiroirs est A PART.
+   (g) le rappel automatique existant n'est PAS remplace, il reste en p : PASSE
+        -> les deux partent ensemble dans l'entete, comme Fred l'a demande
+   (g) PREUVE MOT POUR MOT : les verrous 1 a 5 sont identiques a la v10 : PASSE
+        -> 22 morceaux compares caractere par caractere, aucun n'a bouge
+   (g) dans repondre(), AUCUNE ligne de la v102 n'a disparu             : PASSE
+        -> on n'a fait qu'AJOUTER : 0 lignes en plus, 0 en moins
+   (g) le badge de version et LISEZMOI.txt n'ont pas ete touches par ce : PASSE
+        -> aucune ligne de ce chantier ne les modifie (a verifier aussi avec 'git diff --stat')
+
+==========================================================================================
+LE VERDICT
+==========================================================================================
+   verifications PASSEES     : 59
+   verifications EN ECHEC    : 6
+   points PAS VERIFIABLES ici: 0
+
+   CE QUI RATE (a lire, pas a contourner) :
+     - repondre() appelle bien _biblio_pertinente(...) -- c'est le PROGRAMME qui va lire le tiroir, pas un outil que l'IA appelle
+     - on retrouve bien la construction de blocs_systeme dans repondre() -- derniere ligne ou blocs_systeme est construit : 0
+     - (b) l'ecriture dans messages[-1] se fait APRES la fermeture du bloc systeme -- lignes d'insertion dans messages[-1] : [] (fermeture ligne 0)
+     - (b) 'entete' (qui porte les tiroirs) n'est LUE qu'apres la fermeture -- lignes ou entete est lue : [] (fermeture ligne 0)
+     - (b) detail_biblio est bien utilise, et seulement apres son calcul -- references a detail_biblio dans repondre() : lignes []
+     - (b) meme canal que l'avertissement de tri de la v102 (messages[-1]) -- l'avertissement de tri (v102) et les tiroirs (v103) voyagent ensemble, hors cache
+
+   VERDICT : NON. La v103 NE DOIT PAS etre posee tant que les points ci-dessus ratent.

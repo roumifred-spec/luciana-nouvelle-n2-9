@@ -1,0 +1,170 @@
+======================================================================================
+1) py_compile SUR LE VRAI FICHIER DU DEPOT
+======================================================================================
+   fichier : C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\luciana.py
+   taille  : 1193572 octets
+   OK : py_compile passe (le fichier est du Python valide).
+
+======================================================================================
+0) CE QUI EXISTAIT DEJA AVANT CE CHANTIER (verifie, pas devine)
+======================================================================================
+   Recherche de 'EST_QUESTION', 'reponse_de_fond', 'pas repondu' comme MECANISME :
+     - 'EST_QUESTION'      : absent du fichier
+     - 'reponse_de_fond'   : absent du fichier
+   Ce qui existait DEJA et qui est REUTILISE (pas refait) :
+   le mecanisme v94 du message aux deux bouts existait deja           : OUI
+   le verrou de tour v96 (_verrou_tour) existait deja                 : OUI
+   la ligne 'Memoire : ...' de la v97 existait deja                   : OUI
+
+======================================================================================
+2) (a) LE REPERE EST-IL COURT, ET BIEN A LA FIN DU MESSAGE DE FRED ?
+======================================================================================
+   Le repere, mot pour mot (144 caracteres) :
+      FRED TE CORRIGE OU T'EXPLIQUE : ta reponse doit contenir une REPONSE (accord argumente, desaccord argumente, ou plan), jamais une prise de note.
+   le repere fait MOINS de 250 caracteres                             : OUI
+   le repere dit bien 'FRED TE CORRIGE OU T'EXPLIQUE'                 : OUI
+   le repere exige une REPONSE                                        : OUI
+   le repere interdit la prise de note                                : OUI
+   le repere nomme les trois formes attendues                         : OUI
+   les phrases de correction / question de Fred declenchent bien le r : OUI
+   un ordre simple ou un message automatique ne declenche RIEN        : OUI
+   un message automatique (il commence par '[') n'est jamais pris pou : OUI
+   la fonction _repondre_tour a bien ete retrouvee                    : OUI
+   le repere est colle APRES le rappel de la v94 (donc tout a la fin) : OUI
+   meme chose quand Fred envoie une photo (dernier bloc de la liste)  : OUI
+   le repere est pose AVANT que les reperes de cache soient poses     : OUI
+
+======================================================================================
+3) (b) LE CONTROLE DE FIN DE TOUR -- LA VRAIE _repondre_tour() EST EXECUTEE ICI
+======================================================================================
+   dossier d'essai (efface a la fin, rien n'est ecrit chez Fred) : C:\Users\Fred\AppData\Local\Temp\verif_v99_qv_87usi
+
+   --- SCENARIO 1 : Fred CORRIGE, et elle ne fait QUE prendre note -> doit etre REFUSE
+   le tour a bien ete RELANCE (3 appels au cerveau au lieu de 2)      : OUI
+   l'ordre du programme 'reponds sur le fond' est bien parti au cerve : NON  <<<<<< ECHEC
+   l'ordre dit clairement que la prise de note n'est PAS une reponse  : NON  <<<<<< ECHEC
+   la prise de note n'a PAS ete envoyee a Fred                        : OUI
+   c'est bien la VRAIE reponse de fond qui est partie a Fred          : OUI
+   ce qui etait deja range reste range (l'outil n'est pas annule)     : OUI
+   le journal garde la trace du refus (preuve, pas impression)        : OUI
+
+   --- SCENARIO 2 : relancee, elle prend note une 2e fois -> UNE SEULE relance, et Fred est averti
+   le cerveau a ete appele 4 fois : UNE seule relance, pas deux       : OUI
+   l'ordre de relance n'a ete pose QU'UNE SEULE fois (pas de boucle)  : OUI
+   le message part QUAND MEME (il n'est pas avale)                    : OUI
+   Fred est averti, noir sur blanc, que rien n'a ete repondu          : OUI
+
+   --- SCENARIO 3 : Fred pose une question et elle utilise un VRAI outil -> AUCUNE relance
+   aucune relance : 2 appels, comme avant le chantier                 : OUI
+   sa reponse part telle quelle                                       : OUI
+
+   --- SCENARIO 4 : un ORDRE simple (pas une question) + prise de note -> AUCUNE relance
+   aucune relance sur un ordre de rangement : c'est la BONNE reponse  : OUI
+   sa reponse part telle quelle                                       : OUI
+
+   --- SCENARIO 5 : Fred pose une question, elle repond SANS outil -> AUCUNE relance
+   repondre sans aucun outil reste permis (1 seul appel)              : OUI
+   sa reponse part telle quelle                                       : OUI
+
+   --- SCENARIO 6 : une reponse COUPEE (max_tokens) n'est jamais relancee par-dessus
+   une panne deja dite franchement n'est pas empilee avec une relance : OUI
+   l'avertissement 'reponse coupee' est bien conserve                 : OUI
+
+   --- LA LISTE DES OUTILS DE RANGEMENT (exactement celle demandee par Fred)
+   ce sont bien ces 5 outils, et aucun autre                          : OUI
+   ['retenir'] = que du rangement                                     : OUI
+   ['retenir','consigne'] = que du rangement                          : OUI
+   ['retenir','lire_mails'] = il y a un VRAI outil -> pas de relance  : OUI
+   [] (aucun outil) -> pas de relance (repondre sans outil est permis : OUI
+   l'outil 'carnet_chantier' est bien dans la liste                   : OUI
+   l'outil 'consigne' est bien dans la liste                          : OUI
+   l'outil 'mettre_a_jour_souvenir' est bien dans la liste            : OUI
+   l'outil 'retenir' est bien dans la liste                           : OUI
+   l'outil 'sujet_a_eviter' est bien dans la liste                    : OUI
+
+   --- LE CODE DU CONTROLE, RELU DANS LE FICHIER (pas de boucle possible)
+   la relance est bornee : 'if relance_faite:' puis 'relance_sans_eff : OUI
+   'relance_faite = True' est pose AVANT d'ajouter l'ordre de relance : OUI
+   le controle ne s'applique QUE si Fred attend une reponse           : OUI
+   le controle regarde les outils de CETTE tentative seulement (pas t : OUI
+   le compte des outils est fait sur une liste de NOMS a part (outils : OUI
+
+======================================================================================
+4) (c) LE COMPTEUR 'TU NE M'AS PAS REPONDU' : il monte, il s'affiche, il se remet a zero
+======================================================================================
+   le compteur part de 0 (aucun fichier encore)                       : OUI
+   'tu ne m'as pas repondu' fait monter le compteur a 1               : OUI
+   'tu es a cote de la plaque' le fait monter a 2                     : OUI
+   'c'est pas ca' le fait monter a 3                                  : OUI
+   un message normal ne le fait PAS monter                            : OUI
+   un message automatique du programme ne le fait PAS monter          : OUI
+   la ligne affichee a l'ecran, mot pour mot :
+      Reponses a cote : 3 fois ou tu as dit que je n'avais pas repondu (la derniere le 03/10/2026 a 22h49).
+   la ligne affiche bien le chiffre 3                                 : OUI
+   la ligne dit la date de la derniere fois                           : OUI
+   la ligne passe en orange quand le compteur n'est pas a 0           : OUI
+   le chiffre est ECRIT SUR LE DISQUE (il survit a un F5 et a un rede : OUI
+   la remise a zero marche                                            : OUI
+   apres la remise a zero, le compteur est bien a 0                   : OUI
+   l'ancien chiffre n'est pas efface en douce (il est garde, date)    : OUI
+   le compteur remonte apres une remise a zero                        : OUI
+
+   --- LE COMPTEUR EST-IL BRANCHE DANS LE PROGRAMME ET DANS LA PAGE ?
+   le programme le compte LUI-MEME a la reception du message de Fred  : OUI
+   il part a la page, a cote de la mesure de la memoire               : OUI
+   la page a bien un endroit pour l'afficher (#lignePasRepondu)       : OUI
+   il est affiche JUSTE a cote de la ligne 'Memoire : ...'            : OUI
+   il a le MEME style que la ligne 'Memoire : ...' (petit, discret, o : OUI
+   la page le remplit vraiment (lignePasRepEl.textContent)            : OUI
+   l'action de remise a zero existe cote page (un clic sur la ligne)  : OUI
+   le serveur repond a cette action                                   : OUI
+   le cadre d'etat s'affiche aussi s'il n'y a QUE cette ligne         : OUI
+
+======================================================================================
+5) RIEN D'AUTRE N'A BOUGE
+======================================================================================
+
+   --- LES REPERES DE CACHE SONT-ILS TOUJOURS AU MEME ENDROIT ? (verifie sur ce qui PART)
+   le bloc systeme porte toujours le repere de cache 1 heure          : OUI
+   la fin du prompt (consignes du moment) n'est toujours PAS mise en  : OUI
+   le repere de cache 1 heure est toujours sur l'avant-dernier messag : OUI
+   le repere v99 est le TOUT DERNIER texte envoye au cerveau          : OUI
+   il arrive bien APRES le rappel de la v94 (le message de Fred aux d : OUI
+   l'entete 'ORDRE DE FRED' de la v94 est toujours en tete du dernier : OUI
+   la numerotation des messages de la v95 est toujours la             : OUI
+   la relance reutilise le cache (meme repere 1 h sur le bloc systeme : OUI
+   la relance n'a pas touche au bloc systeme (meme texte)             : OUI
+   la relance n'ajoute QUE deux messages a la fin (sa reponse + l'ord : OUI
+
+   --- LE PLAFOND DE MEMOIRE DE LA v97 EST-IL INTACT ?
+   le plafond global est toujours 24 000 caracteres                   : OUI
+   le budget des carnets est toujours 12 000 au plus                  : OUI
+   un projet ne part jamais vide (minimum 2 000)                      : OUI
+   le calcul du budget de la v97 est inchange (min / max / plafond gl : OUI
+   ce qui est deja en memoire est toujours compte de la meme facon    : OUI
+   la mesure reelle de la memoire est toujours ecrite (_MESURE_MEMOIR : OUI
+   la ligne 'Memoire : ...' est toujours fabriquee pareil             : OUI
+
+   --- LES AUTRES ACQUIS (on n'y a pas touche)
+   v93 : l'index des carnets est toujours la                          : OUI
+   v94 : le message de Fred aux deux bouts est toujours la            : OUI
+   v95 : le verrou d'envoi de la barre de saisie est intact           : NON  <<<<<< ECHEC
+   v95 : la numerotation des messages est intacte                     : OUI
+   v96 : le verrou d'un tour a la fois est intact                     : OUI
+   v96 : un tour qui plante enregistre toujours la phrase de Fred     : OUI
+   v97 : le carnet de consignes est intact                            : OUI
+   v98 : l'interrupteur unique de communication est intact            : OUI
+   la dictee n'a pas ete touchee (le micro et le mains-libres sont la : OUI
+   le badge de version annonce bien la v99                            : OUI
+
+   --- AUCUN AUTRE DEPOT / DOSSIER DE FRED N'EST TOUCHE
+   ce chantier n'ecrit rien dans C:\Users\Fred\Lumi                   : OUI
+   ce chantier n'ecrit rien dans C:\Users\Daniela\Luminita            : OUI
+   ce chantier n'ecrit rien dans C:\Users\Fred\Desktop\Lumi_appli     : OUI
+
+======================================================================================
+RESULTAT : 3 VERIFICATION(S) EN ECHEC. A LIRE, PAS A CONTOURNER :
+   - l'ordre du programme 'reponds sur le fond' est bien parti au cerveau
+   - l'ordre dit clairement que la prise de note n'est PAS une reponse
+   - v95 : le verrou d'envoi de la barre de saisie est intact
+======================================================================================

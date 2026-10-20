@@ -1,0 +1,38 @@
+REPERE DE VERSION - SI TU VOIS CE FICHIER, LA v128 EST BIEN SUR GITHUB
+=====================================================================
+
+Date de ce depot : 07/10/2026, 03h10
+Depose par       : Luciana, pour Fred
+
+CE QU'IL Y A DANS CE DOSSIER
+----------------------------
+luciana.py                     1 418 869 octets   <-- LA v128 (celle qui tourne)
+reglage_memoire_sens.json      seuil = 0.55, actif = true, budget 15000
+reglage_allegement.json
+reglage_rangement_journee.json
+reglage_voyants.json
+Demarrer Luciana.bat
+LISEZMOI.txt
+
+COMMENT RECONNAITRE LA v128 DE LA v124
+---------------------------------------
+v124  = 1 407 747 octets   (elle n'a PAS la memoire par sens)
+v128  = 1 418 869 octets   (elle A la memoire par sens, moteur charge a 02h24)
+
+Les deux affichent "1.35 MB" sur GitHub : la taille affichee ne suffit PAS
+a les distinguer. C'est pour ca que ce fichier-repere existe.
+
+PREUVE QUE LA v128 TOURNE (lue sur le disque de Fred)
+-----------------------------------------------------
+C:\Users\Fred\Luciana\controle_memoire_sens.jsonl
+  - 02:24:35  "moteur pret", paraphrase-multilingual-MiniLM-L12-v2, 384 dim
+  - 02:25:46  un vrai message de Fred : par_le_sens = true,
+              50 passages ramenes, 15 039 caracteres,
+              meilleurs scores 0,643 / 0,62 / 0,605 / 0,601 / 0,60
+
+SEUIL REGLE A 0,55 le 07/10/2026
+--------------------------------
+Motif : sur les six messages mesures, le 5e meilleur score ne descendait
+jamais sous 0,60 avec le seuil a 0,4 -> le seuil ne mordait jamais.
+0,55 garde les cinq meilleurs et coupe la queue.
+Ne prend effet qu'au demarrage de Luciana (le fichier de reglage est lu au lancement).

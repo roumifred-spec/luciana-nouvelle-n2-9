@@ -1,0 +1,4 @@
+{
+  "rangement_journee_actif": true,
+  "_a_quoi_ca_sert": "true = le rangement automatique de la journee est allume : au-dela de 150 000 caracteres, Luciana choisit les tiroirs de sa bibliotheque et le programme y range la journee mot pour mot, jusqu'a redescendre a environ 70 000 caracteres. Les 25 derniers messages ne sont jamais ranges. luciana_memoire.json n'est NI reecrit NI raccourci : il reste complet. La taille est aussi mesuree sur ce qui part VRAIMENT au cerveau (contenu + journal des outils + notes), et plus seulement sur le contenu brut. false = on retrouve EXACTEMENT la v110 : aucun rangement, aucun tiroir ajoute dans le message, et l'ancienne mesure (le contenu brut seul) pour le garde-fou de 150 000 caracteres. Il faut relancer Luciana apres avoir change ce fichier."
+}

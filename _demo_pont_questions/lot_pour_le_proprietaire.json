@@ -1,0 +1,33 @@
+{
+  "_a_quoi_ca_sert": "LE LOT DE QUESTIONS POSE AU PROPRIETAIRE, D'UN SEUL COUP. Ce fichier REMPLACE le precedent : il n'y a jamais deux lots en meme temps. Les reponses redescendent ensuite jusqu'aux fiches, et les fiches sont rangees.",
+  "quand": "2026-10-12 14:16:24",
+  "en_attente_de_reponse": false,
+  "combien_dans_ce_lot": 3,
+  "combien_attendent_encore": 0,
+  "questions": [
+    {
+      "numero": 1,
+      "repere": "essai2#3dcf004fd4e5b22d",
+      "ou_elle_est": "Divers / A trier",
+      "question": "Ce souvenir : « Deuxieme jeu, chose 2, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))",
+      "depuis": "2026-10-12 14:16:24"
+    },
+    {
+      "numero": 2,
+      "repere": "essai2#fca295e78a0f935e",
+      "ou_elle_est": "Divers / A trier",
+      "question": "Ce souvenir : « Deuxieme jeu, chose 3, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))",
+      "depuis": "2026-10-12 14:16:24"
+    },
+    {
+      "numero": 3,
+      "repere": "essai2#1aa82541adc7f317",
+      "ou_elle_est": "Divers / A trier",
+      "question": "Ce souvenir : « Deuxieme jeu, chose 4, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))",
+      "depuis": "2026-10-12 14:16:24"
+    }
+  ],
+  "texte_tel_qu_il_est_pose": "J'ai mis de cote 3 chose(s) que je n'arrive pas a classer toute seule, et je te les demande TOUTES EN UNE SEULE FOIS — comme ca tu n'y reviens qu'une fois, et je ne te coupe pas vingt fois dans ta journee.\nReponds a celles que tu veux. Celles que tu laisses de cote restent exactement ou elles sont, rien n'est perdu.\nComment repondre :\n  - une ligne par question, le numero devant : « 1) ... »\n  - pour ranger ailleurs, finis la ligne par : RAYON: LeRayon / LeTiroir\n  - si le rayon propose convient, reponds simplement, sans RAYON:\n  - si tu n'as pas l'information, ecris « je ne sais pas »\n  - un numero que tu laisses de cote reste exactement ou il est : rien n'est perdu\n1) Ce souvenir : « Deuxieme jeu, chose 2, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))\n2) Ce souvenir : « Deuxieme jeu, chose 3, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))\n3) Ce souvenir : « Deuxieme jeu, chose 4, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))",
+  "pose_a_l_ecran_le": "2026-10-12 14:16:24",
+  "repondu_le": "2026-10-12 14:16:24"
+}

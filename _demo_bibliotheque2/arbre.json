@@ -1,0 +1,121 @@
+{
+  "Vehicules": {
+    "Voitures": [
+      {
+        "texte": "J'ai achete une voiture rouge, une Clio, en 2016.",
+        "filtres": {
+          "date": "2016",
+          "qui": [],
+          "ou": "",
+          "objet": "voiture rouge",
+          "type": "achat"
+        },
+        "resume": "Clio rouge achetee en 2016.",
+        "confiance": 0.9,
+        "en_suspens": false,
+        "pourquoi_en_suspens": "",
+        "source": "souvenirs",
+        "repere": "souvenirs#436c436298880464",
+        "filtre": "Achat",
+        "sous_filtre": "Voiture rouge",
+        "etiquette": "Vehicules — Voitures — Achat — Voiture rouge — Clio rouge achetee en 2016"
+      }
+    ]
+  },
+  "Famille": {
+    "Ma fille": [
+      {
+        "texte": "Ma fille est nee en 2009, un mardi matin.",
+        "filtres": {
+          "date": "2009",
+          "qui": [
+            "ma fille"
+          ],
+          "ou": "",
+          "objet": "",
+          "type": "evenement"
+        },
+        "resume": "Naissance de ma fille en 2009.",
+        "confiance": 0.9,
+        "en_suspens": false,
+        "pourquoi_en_suspens": "",
+        "source": "souvenirs",
+        "repere": "souvenirs#827895a746904bcf",
+        "filtre": "Evenement",
+        "sous_filtre": "Ma fille",
+        "etiquette": "Famille — Ma fille — Evenement — Naissance de ma fille en 2009"
+      }
+    ]
+  },
+  "Sante": {
+    "Rendez-vous": [
+      {
+        "texte": "Rendez-vous chez le docteur Martin a Lyon le 2 mars.",
+        "filtres": {
+          "date": "",
+          "qui": [
+            "Dr Martin"
+          ],
+          "ou": "Lyon",
+          "objet": "",
+          "type": "medical"
+        },
+        "resume": "RDV chez le Dr Martin a Lyon.",
+        "confiance": 0.8,
+        "en_suspens": false,
+        "pourquoi_en_suspens": "",
+        "source": "conversation",
+        "repere": "conversation#b1dccaa4d67385c0",
+        "filtre": "Medical",
+        "sous_filtre": "Dr Martin",
+        "etiquette": "Sante — Rendez-vous — Medical — Dr Martin — RDV chez le Dr Martin a Lyon — Lyon"
+      }
+    ]
+  },
+  "Gouts": {
+    "Cuisine": [
+      {
+        "texte": "Je n'aime pas du tout le gout de la coriandre.",
+        "filtres": {
+          "date": "",
+          "qui": [],
+          "ou": "",
+          "objet": "coriandre",
+          "type": "gout"
+        },
+        "resume": "Fred n'aime pas la coriandre.",
+        "confiance": 0.4,
+        "en_suspens": true,
+        "pourquoi_en_suspens": "l'IA hésite (confiance 0.40, repère 0.55) : la fiche reste dans « Gouts / Cuisine », marquée en suspens",
+        "source": "conversation",
+        "repere": "conversation#9626a1627fd61c19",
+        "filtre": "Gout",
+        "sous_filtre": "Coriandre",
+        "etiquette": "Gouts — Cuisine — Gout — Coriandre — Fred n'aime pas la coriandre"
+      }
+    ]
+  },
+  "Informatique": {
+    "Memoire de Luciana": [
+      {
+        "texte": "Informatique > Memoire > curseur : le curseur de sortie est regle a 0,35 dans curseur.txt.",
+        "filtres": {
+          "date": "",
+          "qui": [],
+          "ou": "",
+          "objet": "curseur de sortie",
+          "type": "reglage"
+        },
+        "resume": "Le curseur de sortie est a 0,35.",
+        "confiance": 0.9,
+        "en_suspens": false,
+        "pourquoi_en_suspens": "",
+        "source": "bibliotheque",
+        "repere": "bibliotheque#1900662184d24d0e",
+        "filtre": "Reglage",
+        "sous_filtre": "Curseur de sortie",
+        "etiquette": "Informatique — Memoire de Luciana — Reglage — Curseur de sortie — Le curseur de sortie est a 0,35"
+      }
+    ]
+  }
+}

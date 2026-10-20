@@ -1,0 +1,107 @@
+=====================================================================
+ CE QUE LUCIANA DOIT LANCER, DANS L'ORDRE — CHANTIER v155
+ (le menu des cerveaux : DeepSeek RAPIDE part, la cascade reste entiere)
+=====================================================================
+
+Le code est DEJA ecrit dans luciana.py, dans le dossier du chantier.
+Rien n'a ete execute, rien n'a ete pose chez Fred, rien n'a ete teste,
+rien n'a ete compile, rien n'a ete sauvegarde. C'est TOI qui executes.
+Dans cet ordre, et pas dans un autre.
+
+DECISION DE FRED (09/10/2026, 13h27), ses mots exacts :
+  "on garde TROIS cerveaux : DeepSeek reflechi, Claude Sonnet, Claude
+   Opus 5.5. DeepSeek RAPIDE part, il le trouve trop nul."
+  (Pour Luminita, chantier plus tard : NE PAS TOUCHER a roumifred-spec/lumi.)
+
+---------------------------------------------------------------------
+ETAPE 0 — RELEVER LES DEUX POINTS DU FICHIER D'AVANT (avant tout)
+---------------------------------------------------------------------
+Sur le PC de Fred, sur le luciana.py QUI TOURNE AUJOURD'HUI, releve ses
+DEUX points et garde-les :
+
+   powershell -c "(Get-Item luciana.py).Length"
+   powershell -c "(Get-FileHash luciana.py -Algorithm SHA256).Hash"
+
+Ces deux chiffres, c'est TOI qui les as. Je ne les ai pas inventes et je
+ne les ai pas devines.
+
+Pour information : dans le dossier de chantier, AVANT la moindre ecriture
+de la v155, luciana.py faisait 2 127 061 octets et la pointe du depot
+etait le commit 0f9c0a6, arbre de travail propre (verifie, pas suppose).
+
+---------------------------------------------------------------------
+ETAPE 1 — LA SAUVEGARDE DATEE (jamais sauter cette etape)
+---------------------------------------------------------------------
+   python _faire_la_sauvegarde_v155_menu_des_cerveaux.py <taille> <empreinte>
+
+(les deux arguments sont ceux de l'etape 0 ; sans eux le script fait
+quand meme la sauvegarde mais il DIT qu'il n'a pas pu comparer)
+
+Ce script sort le programme d'AVANT de l'historique git (commit 0f9c0a6)
+et l'ecrit sous :
+   SAUVEGARDE_luciana_v154_avant_v155_menu_des_cerveaux_2026-10-09.py
+Il NE copie PAS luciana.py : a ce stade luciana.py est deja la v155, le
+copier donnerait une sauvegarde qui mentirait sur son nom.
+Il refuse d'ecraser une sauvegarde qui existe deja, et il verifie EN PLUS
+que le fichier sorti contient bien encore le menu d'AVANT (les six
+<option>, dont "DeepSeek Flash (rapide)").
+
+   -> Si ce script dit RATE : ON S'ARRETE LA. Pas de sauvegarde, pas de pose.
+
+---------------------------------------------------------------------
+ETAPE 2 — LE CONTROLE (zero appel paye, zero fichier de Fred touche)
+---------------------------------------------------------------------
+   python _verif_v155_menu_des_cerveaux.py
+
+Il ne lance PAS Luciana et il n'importe PAS luciana.py. Il decoupe le
+VRAI code (la table des cerveaux, le menu, lire_cerveau, les options de
+reflexion) et il le fait tourner dans un dossier temporaire jetable.
+Il appelle les vraies fonctions de decision sur des valeurs d'essai :
+tous les contenus possibles de cerveau.txt, y compris les cerveaux
+retires et les contenus abimes.
+
+Ce qu'il surveille le plus, parce que c'est l'interdiction de Fred :
+que la CASCADE DE REPLI soit entiere. "deepseek-flash-rapide" doit
+toujours etre dans la table technique, toujours en reflexion coupee, et
+les deux cascades (le tri du tour, le rangement de la journee) doivent
+toujours retomber dessus.
+
+   -> Tant qu'une ligne est ROUGE, le chantier n'est pas fini. Envoie le
+      resultat a Fred tel quel, sans l'arrondir.
+
+---------------------------------------------------------------------
+ETAPE 3 — LA POSE CHEZ FRED, PUIS SES YEUX
+---------------------------------------------------------------------
+Une fois les deux etapes ci-dessus vertes :
+  1) pose luciana.py chez Fred ;
+  2) relance Luciana, F5 sur la page ;
+  3) OUVRE LE MENU "Cerveau" en haut : il doit contenir TROIS lignes,
+     et trois seulement :
+         DeepSeek Flash (reflechi)
+         Chaleureux 5.5 (nouveau)
+         Vif
+     "DeepSeek Flash (rapide)", "Chaleureux" et "Eclair" n'y sont plus.
+
+---------------------------------------------------------------------
+LES DEUX CHOSES A DIRE A FRED, SANS LES CACHER
+---------------------------------------------------------------------
+1) SI SON cerveau.txt CONTENAIT ENCORE UN CERVEAU RETIRE (par exemple
+   "DeepSeek Flash (rapide)", "Chaleureux" ou "Eclair"), Luciana repart
+   sur DeepSeek Flash (reflechi) : c'est le moins cher des trois, et
+   c'est le seul choix qui ne fait pas MENTIR la page (un cerveau que le
+   menu ne sait plus afficher aurait continue a repondre en douce).
+   Si Fred prefere un autre des trois, un clic dans le menu suffit.
+
+2) LE BADGE DE LA PAGE AFFICHE ENCORE v154. Fred a dit "le badge est
+   deja v155, ne le change pas" : il n'a donc PAS ete touche. Mais sur
+   le fichier reel, il est ecrit v154. C'est a Fred de dire s'il veut
+   qu'on le passe a v155 ; ce n'est pas fait.
+
+---------------------------------------------------------------------
+CE QUI N'A PAS ETE TOUCHE (volontairement)
+---------------------------------------------------------------------
+ - la table CERVEAUX : ses SIX entrees, aux memes prix, inchangees ;
+ - les quatre etages des cascades (lecteur de sens et rangement) ;
+ - LISEZMOI.txt : ce chantier n'a qu'un seul objet, et ce n'etait pas ca ;
+ - le badge de la page ;
+ - le depot de Luminita (roumifred-spec/lumi) : zero fichier.

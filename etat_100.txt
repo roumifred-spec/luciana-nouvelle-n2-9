@@ -1,0 +1,28 @@
+---DEPOT--- 
+11fb53f Luciana : === LIGNE DE CIBLE (OBLIGATOIRE, A VERIFIER EN PREMIER) === (#37)
+---DOSSIER-TRAVAIL--- 
+ Le volume dans le lecteur C n’a pas de nom.
+ Le numéro de série du volume est B49F-12D2
+
+ Répertoire de C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75
+
+05/10/2026  14:12         1 386 200 luciana.py
+               1 fichier(s)        1 386 200 octets
+               0 Rép(s)  415 324 385 280 octets libres
+---SERVICE--- 
+ Le volume dans le lecteur C n’a pas de nom.
+ Le numéro de série du volume est B49F-12D2
+
+ Répertoire de C:\Users\Fred\Desktop\luciana_v96\luciana_v96
+
+04/10/2026  21:47         1 230 330 luciana.py
+               1 fichier(s)        1 230 330 octets
+               0 Rép(s)  415 324 381 184 octets libres
+---HASH-DEPOT--- 
+Hachage MD5 de _depot_HEAD.py :
+247015a32a0d38072259536e9dd47dc0
+CertUtil: -hashfile La commande s’est terminée correctement.
+---HASH-SERVICE--- 
+Hachage MD5 de C:\Users\Fred\Desktop\luciana_v96\luciana_v96\luciana.py :
+690cd28226025bc913306d5cd1951e03
+CertUtil: -hashfile La commande s’est terminée correctement.

@@ -1,0 +1,9 @@
+Occurrences du badge 'ton amie &middot; v162' : 1
+Octets du fichier avant : 2168342
+Sauvegarde faite : C:\Users\Fred\Desktop\Luciana_v161_memoire2_curseur\SAUVEGARDE_2026-10-12_14h42_luciana_v162_AVANT_badge_163.py
+Taille de la sauvegarde : 2168342 octets
+Octets du fichier apres : 2168342
+Nombre d'octets qui DIFFERENT dans tout le fichier : 1
+VERIF en relisant : le fichier contient-il encore v162 dans le badge ? False
+VERIF en relisant : le fichier contient-il bien v163 dans le badge ? True
+TERMINE.

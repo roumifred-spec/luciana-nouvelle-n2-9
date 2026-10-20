@@ -1,0 +1,64 @@
+=== LES MOTS CHERCHES PAR LE BANC, DANS TOUT LE FICHIER ===
+  Divers         : 3 fois
+  doute          : 78 fois
+  SUJET          : 63 fois
+  hierarchique   : 0 fois
+  sujet          : 365 fois
+  hierarchie     : 0 fois
+
+=== LA VRAIE CONSIGNE DE RANGEMENT (telle qu'ecrite dans le code) ===
+CONSIGNE_DE_RANGEMENT_PLAN = (
+    "LES 5 REGLES DE FRED POUR RANGER, A SUIVRE A LA LETTRE :\n"
+    "1. JAMAIS de tiroir par defaut, JAMAIS de fourre-tout 'Divers' ou 'Autres'. Dans le doute, "
+    "ON NE RANGE PAS.\n"
+    "2. UN TIROIR NEUF NE S'INVENTE PAS. Soit tu prends un tiroir du plan, soit tu nommes le "
+    "tiroir neuf EN SUIVANT la logique de nom ecrite d'avance pour sa categorie. Rien d'autre.\n"
+    "3. TU CHOISIS PAR LE MOT ET PAR LE SUJET : le mot seul ne suffit pas. Un mot qui traine dans "
+    "la phrase ne designe pas un tiroir si le passage ne parle pas du sujet de ce tiroir.\n"
+    "4. LA BIBLIOTHEQUE EST HIERARCHIQUE : 'rayon' = une CATEGORIE du plan, 'dossier' = un de ses "
+    "tiroirs. Recopie-les mot pour mot.\n"
+    "5. DOUTE = DEMANDE. Si tu n'arrives pas a trancher, n'invente rien : ecris la ligne sous la "
+    "forme {\"de\": 3, \"a\": 5, \"doute\": \"ce que tu n'arrives pas a trancher\"} (sans rayon ni "
+    "dossier). Ce passage sera mis de cote et montre a Fred. C'est mille fois mieux qu'un mauvais "
+    "tiroir range en silence.")
+
+
+def _nom_de_tiroir_refuse(nom):
+    """Rend la raison du refus, ou "" si le nom est bon."""
+    t = _sans_accents(str(nom or "")).strip()
+    if not t:
+        return "un nom de tiroir est vide"
+    if t in _NOMS_DE_TIROIR_INTERDITS:
+        return "'%s' n'est pas un sujet, c'est un fourre-tout" % nom
+    if _NOM_DE_TIROIR_DATE.search(t):
+        return ("'%s' COMMENCE par une date (du genre 06/10, '6 octobre', 'octobre 2026') : un "
+                "tiroir se nomme par son sujet. Mets le sujet devant ; une date plus loin dans le "
+                "nom ne pose aucun probleme" % nom)
+    return ""
+
+
+# =====================================================================
+#  LE CODE D'ECRITURE DE LA BIBLIOTHEQUE, REPRIS DE LA v89 (commit 5f8bd4e), SANS LE REECRIRE.
+#  Il a deja tourne chez Fred et il a cree la bibliotheque du 02/10 : on ne le reinvente pas.
+#  Format inchange : index.json {"rayons": {slug: {"nom","resume","dossiers": {slug: {"nom",
+#  "resume","fiches": {...}}}}}} et les fichiers bibliotheque/<rayon>/<dossier>/<fiche>.md.
+#  Ecriture sure (.tmp + os.replace) et anciennes versions gardees dans anciennes_versions/.
+#  SEULE DIFFERENCE AVEC LA v89 : l'index est lu et ecrit a l'endroit que la v110 connait deja
+#  (FICHIER_INDEX_BIBLIOTHEQUE), pour qu'il n'y ait qu'UN SEUL index, celui qui existe.
+# =====================================================================
+DOSSIER_BIBLIO = os.path.join(DOSSIER, "bibliotheque")
+DOSSIER_BIBLIO_VERSIONS = os.path.join(DOSSIER_BIBLIO, "anciennes_versions")
+FICHIER_JOURNAL_BIBLIO = os.path.join(DOSSIER_BIBLIO, "journal_bibliotheque.jsonl")
+_verrou_biblio = threading.Lock()
+
+
+def _slug(nom):
+    s = re.sub(r"[^a-z0-9]+", "-", _sans_accents(str(nom or "")).strip()).strip("-")
+    return s[:60] or "sans-nom"
+
+
+def charger_index_biblio():
+    d = _charger_json_sur(FICHIER_INDEX_BIBLIOTHEQUE, {})
+    if not isinstance(d, dict):
+        d = {
+=== fin de l'extrait (position 1144733) ===

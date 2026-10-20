@@ -1,0 +1,38 @@
+﻿
+  ESSAI DE « COMPRENDRE LA SITUATION » (vrai cerveau ; rien n'est ecrit, sa bibliotheque n'est pas touchee).
+
+  « Et maintenant, elle les a comment ? »
+     compris : Le message parle de : comment les cheveux de la fille de la personne qui parle sont maintenant. Quand : maintenant.
+     -> JUSTE
+  « Est-ce que j'ai pris mon cachet ce matin ? »
+     compris : Le message parle de : La personne demande si elle a pris son cachet ce matin.. Quand : moment (du 2026-10-20 au 2026-10-20). Ca touche au VITAL.
+     -> JUSTE
+  « Qu'est-ce qu'on a fait hier sur le trading ? »
+     compris : Le message parle de : Ce qui a été fait hier sur le trading.. Quand : moment (du 2026-10-19 au 2026-10-19).
+     -> JUSTE
+  « Elles en sont ou, les positions ? »
+     compris : Le message parle de : l'état actuel des huit positions prises hier sur TradingView par Fred sur le compte démo. Quand : maintenant (du 2026-10-19 au 2026-10-19).
+     -> JUSTE
+  « Raconte-moi toute la vie de ma fille »
+     compris : Le message parle de : La vie de la fille de la personne qui écrit, depuis sa naissance jusqu'à maintenant.. Quand : histoire.
+     -> JUSTE
+  « Et lui, il pense que c'est grave ? »
+     compris : Le message parle de : Ce que le docteur Martin pense de la gravité de l'état de Fred après le changement de son traitement. Quand : maintenant. Ca touche au VITAL.
+     -> JUSTE
+  « Le 2 octobre, on avait parle de quoi ? »
+     compris : Le message parle de : La personne demande de quoi on avait parlé le 2 octobre.. Quand : moment (du 2026-10-02 au 2026-10-02).
+     -> JUSTE
+  « Et ca ? »
+     compris : Le message parle de : La personne demande « et ça ? » sans qu'on sache a quoi elle fait reference.. Quand : maintenant. Si rien ne repond, une question possible : « A quoi est-ce que « ça » fait reference ? ».
+     -> JUSTE
+  « Ce am facut ieri cu Luminita? »
+     compris : Le message parle de : Ce que la personne a fait hier avec Luminita.. Quand : moment (du 2026-10-19 au 2026-10-19).
+     -> JUSTE
+  « Bonjour Luciana ! »
+     compris : Le message parle de : Bonjour Luciana !. Quand : maintenant.
+     -> JUSTE
+  « Comment ca a evolue avec Satisfaire depuis septembre ? »
+     compris : Le message parle de : L'évolution de la relation ou de la situation avec Satisfaire depuis septembre.. Quand : histoire (du 2026-09-01 au 2026-09-01).
+     -> JUSTE
+
+  RESULTAT : 11 juste(s) sur 11.

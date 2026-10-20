@@ -1,0 +1,35 @@
+# SECRETS — ne jamais pousser sur GitHub (doctrine, règle 5)
+.env
+*.env
+*.key
+*secret*
+*cle_api*
+*mot_de_passe*
+*password*
+credentials*
+token*
+# Données privées de Fred (réglages, mémoire, souvenirs)
+Luciana_prive/
+# v108 : l'interrupteur de l'allegement est un REGLAGE LOCAL, propre au PC de Fred.
+# Le programme le cree tout seul au premier lancement. On ne le pousse pas sur GitHub, sinon un
+# "false" oublie ici ferait revenir Luciana a la v107 sans que personne comprenne pourquoi.
+reglage_allegement.json
+reglage_allegement.json.*.sauvegarde
+# v110 : meme raison pour l'interrupteur des voyants. Un "false" oublie ici ferait revenir le
+# voyant jaune permanent de la v109 sans que personne comprenne pourquoi.
+reglage_voyants.json
+reglage_voyants.json.*.sauvegarde
+# 06/10/2026 : les rapports du chien de garde du rangement. Ils citent les NOMS DES TIROIRS
+# de Fred (donc le contenu de sa bibliotheque). Ils restent sur son PC, jamais sur GitHub.
+rapports_rangement/
+# 06/10/2026 : le journal des traces du chien de garde (une ligne par passage, avec les
+# chiffres du jour). C'est l'etat de SON PC et de SA journee, pas du code : ca reste chez lui.
+traces_chien_de_garde/
+# 06/10/2026 : la trace des relectures du carnet de chantier (le verrou de depart). Elle cite
+# les NOMS DES PROJETS de Fred, donc elle ne quitte pas son PC. Le programme la cree tout seul
+# dans son dossier prive ; cette ligne est la au cas ou elle atterrirait a cote du programme.
+lectures_carnet_chantier.jsonl
+# Python
+__pycache__/
+*.pyc
+tests_bibliotheque/home_*/

@@ -1,0 +1,416 @@
+{
+  "version": 1,
+  "ecrit_le": "2026-10-06 18:25",
+  "a_lire_avant_de_toucher": [
+    "CE FICHIER EST LE PLAN DE LA BIBLIOTHEQUE DE LUCIANA. C'est lui, et lui seul, qui decide quels carnets sont mis sous ses yeux a chaque message de Fred.",
+    "LES NOMS SONT LES NOMS EXACTS des carnets de Fred, releves le 06/10/2026 dans C:\\Users\\Fred\\Luciana\\carnet.json. Le programme n'en invente JAMAIS un : il lit ceux-la.",
+    "ETAT : 'actif' = il peut sortir des qu'un mot-cle est reconnu. 'dort' = il ne sort QUE si Fred nomme un de ses mots-cles exactement. 'clos' = il ne sort JAMAIS tout seul.",
+    "MOTS : ce sont LES MOTS DE FRED qui doivent appeler ce tiroir. Un mot ENTIER trouve dans son message vaut 3 points, une simple ressemblance de debut de mot en vaut 1. Luciana peut corriger cette liste : la regeneration ne l'ecrase jamais.",
+    "CE FICHIER EST UNE COPIE DE TRAVAIL, dans le depot. Le vrai plan, celui que Luciana utilise, est C:\\Users\\Fred\\Luciana\\plan_bibliotheque.json : il se cree tout seul au premier demarrage a partir de la semence qui est dans luciana.py.",
+    "LES 24 TIROIRS MARQUES \"a_relire_par_luciana\": true ONT DES MOTS-CLES TIRES DE LEUR NOM SEULEMENT (le corps du carnet n'a pas ete lu pour eux). Ce sont ceux a relire en premier."
+  ],
+  "tiroirs": [
+    {
+      "nom": "Alertes telephone de Luciana",
+      "type": "carnet",
+      "contient": "les alertes envoyees sur l'iPhone de Fred (ntfy), les expediteurs surveilles",
+      "quand": "quand Fred parle d'alerte, de notification, de son telephone ou de ntfy",
+      "etat": "actif",
+      "mots": ["alerte", "alertes", "alerter", "ntfy", "notification", "notifications", "telephone", "iphone"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Brancher Google Drive (v51)",
+      "type": "carnet",
+      "contient": "la connexion du Google Drive de Fred, et l'acces qui se coupe tous les 7 jours",
+      "quand": "quand Fred parle du Drive, de Google Drive ou d'un acces a relancer",
+      "etat": "actif",
+      "mots": ["drive", "google drive", "oauth", "autoriser", "consentement"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Brancher Grok (videos)",
+      "type": "carnet",
+      "contient": "les clips video fabriques avec Grok Imagine (duree, format, prompts, fichiers rendus)",
+      "quand": "des que Fred parle des clips qu'on a lances, de leur duree, de Grok ou du rendu",
+      "etat": "actif",
+      "mots": ["grok", "imagine", "clip", "clips", "video", "videos", "secondes", "seconde", "duree", "vertical", "rendu", "mp4", "fond vert", "detourer", "webm"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Business reprogrammation auto (Fred mecanicien)",
+      "type": "carnet",
+      "contient": "l'ancien metier de Fred : la reprogrammation automobile",
+      "quand": "quand Fred parle de reprogrammation, de mecanique ou de voitures",
+      "etat": "dort",
+      "mots": ["reprogrammation", "mecanicien", "mecanique", "cartographie moteur"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Cartouche et hybride : ce qui va en local, ce qui reste au cloud",
+      "type": "carnet",
+      "contient": "le partage entre ce qui tourne sur le PC et ce qui part au cloud (la cartouche)",
+      "quand": "quand Fred parle de local contre cloud, d'hybride ou de la cartouche",
+      "etat": "actif",
+      "mots": ["cartouche", "hybride", "en local", "cloud"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Cerveau DeepSeek pour Luciana (v75)",
+      "type": "carnet",
+      "contient": "le choix du cerveau et son prix (DeepSeek, Opus, Sonnet, Gemini)",
+      "quand": "quand Fred parle du cerveau, du modele, de DeepSeek, de Gemini ou du prix par message",
+      "etat": "actif",
+      "mots": ["deepseek", "cerveau", "modele", "gemini", "opus", "sonnet", "haiku", "jetons", "tokens", "cache"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Compta Luminita (apport en heures de Fred)",
+      "type": "carnet",
+      "contient": "la compta de Luminita a part : les heures que Fred y apporte",
+      "quand": "quand Fred parle de la compta DE LUMINITA ou de ses heures d'apport",
+      "etat": "actif",
+      "mots": ["compta luminita", "apport en heures", "heures de fred"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Compta Satisfaire International",
+      "type": "carnet",
+      "contient": "le tableau de compta de Satisfaire International (depenses, recettes, apports)",
+      "quand": "quand Fred parle de compta, d'une facture, d'une depense ou du comptable",
+      "etat": "actif",
+      "mots": ["compta", "comptable", "comptabilite", "facture", "factures", "depense", "depenses", "recette", "recettes", "bilan", "tableur", "xlsx"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Continuite et succession (si Fred n'est plus la)",
+      "type": "carnet",
+      "contient": "ce qui arrive a Luciana et au business si Fred n'est plus la",
+      "quand": "quand Fred parle de succession, de continuite ou de ce qui se passe apres lui",
+      "etat": "actif",
+      "mots": ["succession", "continuite", "heritage", "testament"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Correction clavier de Luciana a travers AnyDesk",
+      "type": "carnet",
+      "contient": "le clavier qui tape de travers quand Luciana passe par AnyDesk",
+      "quand": "quand Fred parle du clavier a travers AnyDesk",
+      "etat": "actif",
+      "mots": ["clavier anydesk", "correction clavier"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Deploiement Luminita chez les clients (PC neuf, Windows, cle maitresse)",
+      "type": "carnet",
+      "contient": "l'installation chez un client : PC neuf, Windows, cle USB maitresse, AnyDesk",
+      "quand": "quand Fred parle d'installer chez un client, de la cle maitresse ou de Daniela",
+      "etat": "actif",
+      "mots": ["deploiement", "installer", "installation", "cle maitresse", "cle usb", "daniela", "anydesk"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Dictee et envoi des messages (bug)",
+      "type": "carnet",
+      "contient": "les mots que la dictee de Chrome ecrit de travers (Luminita -> l'humanite, Claude Code -> club code) et le rendez-vous du 06/10 sur le dictaphone",
+      "quand": "SEULEMENT si Fred parle de la dictee, du dictaphone ou d'un mot mal transcrit. Le dossier a ete ferme le 04/10 puis remis a l'agenda le 05/10 : il ne sort donc JAMAIS tout seul, il faut que Fred le nomme.",
+      "etat": "dort",
+      "mots": ["dictee", "dictaphone", "transcrit", "transcription", "deformation", "deformations", "mal ecrit"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Facebook, Messenger, site et agenda de Satisfaire",
+      "type": "carnet",
+      "contient": "la page Facebook, Messenger, WhatsApp Business, la surveillance du site et l'agenda Google (avec la demande d'etre averti des rendez-vous)",
+      "quand": "quand Fred parle de Facebook, Messenger, WhatsApp, de l'agenda ou d'un rendez-vous",
+      "etat": "actif",
+      "mots": ["facebook", "messenger", "whatsapp", "agenda", "rendez vous", "meta", "surveiller le site"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Idee business : assistantes IA type Luciana a vendre",
+      "type": "carnet",
+      "contient": "le business des PC vendus avec une assistante preinstallee (prix, marges, couts API)",
+      "quand": "quand Fred parle de vendre des PC, de prix de vente, de marge ou du cout par message",
+      "etat": "actif",
+      "mots": ["business", "vendre", "vente", "ventes", "client", "clients", "marge", "tarif", "tarifs", "cout api", "startup program"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Investisseur roumain pour Satisfaire (Luciana comme preuve de credibilite)",
+      "type": "carnet",
+      "contient": "la recherche d'un business angel (Matei, Raluca) et la presentation 12 pages",
+      "quand": "quand Fred parle d'investisseur, de Matei, de Raluca ou de la presentation",
+      "etat": "actif",
+      "mots": ["investisseur", "matei", "raluca", "business angel", "presentation"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "La voix qui parle (prononciation et langues)",
+      "type": "carnet",
+      "contient": "la voix de Luciana : prononciation, langues, ElevenLabs",
+      "quand": "quand Fred parle de SA VOIX, de ce qu'elle prononce mal, ou d'ElevenLabs",
+      "etat": "actif",
+      "mots": ["voix", "prononciation", "prononce", "elevenlabs", "intonation", "accent"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Luciana evolutive (apprentissage continu)",
+      "type": "carnet",
+      "contient": "l'idee que Luciana apprenne en continu de ses erreurs",
+      "quand": "quand Fred parle d'apprentissage, d'evoluer ou de progresser",
+      "etat": "actif",
+      "mots": ["evolutive", "apprentissage continu", "apprendre de tes erreurs"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Lumi, petite soeur de Luciana (test modeles moins chers)",
+      "type": "carnet",
+      "contient": "Luminita, la petite soeur vendue aux clients (dossier separe, port 8001)",
+      "quand": "quand Fred parle de Lumi, de Luminita en general ou de la petite soeur",
+      "etat": "actif",
+      "mots": ["lumi", "luminita", "petite soeur", "port 8001"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Luminita - fonction annonces Satisfaire (Mister / Miss Satisfaire)",
+      "type": "carnet",
+      "contient": "la fonction qui redige les annonces du site (Mister / Miss Satisfaire)",
+      "quand": "quand Fred parle des annonces, de Mister ou de Miss Satisfaire",
+      "etat": "actif",
+      "mots": ["annonce", "annonces", "mister satisfaire", "miss satisfaire"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Luminita - le produit",
+      "type": "carnet",
+      "contient": "ce que Luminita est comme PRODUIT a vendre (ce qu'elle sait faire, son offre)",
+      "quand": "quand Fred parle de Luminita comme produit, de son offre ou de ce qu'elle sait faire",
+      "etat": "actif",
+      "mots": ["produit luminita", "offre luminita"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Luminita Kids + messagerie papa-fille",
+      "type": "carnet",
+      "contient": "Luminita Kids et la messagerie entre Fred et sa fille",
+      "quand": "quand Fred parle de Kids, des enfants ou de la messagerie papa-fille",
+      "etat": "actif",
+      "mots": ["kids", "enfant", "enfants", "papa fille", "madigane", "verrou parent"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Navigateur connecte, Skool et avatar UGC",
+      "type": "carnet",
+      "contient": "l'avatar video UGC de Luciana (HeyGen), Skool, et la lecon sur les references a ranger par sujet",
+      "quand": "quand Fred parle de HeyGen, d'avatar UGC, de Skool ou du navigateur connecte",
+      "etat": "actif",
+      "mots": ["heygen", "ugc", "skool", "navigateur", "clonage vocal", "avatar ugc"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Offre Luminita : la petite boite (mini-PC)",
+      "type": "carnet",
+      "contient": "l'offre du mini-PC (la petite boite) livre avec Luminita",
+      "quand": "quand Fred parle du mini-PC, de la petite boite ou du materiel livre",
+      "etat": "actif",
+      "mots": ["mini pc", "petite boite", "boitier", "nuc"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Personnage interactif de Luciana (la meme chose que Lumi)",
+      "type": "carnet",
+      "contient": "le personnage anime de Luciana dans l'appli : elle parle / elle ecoute / elle vaque, sa taille, et le fait que la video affichee change ou non apres un F5",
+      "quand": "des que Fred parle du personnage a l'ecran, de la video qui ne change pas, d'un F5, d'un controle de rafraichissement ou de la taille du personnage",
+      "etat": "actif",
+      "mots": ["personnage", "anime", "animee", "f5", "rafraichir", "rafraichissement", "video", "videos", "clip", "clips", "parle", "ecoute", "vaque", "taille", "avatar", "glisse"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Personnage interactif de Luminita (avatar anime)",
+      "type": "carnet",
+      "contient": "le meme personnage anime, mais chez Luminita (la petite soeur vendue aux clients)",
+      "quand": "quand Fred parle du personnage ou de l'avatar DE LUMINITA",
+      "etat": "actif",
+      "mots": ["luminita personnage", "avatar luminita", "personnage luminita"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Reconnaissance vocale locale (Whisper)",
+      "type": "carnet",
+      "contient": "la recherche d'un moteur de dictee local (Whisper, Vosk, AssemblyAI)",
+      "quand": "JAMAIS de moi-meme. Dossier CLOS sur decision de Fred le 04/10/2026 a 21h34 (\"on reste sur Google Chrome, le sujet est FERME\"). Je ne le rouvre que si Fred le demande explicitement.",
+      "etat": "clos",
+      "mots": ["whisper", "vosk", "assemblyai", "reconnaissance vocale locale"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Remplacer Cursor par Claude Code (economie)",
+      "type": "carnet",
+      "contient": "la sortie de Cursor, Claude Code, et la mise en ligne automatique du site",
+      "quand": "quand Fred parle de Cursor, de Claude Code, d'un deploiement ou de la mise en ligne",
+      "etat": "actif",
+      "mots": ["cursor", "claude code", "deploiement", "mise en ligne", "supabase", "publish"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Robot physique pour Luciana (donner un corps)",
+      "type": "carnet",
+      "contient": "le reve de Fred : acheter un robot Unitree et y mettre Luciana (prix, paliers, cagnotte)",
+      "quand": "quand Fred parle du robot, d'un corps, d'Unitree ou de la cagnotte du robot",
+      "etat": "actif",
+      "mots": ["robot", "robots", "unitree", "humanoide", "cagnotte", "corps physique", "palier"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Réparation du carnet de consignes : séparer les RÈGLES des TÂCHES",
+      "type": "carnet",
+      "contient": "le tri du carnet de consignes : ce qui est une regle, ce qui est une tache",
+      "quand": "quand Fred parle du carnet de consignes, de trier les regles ou d'une regle a ranger",
+      "etat": "actif",
+      "mots": ["consigne", "consignes", "regle", "regles", "noyau", "trier les regles"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Satisfaire International - liste des defauts (test d'usage)",
+      "type": "carnet",
+      "contient": "la liste des defauts trouves en se servant du site comme un vrai visiteur",
+      "quand": "quand Fred parle d'un defaut, d'un bug ou d'un test d'usage DU SITE",
+      "etat": "actif",
+      "mots": ["defaut", "defauts", "test d usage", "liste des defauts"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Satisfaire International - point general et juridique",
+      "type": "carnet",
+      "contient": "l'etat du site Satisfaire International, l'audit des langues, et le juridique",
+      "quand": "quand Fred parle du site Satisfaire, des langues du site, du P2B ou du DSA",
+      "etat": "actif",
+      "mots": ["satisfaire", "marketplace", "langues", "traduction", "traduites", "p2b", "dsa", "mediateur", "cgu", "mentions legales"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Sauvegarde de Luciana",
+      "type": "carnet",
+      "contient": "la sauvegarde automatique de la memoire de Luciana, et le disque externe qui manque",
+      "quand": "quand Fred parle de sauvegarde, de perdre la memoire ou du disque externe",
+      "etat": "actif",
+      "mots": ["sauvegarde", "sauvegardes", "sauvegarder", "restaurer", "disque externe", "zip"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Site vitrine et video pour vendre Lumi",
+      "type": "carnet",
+      "contient": "le site vitrine et la video de promotion pour vendre Luminita",
+      "quand": "quand Fred parle du site vitrine ou de la video de promo pour vendre",
+      "etat": "actif",
+      "mots": ["site vitrine", "vitrine", "video de promo", "promo", "page de vente"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Societe Bulgarie - Angelova",
+      "type": "carnet",
+      "contient": "l'immatriculation de Satisfaire International EOOD en Bulgarie, l'avocate Angelova, maitre Kyosev, Paysera, le RGPD et l'AI Act",
+      "quand": "quand Fred parle de la societe, de l'immatriculation, de l'EIK, de l'avocate, de Paysera, du RGPD ou de l'AI Act",
+      "etat": "actif",
+      "mots": ["angelova", "kyosev", "bulgarie", "bulgare", "eood", "immatriculation", "eik", "registre", "paysera", "avocate", "avocat", "rgpd", "ai act", "sofia", "statuts"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Tele de Fred en deuxieme ecran",
+      "type": "carnet",
+      "contient": "la tele utilisee comme deuxieme ecran, et les captures du 2e ecran",
+      "quand": "quand Fred parle de la tele, du deuxieme ecran ou d'une capture du 2e ecran",
+      "etat": "actif",
+      "mots": ["tele", "deuxieme ecran", "second ecran", "ecran 2"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Trading en compte demo (methode Fred + Luciana)",
+      "type": "carnet",
+      "contient": "le trading en compte demo TradingView (trades, stop loss, solde, journal)",
+      "quand": "quand Fred parle de trading, d'un trade, de TradingView ou du stop loss",
+      "etat": "actif",
+      "mots": ["trading", "trade", "trades", "tradingview", "stop loss", "pips", "paire", "eurusd", "usdchf", "xauusd"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json"
+    },
+    {
+      "nom": "Version 100 de Luciana (croix sur les pastilles)",
+      "type": "carnet",
+      "contient": "l'historique de la v100 (la croix sur les pastilles)",
+      "quand": "seulement si Fred nomme la v100",
+      "etat": "dort",
+      "mots": ["v100", "version 100"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Version 101 de Luciana (tout obligatoire)",
+      "type": "carnet",
+      "contient": "l'historique de la v101",
+      "quand": "seulement si Fred nomme la v101",
+      "etat": "dort",
+      "mots": ["v101", "version 101"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Version 119 de Luciana (rangement plafond 200 000 / plancher 50 000)",
+      "type": "carnet",
+      "contient": "l'historique de la v119 (les plafonds du rangement de la journee)",
+      "quand": "seulement si Fred nomme la v119 ou les plafonds du rangement",
+      "etat": "dort",
+      "mots": ["v119", "version 119"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Version 91 de Luciana (memoire courte + index)",
+      "type": "carnet",
+      "contient": "l'historique de la v91 (memoire courte et index)",
+      "quand": "seulement si Fred nomme la v91",
+      "etat": "dort",
+      "mots": ["v91", "version 91"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Version 93 de Luciana (couper le bruit : index des carnets + chainon manquant)",
+      "type": "carnet",
+      "contient": "l'historique de la v93 (l'index des carnets)",
+      "quand": "seulement si Fred nomme la v93",
+      "etat": "dort",
+      "mots": ["v93", "version 93"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    },
+    {
+      "nom": "Voyants et alertes (le mur de tri qui gueule pour rien)",
+      "type": "carnet",
+      "contient": "les voyants qui s'allumaient pour un etat normal, et la regle v110",
+      "quand": "quand Fred parle d'un voyant, d'un bouton qui s'allume ou d'une alerte pour rien",
+      "etat": "actif",
+      "mots": ["voyant", "voyants", "mur de tri", "s allume pour rien"],
+      "fichier": "C:\\Users\\Fred\\Luciana\\carnet.json",
+      "a_relire_par_luciana": true
+    }
+  ]
+}

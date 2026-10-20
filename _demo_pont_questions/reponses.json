@@ -1,0 +1,39 @@
+{
+  "_a_quoi_ca_sert": "LES QUESTIONS DEJA TRANCHEES, et par qui. La verite vit DANS les fiches de la bibliotheque ; ce fichier est une trace lisible, pour pouvoir relire l'histoire des decisions. Il REMPLACE le precedent, il ne s'empile pas.",
+  "quand": "2026-10-12 14:16:24",
+  "combien": 4,
+  "tranchees": [
+    {
+      "repere": "essai2#016997631ba228dc",
+      "ou": "Divers / A trier",
+      "question": "Ce souvenir : « Deuxieme jeu, chose 1, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))",
+      "reponse": "c'est un souvenir de famille, le rayon propose convient",
+      "par": "l_assistante",
+      "quand": "2026-10-12 14:16:24"
+    },
+    {
+      "repere": "essai2#fca295e78a0f935e",
+      "ou": "Divers / A trier",
+      "question": "Ce souvenir : « Deuxieme jeu, chose 3, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))",
+      "reponse": "c'est pour le garage",
+      "par": "le_proprietaire",
+      "quand": "2026-10-12 14:16:24"
+    },
+    {
+      "repere": "essai2#cad288f4646e58f8",
+      "ou": "Maison / Cave",
+      "question": "Ce souvenir : « Deuxieme jeu, chose 0, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))",
+      "reponse": "c'est le vieux compresseur, RAYON: Maison / Cave",
+      "par": "l_assistante",
+      "quand": "2026-10-12 14:16:24"
+    },
+    {
+      "repere": "essai2#3dcf004fd4e5b22d",
+      "ou": "Maison / Cuisine",
+      "question": "Ce souvenir : « Deuxieme jeu, chose 2, a trancher. »\nDans quel rayon ce souvenir doit-il aller ? Je l'ai pose dans « Divers / A trier » en attendant, pour ne pas le perdre.\n(ce qui m'a fait hesiter : l'IA n'a propose aucun rayon (rangé dans « Divers / A trier », à trancher))",
+      "reponse": "ca va dans la cuisine, RAYON: Maison / Cuisine",
+      "par": "le_proprietaire",
+      "quand": "2026-10-12 14:16:24"
+    }
+  ]
+}

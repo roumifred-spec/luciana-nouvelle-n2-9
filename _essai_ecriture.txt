@@ -1,0 +1,3 @@
+Fichier d'essai, cree le 09/10/2026 pour verifier si l'ecriture de fichiers etait possible
+dans ce chantier (elle l'est ; la COPIE d'un fichier existant, non). Il ne sert a rien :
+a supprimer. La session n'a pas eu le droit de le supprimer elle-meme.

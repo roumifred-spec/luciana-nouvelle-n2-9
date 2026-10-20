@@ -1,0 +1,9 @@
+luciana.py contient DEJA les marqueurs du chantier v104 (le panneau discret) : le copier ne
+donnerait pas la version d'avant. Je la ressors donc du commit d10e06c (HEAD au debut
+du chantier, git status '(clean)')...
+Sauvegarde ecrite pour de vrai : C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\2026-10-05_12h35_luciana_v103_sauvegarde_avant_panneau_discret.py (1326589 octets, sha256 32672cb7632acce1)
+Controle : les 6 reperes de la v103 sont bien dans la copie.
+Controle : aucun marqueur du chantier v104 dans la copie. C'est bien l'AVANT.
+C'est la version d'AVANT le panneau discret (la v103 posee). luciana.py, lui, n'a pas ete
+touche par ce script. Le controle _verif_v104_panneau_discret.py s'en sert pour comparer
+AVANT / APRES et prouver que rien d'autre n'a bouge.

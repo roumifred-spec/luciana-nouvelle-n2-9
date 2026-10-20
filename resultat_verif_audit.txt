@@ -1,0 +1,174 @@
+==========================================================================================
+0) LE FICHIER EXAMINE, ET SA SANTE
+==========================================================================================
+   fichier : C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\luciana.py
+   taille  : 1173308 octets, 18332 lignes
+   py_compile : le fichier est du Python valide                           : PASSE
+   toutes les pieces attendues existent dans le fichier                   : PASSE
+        -> 23 pieces retrouvees
+   bac a sable (dossier temporaire) : C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\_bac_verif_audit_v98_i7ow_l2_
+
+==========================================================================================
+1) L'INTERRUPTEUR EXISTE, IL EST UNIQUE, ET IL EST ETEINT A LA NAISSANCE
+==========================================================================================
+   au depart (aucun fichier de reglages sur le disque), l'interrupteur es : PASSE
+        -> le fichier n'existe pas encore, et communication_activee() = False
+   quand on l'allume, l'interrupteur dit ALLUME                           : PASSE
+   quand on l'eteint, l'interrupteur dit ETEINT                           : PASSE
+  ATTENTION : C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\_bac_verif_audit_v98_i7ow_l2_\suivi_correspondance.json etait abime. Copie gardee intacte : C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\_bac_verif_audit_v98_i7ow_l2_\suivi_correspondance.json.ABIME-20261003-220551
+   un fichier de reglages ABIME laisse l'interrupteur ETEINT (jamais allu : PASSE
+  ATTENTION : C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\_bac_verif_audit_v98_i7ow_l2_\suivi_correspondance.json etait abime. Copie gardee intacte : C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\_bac_verif_audit_v98_i7ow_l2_\suivi_correspondance.json.ABIME-20261003-220551
+
+==========================================================================================
+2) ETEINT : (a) AUCUNE PASTILLE D'AUDIT N'EST CREEE
+==========================================================================================
+   ETEINT : le carnet du veilleur reste VIDE (rien n'a pu s'ecrire)       : PASSE
+        -> 0 ligne(s) : []
+   ETEINT : le carnet du tour reste VIDE (rien n'a pu s'ecrire)           : PASSE
+        -> 0 ligne(s) : []
+   ETEINT : pastille_communication() ne rend AUCUNE pastille              : PASSE
+        -> rendu = None
+   personne n'ecrit dans les carnets d'audit en dehors des 4 fonctions co : PASSE
+        -> trouve : _noter_pour_luciana (l.8628), _suivi_a_dire_ajouter (l.10352), a_dire_suivi (l.10376), a_dire_veilleur (l.8714)
+   _noter_pour_luciana() refuse d'ecrire quand l'interrupteur est eteint  : PASSE
+        -> garde lue dans le fichier, lignes 8628-8649
+   _suivi_a_dire_ajouter() refuse d'ecrire quand l'interrupteur est etein : PASSE
+        -> garde lue dans le fichier, lignes 10352-10373
+   Messenger n'ecrit plus en direct dans le carnet (il passe par la fonct : PASSE
+        -> c'etait la derniere porte de service : une ecriture a la main, hors du verrou
+   ETEINT : meme avec de VIEILLES lignes deja sur le disque, AUCUNE pasti : PASSE
+        -> rendu = None
+   ETEINT : et ces vieilles lignes ne sont PAS effacees en douce (rien n' : PASSE
+        -> veilleur = 1 ligne(s), tour = 1 ligne(s)
+
+==========================================================================================
+3) ETEINT : (b) AUCUNE LIGNE D'AUDIT N'EST AJOUTEE AU CONTEXTE DU CERVEAU
+==========================================================================================
+   le mot 'audit' n'arrive dans le contexte qu'a travers pastille_communi : PASSE
+        -> la ligne d'audit est ecrite a un seul endroit : c'est verifiable
+   v98 : la ligne d'audit est gardee par communication_activee() AVANT d' : PASSE
+        -> garde trouvee dans texte_travaux_en_cours (lignes 5663-5740 du fichier)
+   et l'ingredient de cette ligne est bien None quand c'est eteint (donc  : PASSE
+   la garde est ecrite TELLE QUELLE dans le fichier en service (une seule : PASSE
+        -> 1 occurrence(s)
+   ETEINT : ce vrai bout de code rend comm = None, donc AUCUNE ligne d'au : PASSE
+        -> comm = None
+
+==========================================================================================
+4) ETEINT : (c) LE VEILLEUR NE PRODUIT AUCUN COMPTE-RENDU
+==========================================================================================
+   ETEINT : le veilleur des mails rend 0 et n'ouvre AUCUNE boite          : PASSE
+        -> rendu = 0
+   ETEINT : un clic sur une vieille pastille n'envoie RIEN au cerveau (ca : PASSE
+        -> cadre = ''
+   ETEINT : et il n'affiche aucun compte-rendu (texte vide)               : PASSE
+        -> texte = ''
+   ETEINT : le carnet n'a pas ete vide en douce par ce clic (rien n'est p : PASSE
+        -> 1 ligne(s) restante(s)
+        -> ce que la boucle des 5 minutes appelle VRAIMENT : _vider_attente_alertes, print, rappels_agenda_une_fois, sleep, str, surveiller_sites_une_fois
+   le regard des 5 minutes n'appelle PLUS veiller_mails_une_fois()        : PASSE
+        -> lu par 'ast' dans _boucle_veilleur (lignes 10617-10650)
+   le regard des 5 minutes n'appelle PLUS veiller_messenger_une_fois()    : PASSE
+        -> lu par 'ast' dans _boucle_veilleur (lignes 10617-10650)
+   le regard des 5 minutes n'appelle PLUS veiller_commentaires_facebook_u : PASSE
+        -> lu par 'ast' dans _boucle_veilleur (lignes 10617-10650)
+   la condition piegee 'if not suivi_actif' a DISPARU de la boucle des 5  : PASSE
+   ce qui reste dans la boucle des 5 minutes : les sites de Fred (ca, on  : PASSE
+   ce qui reste dans la boucle des 5 minutes : ses rappels de rendez-vous : PASSE
+   ce qui reste dans la boucle des 5 minutes : les alertes telephone en a : PASSE
+
+==========================================================================================
+5) ETEINT : (d) L'ETAT ETEINT SURVIT A UN REDEMARRAGE
+==========================================================================================
+   l'interrupteur est ecrit SUR LE DISQUE (pas seulement en memoire)      : PASSE
+        -> contenu de suivi_correspondance.json : { "actif": false, "minutes": 60, "calme_debut": 22, "calme_fin": 7, "max_par_heure": 3, "dernier_passage": 0, "vus_mails": {}, "vus_agenda": {}, "mode": "point", "tours":
+   APRES REDEMARRAGE : l'interrupteur est relu sur le disque et il est to : PASSE
+        -> communication_activee() = False
+   APRES REDEMARRAGE : toujours aucune pastille d'audit                   : PASSE
+   APRES REDEMARRAGE : le veilleur n'arrive toujours pas a ecrire une lig : PASSE
+        -> 1 ligne(s) (la vieille, pas une nouvelle)
+   APRES REDEMARRAGE : si Fred l'avait ALLUME, il est toujours ALLUME (le : PASSE
+
+==========================================================================================
+6) ALLUME : TOUT REMARCHE COMME AVANT
+==========================================================================================
+   ALLUME : le carnet du veilleur s'ecrit a nouveau                       : PASSE
+        -> 1 ligne(s)
+   ALLUME : le carnet du tour s'ecrit a nouveau                           : PASSE
+        -> 2 ligne(s)
+   ALLUME : la pastille d'audit revient                                   : PASSE
+        -> titre de la pastille : Audit de communication fait : 2 nouveautes a te dire
+   ALLUME : la pastille compte le VRAI neuf (1 mail + 1 ligne 'neuf' = 2) : PASSE
+        -> neuf = 2
+   ALLUME : et elle compte le tour de garde a part (pas un mensonge)      : PASSE
+        -> rondes = 1
+   ALLUME : elle annonce bien 'Audit de communication fait'               : PASSE
+   ALLUME : le clic de Fred sort le compte-rendu (texte brut non vide)    : PASSE
+        -> 549 caracteres
+   ALLUME : et le cadre pour le cerveau dit bien que c'est FRED qui l'a d : PASSE
+   ALLUME : le compte-rendu contient le VRAI mail lu (rien d'invente)     : PASSE
+   ALLUME : et la vraie ligne du tour                                     : PASSE
+   ALLUME : apres le clic, les carnets sont vides (comme avant la v98 : m : PASSE
+        -> veilleur = 0, tour = 0
+   ALLUME : et plus de pastille, puisque Fred vient de tout lire          : PASSE
+
+==========================================================================================
+7) LA CASE SE DECOCHE VRAIMENT, MEME SI LE RESTE DU REGLAGE EST MAUVAIS
+==========================================================================================
+   on part bien d'un interrupteur ALLUME                                  : PASSE
+        -> reponse du programme : Je refuse 5 minutes : c'est trop souvent, ca te noierait d'alertes. Choisis 30, 60 ou 120 minutes.
+   la frequence de 5 minutes est bien REFUSEE (acquis v76 non casse)      : PASSE
+   MAIS l'interrupteur, lui, est passe a ETEINT quand meme (le choix de F : PASSE
+   meme chose avec un mode incomprehensible : il est refuse...            : PASSE
+   ...et la case est quand meme decochee                                  : PASSE
+   allumer repond OUI et allume                                           : PASSE
+        -> reponse du programme : Suivi de la communication ALLUME, un tour toutes les 60 minutes (silence de 22h a 7h, 3 alertes par heure au maximum, et aucun cerveau appele : le tou
+   eteindre repond OUI et eteint                                          : PASSE
+        -> reponse du programme : Suivi de la communication ETEINT, pour de bon : je ne fais plus aucun tour, je ne regarde plus tes mails ni Messenger ni les commentaires de ta page, je n'ecris plus une seule ligne d'audit, et aucune pastille d'audit ne peut apparaitre. Le regard qui passait 
+   le message d'extinction dit que le regard des 5 minutes est SUPPRIME   : PASSE
+        -> message rendu : Suivi de la communication ETEINT, pour de bon : je ne fais plus aucun tour, je ne regarde plus tes mails ni Messenger ni les commentaires de ta page, je n'ecris plus une seule ligne d'audit, et aucune
+   la vieille phrase mensongere n'est plus NULLE PART dans le fichier     : PASSE
+        -> c'est elle qui faisait croire a Fred que decocher ne servait a rien
+
+==========================================================================================
+8) CE QUI NE DOIT PAS AVOIR BOUGE (les acquis v93/v94/v95/v96/v97)
+==========================================================================================
+   toujours present : le plafond dur de la memoire (v97)                  : PASSE
+   toujours present : le plafond des consignes capitales (v97)            : PASSE
+   toujours present : le compteur 'Memoire :' affiche a l'ecran (v97)     : PASSE
+   toujours present : le carnet de consignes (v77/v97)                    : PASSE
+   toujours present : les consignes mises en repos (v97)                  : PASSE
+   toujours present : le message de Fred aux deux bouts (v94)             : PASSE
+   toujours present : l'index des carnets (v95)                           : PASSE
+   toujours present : les carnets choisis par les mots du message (v93)   : PASSE
+   toujours present : les souvenirs choisis par les mots du message (v97) : PASSE
+   toujours present : la dictee / la voix                                 : PASSE
+   toujours present : la barre de saisie qui s'agrandit (v96)             : PASSE
+   toujours present : le verrou d'envoi (v95)                             : PASSE
+   toujours present : l'alerte telephone d'un site en panne               : PASSE
+   toujours present : les rappels de rendez-vous                          : PASSE
+   toujours present : le tour de communication lui-meme (v79/v80)         : PASSE
+   toujours present : le compte-rendu quand FRED clique (v82)             : PASSE
+   page web : la phrase qui promettait les 5 minutes meme decoche a ete c : PASSE
+   page web : quand c'est decoche, la page dit maintenant que RIEN n'est  : PASSE
+   page web : le badge de version affiche v98                             : PASSE
+   page web : la case du panneau Cles est toujours la, et c'est la SEULE  : PASSE
+
+==========================================================================================
+RESULTAT
+==========================================================================================
+   77 verification(s) passee(s), 0 echec(s).
+
+   => Tout ce qui pouvait etre teste sans lancer l'application est bon :
+      ETEINT : aucune pastille, aucune ligne d'audit, aucun compte-rendu, aucun regard
+               sur les mails, et l'etat eteint survit au redemarrage.
+      ALLUME : carnets, pastille et compte-rendu au clic de Fred, comme avant.
+
+   Bac a sable laisse en place (on peut regarder dedans) : C:\Users\Fred\Desktop\Anciennes_versions_Luciana\luciana_v75\_bac_verif_audit_v98_i7ow_l2_
+   CE QUI N'EST PAS TESTE ICI, ET QUI NE PEUT L'ETRE QUE SUR LE PC DE FRED :
+     - la vraie page web dans Chrome (la case qui se decoche sous ses yeux et qui reste
+       decochee apres un F5 et apres un redemarrage) ;
+     - une vraie boite mail (aucune connexion IMAP n'est faite ici) ;
+     - les alertes sur son iPhone ;
+     - et le seul test qui compte vraiment : travailler 4 ou 5 heures avec elle sans qu'un
+       audit vienne se mettre entre eux.

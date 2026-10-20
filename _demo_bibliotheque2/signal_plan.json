@@ -1,0 +1,27 @@
+{
+  "_a_quoi_ca_sert": "LA REMONTEE DE L'ARCHIVISTE AU BIBLIOTHECAIRE. Des que l'archiviste cree un etage (categorie, sous-categorie, filtre ou sous-filtre), il l'ecrit ici, date. Le bibliothecaire lit ce fichier : il est au courant de tout. Ce fichier est REMPLACE a chaque fois, jamais empile.",
+  "quand": "2026-10-11 06:27:37",
+  "version_du_plan": 1,
+  "empreinte_du_plan": "630e3144192bd0d6",
+  "le_plan_a_change": false,
+  "combien_de_nouveautes": 0,
+  "nouveautes": [],
+  "nouveautes_non_listees": 0,
+  "chiffres_avant": {
+    "rayons": 5,
+    "sous_categories": 5,
+    "filtres": 5,
+    "sous_filtres": 5,
+    "fiches": 5,
+    "en_suspens": 1
+  },
+  "chiffres_apres": {
+    "rayons": 5,
+    "sous_categories": 5,
+    "filtres": 5,
+    "sous_filtres": 5,
+    "fiches": 5,
+    "en_suspens": 1
+  },
+  "pour_le_bibliothecaire": "Le plan de la bibliotheque est le meme qu'avant (version 1) : le bibliothecaire peut garder la carte qu'il connait."
+}
