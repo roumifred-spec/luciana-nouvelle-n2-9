@@ -1,6 +1,9 @@
 {
   "_a_quoi_ca_sert": "LES REGLAGES DES COULISSES DE LA NOUVELLE LUCIANA, ET NULLE PART AILLEURS. Relus a chaque message. RIEN N'EST JAMAIS COUPE : ces nombres limitent COMBIEN de choses on lui donne d'un coup, jamais leur longueur.",
 
+  "proprietaire": "",
+  "_proprietaire": "LE NOM DE CELUI A QUI EST CETTE LUCIANA, ecrit ICI et nulle part dans le code (c'est un produit a vendre). Vide = l'ancien comportement, rien ne change. Une mise a jour du programme ne doit JAMAIS ecraser ce nom : si cette ligne porte deja un nom, on la laisse telle quelle.",
+
   "fenetre_max_caracteres": 80000,
   "fenetre_apres_rangement": 50000,
   "_fenetre": "La conversation du jour qu'elle a sous les yeux (le meme bloc pour elle et le bibliothecaire). Au-dela de 80 000, l'archiviste range les plus vieux messages MOT POUR MOT jusqu'a 50 000.",

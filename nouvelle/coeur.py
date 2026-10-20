@@ -150,7 +150,8 @@ DEFAUT = {"fenetre_max_caracteres": 80000, "fenetre_apres_rangement": 50000,
           "cerveau_archiviste": "deepseek-flash", "apprentissage": True,
           "outils_proposes": 5, "outils_actifs_max": 10, "passage_caracteres": 1200,
           "bibliothecaire_plafond_secondes": 180, "relecture_des_regles": True,
-          "diviser_a_partir_de": 40, "bibliotheque_rangee": False}
+          "diviser_a_partir_de": 40, "bibliotheque_rangee": False,
+          "proprietaire": ""}
 
 
 def reglages():
@@ -161,6 +162,19 @@ def reglages():
             if k in d:
                 r[k] = d[k]
     return r
+
+
+def proprietaire(defaut="Fred"):
+    """LE NOM DU PROPRIETAIRE, LU DANS LES REGLAGES (reglages.json, cle « proprietaire »).
+    C'est un produit a vendre : le nom se met dans le reglage, pas dans le code.
+    Reglage absent ou vide -> exactement l'ancien comportement (perso(defaut)) : rien ne casse.
+    Cette fonction LIT seulement : elle n'ecrit JAMAIS dans reglages.json, donc un nom deja
+    en place n'est jamais ecrase ni redemande."""
+    try:
+        nom = str(reglages().get("proprietaire") or "").strip()
+    except Exception:
+        nom = ""
+    return nom or perso(defaut)
 
 
 # =====================================================================================
@@ -1095,7 +1109,7 @@ def construire_messages(fen, contexte, image=None):
             d = str(m.get("date", ""))
             quand = ("%s/%s/%s %s" % (d[8:10], d[5:7], d[0:4], d[11:16])) if (reglages().get("bibliotheque_rangee")
                                                                                 and len(d) >= 16) else d[11:16]
-            texte = "%s [%s] : %s" % (perso("Fred"), quand, m.get("texte", ""))
+            texte = "%s [%s] : %s" % (proprietaire(), quand, m.get("texte", ""))
         elif m["role"] == "programme":
             texte = "[Le programme, %s] %s" % (m.get("date", ""), m.get("texte", ""))
         else:
