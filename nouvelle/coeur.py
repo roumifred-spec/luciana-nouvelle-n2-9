@@ -1201,6 +1201,10 @@ def _tour(message, image):
         compris = None
         if r.get("bibliotheque_rangee"):             # piece 4 (eteinte dans la vraie Luciana tant que 3 a 6 ne sont pas finies)
             compris = comprendre.comprendre(message, bloc, m_fred.get("date"))
+            # LE REGISTRE DES PERSONNES (etape b) : le programme tranche qui parle et de qui on parle, et
+            # ecrit l'etiquette de ce message. Ce qu'il rend (la question a poser) n'est PAS encore utilise :
+            # c'est pour un tour suivant (decide avec Fred le 20/10).
+            personnes.attribuer(m_fred["n"], m_fred.get("date"), compris)
             rendu_biblio["compris"] = compris
             if compris.get("vital"):                 # le vital : le journal du quotidien, lu par le PROGRAMME
                 # seulement ce que la PERSONNE a dit avoir fait ou pas fait, sans ses mails a elle (decision de Fred, 20/10)
